@@ -4,8 +4,8 @@
   
   <h5>WutzUGonaDo</h5>		
   <button id='settingsButton' (click)="openSettings()"><img src="../assets/img/settings.png"></button>
-  <button id='minimizeWindow' onclick="minimizeWindow()"><img src="../assets/img/minimize.png"></button>
-  <button id='closeWindow' onclick="closeWindow()"><img src="../assets/img/close.png"></button>
+  <button id='minimizeWindow' (click)="minimizeWindow()"><img src="../assets/img/minimize.png"></button>
+  <button id='closeWindow' (click)="closeWindow()"><img src="../assets/img/close.png"></button>
 </header>
 <div id="global">
   <!-- <ng-container *ngFor="let module of wutzModules">

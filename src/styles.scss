@@ -3,11 +3,11 @@ body, html {
   padding: 0;
   background: rgba(41,128,185, 0.6);
   /* overflow: hidden; */
-  height: 100%;
 }
 html {
    overflow: hidden;
 }
+
 body {
   /*background: linear-gradient(135deg, #1d5591 1%,#5700af 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   /*background: linear-gradient(to right, #1d5591 0%,#5700af 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -19,6 +19,10 @@ body {
   height: 100%;
 }
 
+#global {
+  //  overflow: scroll;
+  //  height: 100%;
+}
 
 .niceScroll::-webkit-scrollbar-track
 {

@@ -1,7 +1,7 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 
-let win, serve;
+let win, settings, serve;
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -10,34 +10,45 @@ if (serve) {
   });
 }
 
-function createWindow() {
+function createWindows() {
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-  // Create the browser window.
-  win = new BrowserWindow({
+/*   win = new BrowserWindow({
     x: 0,
     y: 0,
     width: size.width,
     height: size.height
-  });
+  }); */
 
-  // and load the index.html of the app.
-  win.loadURL('file://' + __dirname + '/index.html');
+  win = createWindow("index", true, 400, 600);
+  settings = createWindow("options", false, 800, 600);
+  win.setPosition(size.width - 400, size.height - 600,true);
+
+  // win.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
   if (serve) {
     win.webContents.openDevTools();
   }
+  initIPCListeners();
+}
 
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store window
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null;
+function createWindow(filename, isVisible, wid, hei) {
+  let bw = new BrowserWindow({
+      width: wid,
+      height: hei,
+      show: isVisible,
+      icon:__dirname+'/assets/img/icon.png',
+      frame: false,
+      transparent: true,
   });
+  
+  bw.loadURL('file://' + __dirname + '/' + filename + '.html');
+  bw.setMenuBarVisibility(false);
+  return bw;
+
 }
 
 try {
@@ -45,7 +56,7 @@ try {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.on('ready', createWindow);
+  app.on('ready', createWindows);
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
@@ -60,11 +71,26 @@ try {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
-      createWindow();
+      createWindows();
     }
   });
 
 } catch (e) {
   // Catch Error
   // throw e;
+}
+
+function initIPCListeners() {
+  ipcMain.on('openSettings', (event, arg) => {
+    settings.show();
+  });
+  ipcMain.on('closeSettings', (event, arg) => {
+    settings.hide();
+    win.focus();
+  })
+  win.on('closed', () => {
+    settings.close();
+    settings = null;
+    win = null;
+  });
 }

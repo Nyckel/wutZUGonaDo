@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WutzUGonaDo</title>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="guiActions.js"></script>
+
+</head>
+<body>
+	<header>
+		<img src="img/memory-card.png" alt="icon">
+		
+		<h5>Options</h5>
+		<button id='minimizeWindow' onclick="minimizeWindow()"><img src="img/minimize.png"></button>
+		<button id='closeSettings' onclick="closeSettings()"><img src="img/close.png"></button>
+	</header>
+
+	<div id="global">
+		<section id="options">
+
+			<div id="optionsTabs" class="sectionTabs">
+				<button id="displayTab" class="tab active">Display</button>
+				<button id="sharingTab" class="tab">Sharing</button>
+				<button id="securityTab" class="tab">Security</button>
+			</div>
+
+
+			<div class="tabContents">
+				<div class="tabContent" id='display'>
+					<h3>Display</h3>
+					<ul>
+						<li class="optionCategory">
+							<h4>Dimensions</h4>
+							<span class="param">
+							Width:  <input type="number">
+							</span>
+							<span class="param">
+							Height: <input type="number">
+							</span>						
+						</li>
+
+						<li class="optionCategory">
+							<h4>Position</h4>
+						</li>
+					</ul>
+				</div>
+				
+				<div class="tabContent" id='sharing'>
+					<h3>Sharing</h3>
+					<ul>
+						<li class="optionCategory">
+							<h4>Peared peripherals</h4>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="tabContent" id='security'>
+					<h3>Security</h3>
+					<ul>
+						<li class="optionCategory">
+							<h4>Protocols</h4>
+						</li>
+						<li class="optionCategory">
+							<h4>Encryption</h4>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</section>
+	</div>
+<script>
+	require('./config/options');
+</script>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
 import { ListsComponent } from './wutzModules/lists/lists.component';
 import { Component, Type } from '@angular/core';
+import { ipcRenderer, remote } from 'electron';
+
 // import { remote, ipcRenderer } from 'electron';
 
 @Component({
@@ -31,10 +33,25 @@ export class AppComponent {
     
   }
 
-  openSettings() {
-    let data: any;
-    // ipcRenderer.send('openSettings', data);
+  closeWindow() {
+    console.log("Close!");
+    var window = remote.getCurrentWindow();
+    window.close();
   }
+  
+  minimizeWindow() {
+    var window = remote.getCurrentWindow();	
+    window.minimize();
+  }
+  
+  openSettings() {
+  	var data;
+  	ipcRenderer.send('openSettings', data);
+  }
+  closeSettings() {
+    ipcRenderer.send('closeSettings');
+  }
+
 }
 /*
 Dynamic modules inclusion
