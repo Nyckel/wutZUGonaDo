@@ -1,0 +1,44 @@
+header {
+    -webkit-app-region: drag;
+    background: rgba(0,0,0,0.3);
+    /*margin-bottom: 10px;*/
+    padding: 5px;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    background: #1d5a82;
+    
+}
+header > h5 {
+    display: inline-block;
+    margin: 0px;
+}
+#closeSettings, #closeWindow, #settingsButton, #minimizeWindow {
+    /*padding: 2px;*/
+    -webkit-app-region: no-drag;   
+    background: rgba(0,0,0,0.3);
+    color: white;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+#closeWindow, #closeSettings {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+#minimizeWindow {
+    position: absolute;
+    right: 40px;
+    top: 5px;
+}
+
+#global {
+    margin-top: 40px; 
+    padding: 10px;
+    /* overflow-y: scroll; */
+}

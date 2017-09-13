@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<header>
+  <img src="../assets/img/memory-card.png" alt="icon">
+  
+  <h5>WutzUGonaDo</h5>		
+  <button id='settingsButton' (click)="openSettings()"><img src="../assets/img/settings.png"></button>
+  <button id='minimizeWindow' onclick="minimizeWindow()"><img src="../assets/img/minimize.png"></button>
+  <button id='closeWindow' onclick="closeWindow()"><img src="../assets/img/close.png"></button>
+</header>
+<div id="global">
+  <!-- <ng-container *ngFor="let module of wutzModules">
+      <ng-template ad-host>{{ module.selector }}</ng-template>
+    </ng-container> -->
+  <app-module-loader [modules]="wutzModules"></app-module-loader>
+  <!-- <app-lists></app-lists> -->
+
+</div>

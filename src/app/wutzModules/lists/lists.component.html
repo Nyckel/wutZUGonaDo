@@ -1,0 +1,45 @@
+<div class="section">
+
+  <h4>Lists</h4>
+
+  <div class="sectionTabs">
+    <ul>
+      <li class="tab"
+        *ngFor="let tab of data; let tabIndex = index"
+        [class.active]="isSelected(tabIndex) && !newTabModal"
+        (click)="selectTab(tabIndex)">{{ tab.label }}
+      </li>
+      <li class="tab addTab" [class.active]="newTabModal" (click)="newTabModal=true">New</li>      
+    </ul>
+  </div>
+
+  <div class="tabContents">
+    <ng-container *ngFor="let tab of data; let tabIndex = index">
+      <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
+        <div class="tabContent niceScroll">
+          <span class="entry checkEntry" *ngFor="let entry of tab.elements">
+            <input type="checkbox">{{ entry.name }}
+          </span>
+
+          <input type="text" #newEntry
+            (keyup.enter)="addEntry(tabIndex, newEntry.value); newEntry.value=''"
+            class="entry addEntry"
+            placeholder="New"
+          >
+
+          <span (click)="deleteTab(tabIndex)"  class="deleteTab">Delete list</span>
+        </div>
+      </ng-template>
+    </ng-container>
+    <div class="tabContent niceScroll" *ngIf="newTabModal">
+      <input type="text" #newTab
+        minlength="5"
+        (keyup.enter)="addTab(newTab.value); newTabModal=false"
+        class="entry addEntry"
+        placeholder="New list"
+        autofocus
+      >
+    </div>
+  </div>
+
+</div>

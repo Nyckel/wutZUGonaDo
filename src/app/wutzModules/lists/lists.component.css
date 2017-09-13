@@ -1,0 +1,117 @@
+.tabContents, .gridContents {
+    height: 200px;
+    overflow-y: auto;
+}
+.section, .sectionTabs,.tabContents {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+}
+
+.section {
+    max-width: 500px;
+}
+.section h4 {
+    margin-bottom: 0px;
+}
+.sectionTabs {
+    display: flex;
+    overflow-y: auto;
+}
+
+.sectionTabs ul{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+}
+
+.tab {
+    background: rgba(0,0,0,0.1);
+    color: white;
+    border: none;
+    border-bottom: 2px solid white;
+    border-bottom-color: rgba(0,0,0,0);
+    text-decoration: none;
+    /*display: inline-block;*/
+    padding: 5px 10px;
+    /*float: left;*/
+    list-style-type:none;
+    margin-bottom: 0px;
+}
+.tab:hover, .tab.active {
+    background: rgba(0,0,0,0.3);
+    /*border-bottom-color: rgba(0,0,0,0.5);    */
+    cursor: pointer;
+}
+
+.tabContents {
+    background: rgba(0,0,0,0.3);
+	box-shadow: 12px 15px 20px rgba(0, 0, 0, 0.1);
+    
+}
+.tabContents .tabContent ul {
+    padding-left: 15px;
+    margin-top: 0px;
+}
+
+.tabContent {
+    display: none;
+    /*padding: 10px;*/
+    /*position: relative;*/
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: inherit;
+    overflow-y: auto; 
+    position: relative;
+}
+.tabContent h3 {
+    margin-top: 0px;
+}
+
+.entry:hover {
+    background: rgba(0,0,0,0.3);
+    /*border-bottom-color: rgba(0,0,0,0.5);    */
+    cursor: pointer;
+}
+
+.checkEntry > input {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+/* .addEntry {
+    text-align: center;
+    background-color: rgba(0,244,142,0.1);
+}
+.addEntry:hover {
+    background-color: rgba(0,244,142,0.3);
+} */
+
+input[type="text"] {
+    border: none;
+    background-color: rgba(0,0,0,0.1);
+    color: white;
+    padding-left: 33px; 
+}
+
+.addTab {
+    background-color: rgba(0,244,142,0.1);
+}
+.addTab:hover, .addTab.active {
+    background-color: rgba(0,244,142,0.3);    
+}
+
+.deleteTab {
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    transition: color 0.5s ease;
+    /* background-color:orangered; */
+}
+.deleteTab:hover {
+    cursor: pointer;
+    /* background-color: #99330D; */
+    color: red;
+}
