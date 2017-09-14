@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -26,8 +27,15 @@ export class ListsComponent implements OnInit {
           {
             name: "Script detect usb",
             finished: false
+          },
+        ],
+        finishedElements: [
+          {
+            name: "Stop caring",
+            finished: true
           }
-        ]
+        ],
+        deleted: false
       },
       {
         label: "toLook",
@@ -35,8 +43,12 @@ export class ListsComponent implements OnInit {
           {
             name: "Sword art online",
             finished: false
-          }
-        ]
+          },
+          
+        ],
+        finishedElements: [
+        ],
+        deleted: false
       }
     ]
 
@@ -89,16 +101,33 @@ export class ListsComponent implements OnInit {
   }
 
   deleteTab(tabIndex: number) {
-    this.data.splice(tabIndex, 1);
+    this.data[tabIndex].deleted = true;
 
-    this.activeTabIndex--;
-    if (this.activeTabIndex == -1) {
-      if (this.data.length == 0) {
-        this.newTabModal = true;
-      } else {
-        this.activeTabIndex = 0;
+    setTimeout(() => {
+      this.data.splice(tabIndex, 1);
+  
+      this.activeTabIndex--;
+      if (this.activeTabIndex == -1) {
+        if (this.data.length == 0) {
+          this.newTabModal = true;
+        } else {
+          this.activeTabIndex = 0;
+        }
       }
-    }
+    }, 350);
   }
 
+  checkEntry(tabIndex: number, entryIndex: number) {
+    this.data[tabIndex].elements[entryIndex].finished = true;
+
+    setTimeout((tabIndex, entryIndex) => {
+      this.moveToFinishedList(tabIndex, entryIndex);
+    }, 350, tabIndex, entryIndex);
+  }
+
+  moveToFinishedList(tabIndex: number, entryIndex: number) {
+    let elem = this.data[tabIndex].elements[entryIndex];
+    this.data[tabIndex].finishedElements.push(elem);
+    this.data[tabIndex].elements.splice(entryIndex, 1);
+  }
 }

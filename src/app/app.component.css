@@ -14,7 +14,7 @@ header > h5 {
     display: inline-block;
     margin: 0px;
 }
-#closeSettings, #closeWindow, #settingsButton, #minimizeWindow {
+header button {
     /*padding: 2px;*/
     -webkit-app-region: no-drag;   
     background: rgba(0,0,0,0.3);
@@ -25,6 +25,9 @@ header > h5 {
     padding-bottom: 5px;
 }
 
+header button:hover {
+    background: rgba(0,0,0,0.5);
+}
 #closeWindow, #closeSettings {
     position: absolute;
     right: 5px;
@@ -32,6 +35,11 @@ header > h5 {
 }
 
 #minimizeWindow {
+    position: absolute;
+    right: 75px;
+    top: 5px;
+}
+#maximizeWindow {
     position: absolute;
     right: 40px;
     top: 5px;

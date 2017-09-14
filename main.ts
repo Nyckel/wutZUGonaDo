@@ -43,6 +43,7 @@ function createWindow(filename, isVisible, wid, hei) {
       icon:__dirname+'/assets/img/icon.png',
       frame: false,
       transparent: true,
+      resizable: true
   });
   
   bw.loadURL('file://' + __dirname + '/' + filename + '.html');
@@ -92,5 +93,6 @@ function initIPCListeners() {
     settings.close();
     settings = null;
     win = null;
+    app.quit();
   });
 }

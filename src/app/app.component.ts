@@ -12,6 +12,7 @@ import { ipcRenderer, remote } from 'electron';
 export class AppComponent {
   title = 'wutZUGonaDo';
   wutzModules;
+  windowMaximized = false;
   
   constructor() {
     this.wutzModules = [
@@ -35,17 +36,23 @@ export class AppComponent {
 
   closeWindow() {
     console.log("Close!");
-    var window = remote.getCurrentWindow();
+    let window = remote.getCurrentWindow();
     window.close();
   }
   
   minimizeWindow() {
-    var window = remote.getCurrentWindow();	
+    let window = remote.getCurrentWindow();	
     window.minimize();
+  }
+  maximizeWindow() {
+    let window = remote.getCurrentWindow();	
+    this.windowMaximized ? window.unmaximize() : window.maximize();
+    this.windowMaximized = !this.windowMaximized;
+
   }
   
   openSettings() {
-  	var data;
+  	let data;
   	ipcRenderer.send('openSettings', data);
   }
   closeSettings() {

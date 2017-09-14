@@ -7,6 +7,7 @@
       <li class="tab"
         *ngFor="let tab of data; let tabIndex = index"
         [class.active]="isSelected(tabIndex) && !newTabModal"
+        [class.deleted]="tab.deleted"
         (click)="selectTab(tabIndex)">{{ tab.label }}
       </li>
       <li class="tab addTab" [class.active]="newTabModal" (click)="newTabModal=true">New</li>      
@@ -17,8 +18,8 @@
     <ng-container *ngFor="let tab of data; let tabIndex = index">
       <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
         <div class="tabContent niceScroll">
-          <span class="entry checkEntry" *ngFor="let entry of tab.elements">
-            <input type="checkbox">{{ entry.name }}
+          <span class="entry checkEntry" [ngClass]="{'hide':entry.finished}" (click)="checkEntry(tabIndex, entryIndex)" *ngFor="let entry of tab.elements; let entryIndex = index">
+            <input type="checkbox" [checked]="entry.finished">{{ entry.name }}
           </span>
 
           <input type="text" #newEntry

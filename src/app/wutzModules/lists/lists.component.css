@@ -12,7 +12,7 @@
     max-width: 500px;
 }
 .section h4 {
-    margin-bottom: 0px;
+    margin: 0px;
 }
 .sectionTabs {
     display: flex;
@@ -107,11 +107,42 @@ input[type="text"] {
     position: absolute;
     bottom: 0px;
     text-align: center;
-    transition: color 0.5s ease;
+    transition: color 0.3s ease;
     /* background-color:orangered; */
 }
 .deleteTab:hover {
     cursor: pointer;
     /* background-color: #99330D; */
     color: red;
+}
+
+.checkEntry {
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    /* transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1); */
+    opacity: 1;
+    max-height: 100px;
+}
+.checkEntry.hide {
+    /* height: 0px; */
+    max-height: 0px;
+    /* overflow-y: hidden; */
+    opacity: 0;
+    /* transition: max-height 0.5s ease-in-out; */
+}
+
+.sectionTabs ul {
+    perspective: 100px;
+}
+.tab {
+    opacity: 1;
+    transform: none;
+    transition: all 0.3s cubic-bezier(.36,-0.64,.34,1.76), background 1ms;
+    /* transition: background-color 0s; */
+}
+.tab.deleted {
+    opacity: 0;
+    transform: rotateX(90deg);
+    /* transition: transform 0.3s cubic-bezier(.36,-0.64,.34,1.76); */
 }
