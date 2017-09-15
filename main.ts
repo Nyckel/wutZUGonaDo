@@ -1,7 +1,8 @@
-import { app, BrowserWindow, screen, ipcMain } from 'electron';
+import { app, BrowserWindow, screen, ipcMain, globalShortcut } from 'electron';
 import * as path from 'path';
 
-let win, settings, serve;
+let win, settings, serve, height, width;
+
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
@@ -25,7 +26,7 @@ function createWindows() {
   win = createWindow("index", true, 400, 600);
   settings = createWindow("options", false, 800, 600);
   win.setPosition(size.width - 400, size.height - 600,true);
-
+  win.show();
   // win.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
@@ -57,15 +58,31 @@ try {
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
-  app.on('ready', createWindows);
+  app.on('ready', () => {
+    createWindows();
+    const ret = globalShortcut.register('CommandOrControl+W', () => {
+      if (win.isVisible()) {
+        win.hide();
+      } else {
+        let sz = win.getSize();
+        win.setSize(0, 0);
+        win.show();
+        win.setSize(sz[0], sz[1]);
+      }
+    })
+  
+    if (!ret) {
+      console.log('registration failed')
+    }
+  });
 
   // Quit when all windows are closed.
   app.on('window-all-closed', () => {
     // On OS X it is common for applications and their menu bar
     // to stay active until the user quits explicitly with Cmd + Q
-    if (process.platform !== 'darwin') {
+/*     if (process.platform !== 'darwin') {
       app.quit();
-    }
+    } */
   });
 
   app.on('activate', () => {
@@ -89,10 +106,12 @@ function initIPCListeners() {
     settings.hide();
     win.focus();
   })
-  win.on('closed', () => {
-    settings.close();
-    settings = null;
-    win = null;
-    app.quit();
+  win.on('close', (event) => {
+    event.preventDefault();
+    // settings.close();
+    // settings = null;
+    // win = null;
+    win.hide();
+    // app.quit();
   });
 }

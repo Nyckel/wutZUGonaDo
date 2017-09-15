@@ -1,6 +1,8 @@
 header {
+    z-index: 10;
     -webkit-app-region: drag;
-    background: rgba(0,0,0,0.3);
+    /* background: rgba(0,0,0,0.3); */
+    background: rgb(29,90,130);
     /*margin-bottom: 10px;*/
     padding: 5px;
     position: fixed;
@@ -8,11 +10,14 @@ header {
     right: 0px;
     top: 0px;
     background: #1d5a82;
+    height: 32px;
     
 }
 header > h5 {
     display: inline-block;
     margin: 0px;
+    line-height: 22px;
+    overflow: hidden;
 }
 header button {
     /*padding: 2px;*/
@@ -22,11 +27,22 @@ header button {
     border: none;
     text-decoration: none;
     display: inline-block;
-    padding-bottom: 5px;
+    /* padding-bottom: 5px; */
+    padding: 2px;
+    /* width: 22px; */
+    height: 22px;
 }
 
+img {
+    margin-bottom: 0px;
+}
 header button:hover {
     background: rgba(0,0,0,0.5);
+}
+#settingsButton {
+    position: absolute;
+    top: 5px;
+    margin-left: 5px;
 }
 #closeWindow, #closeSettings {
     position: absolute;
@@ -36,17 +52,18 @@ header button:hover {
 
 #minimizeWindow {
     position: absolute;
-    right: 75px;
+    right: 55px;
     top: 5px;
 }
 #maximizeWindow {
     position: absolute;
-    right: 40px;
+    right: 30px;
     top: 5px;
 }
 
 #global {
-    margin-top: 40px; 
+    margin-top: 32px; 
     padding: 10px;
+    padding-top: 0px; 
     /* overflow-y: scroll; */
 }

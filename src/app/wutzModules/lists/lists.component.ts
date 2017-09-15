@@ -53,7 +53,6 @@ export class ListsComponent implements OnInit {
     ]
 
     this.activeTabIndex = this.data.length > 0 ? 0 : -1;
-    console.log("here");
     this.giveFocusToTab();
   }
 
@@ -98,10 +97,11 @@ export class ListsComponent implements OnInit {
       {
         label: tabName,
         index: this.data.length,
-        elements : []
+        elements : [],
+        finishedElements: []
       })
 
-    this.activeTabIndex = this.data.length - 1;
+    this.selectTab(this.data.length - 1);
   }
 
   deleteTab(tabIndex: number) {
@@ -126,6 +126,7 @@ export class ListsComponent implements OnInit {
 
     setTimeout((tabIndex, entryIndex) => {
       this.moveToFinishedList(tabIndex, entryIndex);
+      this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);
   }
 
@@ -138,6 +139,7 @@ export class ListsComponent implements OnInit {
   giveFocusToTab() {
     setTimeout((activeTabIndex) => {
       document.getElementById('addEntry'+activeTabIndex).focus();
+      //TODO: replace document search by module search because pb if multiple instances of module on same tab
     }, 1, this.activeTabIndex);
   }
 

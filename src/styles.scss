@@ -6,8 +6,10 @@ body, html {
   background: rgba(41,128,185, 0.6);
   font-family: 'Roboto' !important;
   /* overflow: hidden; */
+  height: 100%;
 }
 html {
+  // overflow: auto;
   overflow: hidden;
 }
 
@@ -20,11 +22,6 @@ body {
   /*#2980b9;*/
   overflow-y: auto;
   height: 100%;
-}
-
-#global {
-  //  overflow: scroll;
-  //  height: 100%;
 }
 
 .niceScroll::-webkit-scrollbar-track
