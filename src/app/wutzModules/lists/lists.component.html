@@ -10,7 +10,7 @@
         [class.deleted]="tab.deleted"
         (click)="selectTab(tabIndex)">{{ tab.label }}
       </li>
-      <li class="tab addTab" [class.active]="newTabModal" (click)="newTabModal=true">New</li>      
+      <li class="tab addTab" [class.active]="newTabModal" (click)="newTabModal=true;focusNewTabModal()">New</li>      
     </ul>
   </div>
 
@@ -19,13 +19,14 @@
       <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
         <div class="tabContent niceScroll">
           <span class="entry checkEntry" [ngClass]="{'hide':entry.finished}" (click)="checkEntry(tabIndex, entryIndex)" *ngFor="let entry of tab.elements; let entryIndex = index">
-            <input type="checkbox" [checked]="entry.finished">{{ entry.name }}
+            <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
           </span>
 
           <input type="text" #newEntry
             (keyup.enter)="addEntry(tabIndex, newEntry.value); newEntry.value=''"
             class="entry addEntry"
             placeholder="New"
+            id=addEntry{{tabIndex}}
           >
 
           <span (click)="deleteTab(tabIndex)"  class="deleteTab">Delete list</span>
@@ -38,7 +39,7 @@
         (keyup.enter)="addTab(newTab.value); newTabModal=false"
         class="entry addEntry"
         placeholder="New list"
-        autofocus
+        id="newTab"
       >
     </div>
   </div>

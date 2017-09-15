@@ -76,6 +76,16 @@
     cursor: pointer;
 }
 
+.entry input {
+    position: relative;
+    vertical-align: middle;
+}
+.entry label {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+
 .checkEntry > input {
     margin-right: 10px;
     margin-left: 10px;

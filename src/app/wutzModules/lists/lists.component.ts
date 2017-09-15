@@ -53,6 +53,8 @@ export class ListsComponent implements OnInit {
     ]
 
     this.activeTabIndex = this.data.length > 0 ? 0 : -1;
+    console.log("here");
+    this.giveFocusToTab();
   }
 
   ngOnInit() {
@@ -65,12 +67,14 @@ export class ListsComponent implements OnInit {
 
   selectTab(tabIndex: number) {
     this.newTabModal = false;
-    if (tabIndex == this.activeTabIndex)
-      return;
+    if (tabIndex == this.activeTabIndex) {
+      this.giveFocusToTab();
+      return;      
+    }
 
     if (this.tabExists(tabIndex)) {
-      // console.log(tabName + " found !");
       this.activeTabIndex = tabIndex;
+      this.giveFocusToTab();
     }
   }
 
@@ -129,5 +133,17 @@ export class ListsComponent implements OnInit {
     let elem = this.data[tabIndex].elements[entryIndex];
     this.data[tabIndex].finishedElements.push(elem);
     this.data[tabIndex].elements.splice(entryIndex, 1);
+  }
+
+  giveFocusToTab() {
+    setTimeout((activeTabIndex) => {
+      document.getElementById('addEntry'+activeTabIndex).focus();
+    }, 1, this.activeTabIndex);
+  }
+
+  focusNewTabModal() {
+    setTimeout(() => {
+      document.getElementById('newTab').focus();
+    }, 1);
   }
 }
