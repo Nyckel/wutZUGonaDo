@@ -16,22 +16,17 @@ function createWindows() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-/*   win = new BrowserWindow({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height
-  }); */
-
   win = createWindow("index", true, 400, 600);
   settings = createWindow("options", false, 800, 600);
   win.setPosition(size.width - 400, size.height - 600,true);
-  win.show();
+  win.once('ready-to-show', () => {
+    win.show()
+  })
   // win.loadURL('file://' + __dirname + '/index.html');
 
   // Open the DevTools.
   if (serve) {
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
   }
   initIPCListeners();
 }
@@ -61,13 +56,13 @@ try {
   app.on('ready', () => {
     createWindows();
     const ret = globalShortcut.register('CommandOrControl+W', () => {
-      if (win.isVisible()) {
+      if (win.isVisible() && !win.isMinimized()) {
         win.hide();
       } else {
         let sz = win.getSize();
-        win.setSize(0, 0);
+        // win.setSize(0, 0);
         win.show();
-        win.setSize(sz[0], sz[1]);
+        // win.setSize(sz[0], sz[1]);
       }
     })
   
@@ -105,13 +100,17 @@ function initIPCListeners() {
   ipcMain.on('closeSettings', (event, arg) => {
     settings.hide();
     win.focus();
+  });
+
+  ipcMain.on('quitApp', (event, arg) => {
+    win.close();
   })
   win.on('close', (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     // settings.close();
     // settings = null;
-    // win = null;
-    win.hide();
-    // app.quit();
+    win = null;
+    // win.hide();
+    app.quit();
   });
 }

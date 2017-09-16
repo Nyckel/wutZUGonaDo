@@ -5,7 +5,7 @@
 .section, .sectionTabs,.tabContents {
     display: block;
     width: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .section {
@@ -17,6 +17,7 @@
 .sectionTabs {
     display: flex;
     overflow-y: auto;
+    transform:rotateX(180deg);
 }
 
 .sectionTabs ul{
@@ -38,6 +39,8 @@
     /*float: left;*/
     list-style-type:none;
     margin-bottom: 0px;
+    transform:rotateX(180deg) !important;
+    
 }
 .tab:hover, .tab.active {
     background: rgba(0,0,0,0.3);
@@ -104,6 +107,7 @@ input[type="text"] {
     background-color: rgba(0,0,0,0.1);
     color: white;
     padding-left: 33px; 
+    /* outline-color: inherit; */
 }
 
 .addTab {
@@ -113,17 +117,23 @@ input[type="text"] {
     background-color: rgba(0,244,142,0.3);    
 }
 
-.deleteTab {
+.tabBottom {
     position: absolute;
     bottom: 0px;
     text-align: center;
-    transition: color 0.3s ease;
+    display: flex;
+    flex-direction: row;
     /* background-color:orangered; */
 }
-.deleteTab:hover {
+.tabBottom span {
+    transition: color 0.3s ease;
+    margin-right: 5px;
+    /* background-color:orangered; */
+}
+.tabBottom span:hover {
     cursor: pointer;
     /* background-color: #99330D; */
-    color: red;
+    color: rgb(229,151,0);
 }
 
 .checkEntry {
@@ -153,6 +163,6 @@ input[type="text"] {
 }
 .tab.deleted {
     opacity: 0;
-    transform: rotateX(90deg);
+    transform: rotateX(90deg) !important;
     /* transition: transform 0.3s cubic-bezier(.36,-0.64,.34,1.76); */
 }

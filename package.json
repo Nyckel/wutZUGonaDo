@@ -1,11 +1,10 @@
 {
-  "name": "angular-electron",
-  "version": "1.8.0",
-  "description": "Angular 4 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "wutzUGonaDo",
+  "version": "0.0.1",
+  "description": "Simple organization app",
+  "homepage": "https://github.com/Nyckel/wutZUGonaDo",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Nyckel"
   },
   "keywords": [
     "angular",

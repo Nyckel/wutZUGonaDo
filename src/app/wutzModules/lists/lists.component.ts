@@ -10,6 +10,7 @@ export class ListsComponent implements OnInit {
   data: any;
   activeTabIndex :number;
   newTabModal = false;
+  restore = false;
 
   constructor() {
     this.data = [
@@ -118,6 +119,7 @@ export class ListsComponent implements OnInit {
           this.activeTabIndex = 0;
         }
       }
+      this.giveFocusToTab();
     }, 350);
   }
 
@@ -130,17 +132,40 @@ export class ListsComponent implements OnInit {
     }, 350, tabIndex, entryIndex);
   }
 
+  
+  uncheckEntry(tabIndex: number, entryIndex: number) {
+    this.data[tabIndex].finishedElements[entryIndex].finished = false;
+
+    setTimeout((tabIndex, entryIndex) => {
+      this.moveToNormalList(tabIndex, entryIndex);
+      // this.giveFocusToTab();
+    }, 350, tabIndex, entryIndex);
+  }
+
+
   moveToFinishedList(tabIndex: number, entryIndex: number) {
     let elem = this.data[tabIndex].elements[entryIndex];
     this.data[tabIndex].finishedElements.push(elem);
     this.data[tabIndex].elements.splice(entryIndex, 1);
   }
 
+  moveToNormalList(tabIndex: number, entryIndex: number) {
+    let elem = this.data[tabIndex].finishedElements[entryIndex];
+    this.data[tabIndex].elements.push(elem);
+    this.data[tabIndex].finishedElements.splice(entryIndex, 1);
+    console.log(this.data[tabIndex]);
+  }
+
   giveFocusToTab() {
-    setTimeout((activeTabIndex) => {
-      document.getElementById('addEntry'+activeTabIndex).focus();
-      //TODO: replace document search by module search because pb if multiple instances of module on same tab
-    }, 1, this.activeTabIndex);
+    setTimeout((activeTabIndex, newTabModal) => {
+      if (newTabModal) {
+        this.focusNewTabModal();
+      } else {
+        document.getElementById('addEntry'+activeTabIndex).focus();
+        //TODO: replace document search by module search because pb if multiple instances of module on same tab
+      }
+    }, 1, this.activeTabIndex, this.newTabModal);
+
   }
 
   focusNewTabModal() {

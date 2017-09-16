@@ -1,15 +1,15 @@
 header {
     z-index: 10;
     -webkit-app-region: drag;
-    /* background: rgba(0,0,0,0.3); */
-    background: rgb(29,90,130);
-    /*margin-bottom: 10px;*/
     padding: 5px;
     position: fixed;
     left: 0px;
     right: 0px;
     top: 0px;
-    background: #1d5a82;
+    /* background: rgba(0,0,0,0.3); */
+    /* background: rgb(29,90,130); */
+    /* background: #1d5a82; */
+    background: #29353C;
     height: 32px;
     
 }
@@ -44,6 +44,11 @@ header button:hover {
     top: 5px;
     margin-left: 5px;
 }
+#exitButton {
+    position: absolute;
+    top: 5px;
+    margin-left: 32px;
+}
 #closeWindow, #closeSettings {
     position: absolute;
     right: 5px;
@@ -66,4 +71,6 @@ header button:hover {
     padding: 10px;
     padding-top: 0px; 
     /* overflow-y: scroll; */
+
+    
 }

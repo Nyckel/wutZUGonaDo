@@ -22,13 +22,6 @@ export class AppComponent {
         selector: "app-lists",
         index: 1,
         height: "200px"
-      },
-      {
-        name: "lists",
-        component: ListsComponent,
-        selector: "app-lists",
-        index: 1,
-        height: "200px"
       }
     ];
     
@@ -37,7 +30,8 @@ export class AppComponent {
   closeWindow() {
     console.log("Close!");
     let window = remote.getCurrentWindow();
-    window.close();
+    // window.close();
+    window.hide();
   }
   
   minimizeWindow() {
@@ -57,6 +51,11 @@ export class AppComponent {
   }
   closeSettings() {
     ipcRenderer.send('closeSettings');
+  }
+
+  exit() {
+    let window = remote.getCurrentWindow();
+    window.close();    
   }
 
 }
