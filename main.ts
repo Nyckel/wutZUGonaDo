@@ -1,7 +1,7 @@
 import { app, BrowserWindow, screen, ipcMain, globalShortcut } from 'electron';
 import * as path from 'path';
 
-let win, settings, serve, height, width;
+let win, settings, serve, height, width, lastShortcutCall;
 
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
@@ -15,9 +15,10 @@ function createWindows() {
 
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
+  lastShortcutCall = new Date();
 
   win = createWindow("index", true, 400, 600);
-  settings = createWindow("options", false, 800, 600);
+  // settings = createWindow("options", false, 800, 600);
   win.setPosition(size.width - 400, size.height - 600,true);
   win.once('ready-to-show', () => {
     win.show()
@@ -40,7 +41,8 @@ function createWindow(filename, isVisible, wid, hei) {
       frame: false,
       transparent: true,
       resizable: true,
-      minWidth: 400
+      minWidth: 400,
+      minHeight: 305
   });
   
   bw.loadURL('file://' + __dirname + '/' + filename + '.html');
@@ -51,34 +53,33 @@ function createWindow(filename, isVisible, wid, hei) {
 
 try {
 
-  // This method will be called when Electron has finished
-  // initialization and is ready to create browser windows.
-  // Some APIs can only be used after this event occurs.
   app.on('ready', () => {
     createWindows();
+
     const ret = globalShortcut.register('CommandOrControl+W', () => {
-      if (win.isVisible() && !win.isMinimized()) {
-        win.hide();
-      } else {
-        // let sz = win.getSize();
-        // win.setSize(0, 0);
-        win.show();
-        // win.setSize(sz[0], sz[1]);
+      let now =  new Date();
+      let delay = now.getTime() - lastShortcutCall.getTime();
+      
+      if (delay > 400) {
+        lastShortcutCall = now;
+
+        if (win.isVisible() && !win.isMinimized()) {
+          win.hide();
+        } else {
+          win.show();
+        }
       }
     })
   
     if (!ret) {
-      console.log('registration failed')
+      console.log('shortcut registration failed')
     }
   });
 
-  // Quit when all windows are closed.
   app.on('window-all-closed', () => {
-    // On OS X it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
-/*     if (process.platform !== 'darwin') {
+    if (process.platform !== 'darwin') {
       app.quit();
-    } */
+    }
   });
 
   app.on('activate', () => {

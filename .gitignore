@@ -6,6 +6,9 @@
 /out-tsc
 /app-builds
 
+# program data
+/files
+
 # dependencies
 /node_modules
 

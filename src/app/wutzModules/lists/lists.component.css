@@ -1,173 +1,188 @@
 :host {
-    display: flex;
+  min-width: 380px;
+  margin: 0px 5px;
+  flex: 1;
+  align-items: stretch;
+}
+
+@media all and (max-width: 800px) {
+  :host {
+    flex: 1;
+    /* margin: 0px 5px; */
+  }
+}
+
+@media all and (max-width: 600px) {
+  :host {
+    margin: 0px 0px;
+  }
 }
 
 .tabContents, .gridContents {
-    height: 200px;
-    overflow-y: auto;
+  height: 200px;
+  overflow-y: auto;
 }
 .section, .sectionTabs,.tabContents {
-    display: block;
-    width: 100%;
-    /* overflow: hidden; */
+  display: block;
+  width: 100%;
+  /* overflow: hidden; */
 }
 
 .section {
-    flex-grow: 3;
-    /* max-width: 500px; */
+  flex-grow: 3;
+  /* max-width: 500px; */
 }
 .section h4 {
-    margin: 0px;
+  margin: 0px;
 }
 .sectionTabs {
-    display: flex;
-    overflow-y: auto;
-    transform:rotateX(180deg);
+  display: flex;
+  overflow-y: auto;
+  transform:rotateX(180deg);
 }
 
 .sectionTabs ul{
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: row;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: row;
 }
 
 .tab {
-    background: rgba(0,0,0,0.1);
-    color: white;
-    border: none;
-    border-bottom: 2px solid white;
-    border-bottom-color: rgba(0,0,0,0);
-    text-decoration: none;
-    /*display: inline-block;*/
-    padding: 5px 10px;
-    /*float: left;*/
-    list-style-type:none;
-    margin-bottom: 0px;
-    transform:rotateX(180deg) !important;
-    
+  background: rgba(0,0,0,0.1);
+  color: white;
+  border: none;
+  border-bottom: 2px solid white;
+  border-bottom-color: rgba(0,0,0,0);
+  text-decoration: none;
+  /*display: inline-block;*/
+  padding: 5px 10px;
+  /*float: left;*/
+  list-style-type:none;
+  margin-bottom: 0px;
+  transform:rotateX(180deg) !important;  
 }
 .tab:hover, .tab.active {
-    background: rgba(0,0,0,0.3);
-    /*border-bottom-color: rgba(0,0,0,0.5);    */
-    cursor: pointer;
+  background: rgba(0,0,0,0.3);
+  /*border-bottom-color: rgba(0,0,0,0.5);    */
+  cursor: pointer;
 }
 
 .tabContents {
-    background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.3);
 	box-shadow: 12px 15px 20px rgba(0, 0, 0, 0.1);
     
 }
 .tabContents .tabContent ul {
-    padding-left: 15px;
-    margin-top: 0px;
+  padding-left: 15px;
+  margin-top: 0px;
 }
 
 .tabContent {
-    display: none;
-    /*padding: 10px;*/
-    /*position: relative;*/
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    height: inherit;
-    overflow-y: auto; 
-    position: relative;
+  display: none;
+  /*padding: 10px;*/
+  /*position: relative;*/
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: inherit;
+  overflow-y: auto; 
+  position: relative;
 }
 .tabContent h3 {
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
 .entry:hover {
-    background: rgba(0,0,0,0.3);
-    /*border-bottom-color: rgba(0,0,0,0.5);    */
-    cursor: pointer;
+  background: rgba(0,0,0,0.3);
+  /*border-bottom-color: rgba(0,0,0,0.5);    */
+  cursor: pointer;
 }
 
 .entry input {
-    position: relative;
-    vertical-align: middle;
+  position: relative;
+  vertical-align: middle;
 }
 .entry label {
-    display: inline-block;
-    position: relative;
-    vertical-align: middle;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
 }
 
 .checkEntry > input {
-    margin-right: 10px;
-    margin-left: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 /* .addEntry {
-    text-align: center;
-    background-color: rgba(0,244,142,0.1);
+  text-align: center;
+  background-color: rgba(0,244,142,0.1);
 }
 .addEntry:hover {
-    background-color: rgba(0,244,142,0.3);
+  background-color: rgba(0,244,142,0.3);
 } */
 
 input[type="text"] {
-    border: none;
-    background-color: rgba(0,0,0,0.1);
-    color: white;
-    padding-left: 33px; 
-    /* outline-color: inherit; */
+  border: none;
+  background-color: rgba(0,0,0,0.1);
+  color: white;
+  padding-left: 33px; 
+  /* outline-color: inherit; */
 }
 
 .addTab {
-    background-color: rgba(0,244,142,0.1);
+  background-color: rgba(0,244,142,0.1);
 }
 .addTab:hover, .addTab.active {
-    background-color: rgba(0,244,142,0.3);    
+  background-color: rgba(0,244,142,0.3);    
 }
 
 .tabBottom {
-    position: absolute;
-    bottom: 0px;
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    /* background-color:orangered; */
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  /* background-color:orangered; */
 }
 .tabBottom span {
-    transition: color 0.3s ease;
-    margin-right: 5px;
-    /* background-color:orangered; */
+  transition: color 0.3s ease;
+  margin-right: 5px;
+  /* background-color:orangered; */
 }
 .tabBottom span:hover {
-    cursor: pointer;
-    /* background-color: #99330D; */
-    color: rgb(229,151,0);
+  cursor: pointer;
+  /* background-color: #99330D; */
+  color: rgb(229,151,0);
 }
 
 .checkEntry {
-    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    /* transition-property: all;
-    transition-duration: .5s;
-    transition-timing-function: cubic-bezier(0, 1, 0.5, 1); */
-    opacity: 1;
-    max-height: 100px;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  /* transition-property: all;
+  transition-duration: .5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1); */
+  opacity: 1;
+  max-height: 100px;
 }
 .checkEntry.hide {
-    /* height: 0px; */
-    max-height: 0px;
-    /* overflow-y: hidden; */
-    opacity: 0;
-    /* transition: max-height 0.5s ease-in-out; */
+  /* height: 0px; */
+  max-height: 0px;
+  /* overflow-y: hidden; */
+  opacity: 0;
+  /* transition: max-height 0.5s ease-in-out; */
 }
 
 .sectionTabs ul {
-    perspective: 100px;
+  perspective: 100px;
 }
 .tab {
-    opacity: 1;
-    transform: none;
-    transition: all 0.3s cubic-bezier(.36,-0.64,.34,1.76), background 1ms;
-    /* transition: background-color 0s; */
+  opacity: 1;
+  transform: none;
+  transition: all 0.3s cubic-bezier(.36,-0.64,.34,1.76), background 1ms;
+  /* transition: background-color 0s; */
 }
 .tab.deleted {
-    opacity: 0;
-    transform: rotateX(90deg) !important;
-    /* transition: transform 0.3s cubic-bezier(.36,-0.64,.34,1.76); */
+  opacity: 0;
+  transform: rotateX(90deg) !important;
+  /* transition: transform 0.3s cubic-bezier(.36,-0.64,.34,1.76); */
 }

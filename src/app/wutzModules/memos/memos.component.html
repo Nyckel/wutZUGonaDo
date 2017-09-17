@@ -3,9 +3,15 @@
     <h4>Memos</h4>
     <div id="memoList" class="niceScroll">
       <ul>
-        <li class="memo new">New memo</li>
-        <li *ngFor="let memo of memos" class="memo">
-          {{ memo.name }}
+        <li class="memo new" (click)="openMemo('', -1, true)">New memo</li>
+        <li *ngFor="let memo of memos; let memoIndex = index"
+          class="memo"
+          [ngClass]="{'hide':memo.deleted}">
+          <span (click)="openMemo(memo.fileName, memoIndex, false)">
+            {{ memo.name }}
+          </span>
+          <img src='../../../assets/img/delete.png' 
+          (click)="deleteMemo(memoIndex)"/>
         </li>
       </ul>
     </div>

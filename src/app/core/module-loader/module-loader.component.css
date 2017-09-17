@@ -20,7 +20,4 @@
       flex-direction: raw;
       justify-content: space-around;
     }
-    .section {
-      flex: 1;
-    }
 }
