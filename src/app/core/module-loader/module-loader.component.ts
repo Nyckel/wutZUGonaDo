@@ -9,7 +9,7 @@ import { ModuleLoaderDirective } from "./module-loader.directive";
 export class ModuleLoaderComponent implements AfterContentInit {
   @Input() modules;
   // @ViewChild(ModuleLoaderDirective) moduleHost: ModuleLoaderDirective;
-  @ViewChild("alertContainer", { read: ViewContainerRef }) container;
+  @ViewChild("moduleContainer", { read: ViewContainerRef }) container;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 

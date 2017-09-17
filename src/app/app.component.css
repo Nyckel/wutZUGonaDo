@@ -53,6 +53,8 @@ header button:hover {
     position: absolute;
     right: 5px;
     top: 5px;
+    background: darkred;
+    
 }
 
 #minimizeWindow {

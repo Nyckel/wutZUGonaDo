@@ -1,4 +1,5 @@
 import { ListsComponent } from './wutzModules/lists/lists.component';
+import { MemosComponent } from './wutzModules/memos/memos.component';
 import { Component, Type } from '@angular/core';
 import { ipcRenderer, remote } from 'electron';
 
@@ -21,6 +22,13 @@ export class AppComponent {
         component: ListsComponent,
         selector: "app-lists",
         index: 1,
+        height: "200px"
+      },
+      {
+        name: "memos",
+        component: MemosComponent,
+        selector: "app-memos",
+        index: 2,
         height: "200px"
       }
     ];

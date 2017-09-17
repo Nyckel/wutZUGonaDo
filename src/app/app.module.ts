@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ListsComponent } from './wutzModules/lists/lists.component';
+import { MemosComponent } from './wutzModules/memos/memos.component';
 import { ModuleLoaderComponent } from './core/module-loader/module-loader.component';
 import { ModuleLoaderDirective } from './core/module-loader/module-loader.directive';
 
@@ -10,15 +11,16 @@ import { ModuleLoaderDirective } from './core/module-loader/module-loader.direct
 @NgModule({
   declarations: [
     AppComponent,
-    ListsComponent,
     ModuleLoaderComponent,
-    ModuleLoaderDirective
+    ModuleLoaderDirective,
+    ListsComponent,
+    MemosComponent
   ],
   imports: [
     BrowserModule
   ],
   providers: [],
-  entryComponents: [ ListsComponent ],
+  entryComponents: [ ListsComponent, MemosComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

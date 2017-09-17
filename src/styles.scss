@@ -21,8 +21,8 @@ body {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#a52191+0,3723ea+100&0.6+0,0.6+100 */
   // background: linear-gradient(to bottom, rgba(165,33,145,0.6) 0%,rgba(55,35,234,0.6) 100%);
   // background: linear-gradient(135deg, rgba(47,239,76,0.6) 0%,rgba(47,239,76,0.6) 1%,rgba(55,35,234,0.6) 100%);
-  background: linear-gradient(135deg, 
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3723ea+0,2fef4c+99&0.6+0,0.6+100 */rgba(55,35,234,0.8) 0%,rgba(47,239,76,0.8) 99%,rgba(47,239,76,0.8) 100%);
+  background: linear-gradient(135deg, rgba(55,35,234,0.8) 0%,rgba(47,239,76,0.8) 99%,rgba(47,239,76,0.8) 100%);
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3723ea+0,2fef4c+99&0.6+0,0.6+100 */
   color: white;
   user-select: none;
   /*#2980b9;*/
@@ -60,6 +60,25 @@ background-color: rgba(255,255,255,0.4);
 
 app-root {
   animation: fadein 0.5s;
+}
+
+.section {
+  /* max-width: 500px; */
+  // max-width: 500px;
+  // min-width: 300px;
+  // width: 100%;
+  // margin: auto;
+  // padding-right: 20px;
+  // flex: 1 0 50%;
+  // flex: 1;
+}
+.section h4 {
+  margin: 0px !important;
+}
+@media all and (max-width: 600px) {
+  .section {
+    margin-right: 0;
+  }
 }
 
 // #backContainer {

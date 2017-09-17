@@ -1,0 +1,13 @@
+<div class="section">
+  
+    <h4>Memos</h4>
+    <div id="memoList" class="niceScroll">
+      <ul>
+        <li class="memo new">New memo</li>
+        <li *ngFor="let memo of memos" class="memo">
+          {{ memo.name }}
+        </li>
+      </ul>
+    </div>
+
+</div> 

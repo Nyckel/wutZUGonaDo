@@ -1,0 +1,26 @@
+#moduleContainer {
+  display: flex;
+  /* flex-direction: raw; */
+  
+  flex-direction: row;
+  flex-wrap: wrap;
+  /* justify-content: flex-start; */
+  /* justify-content: space-around;   */
+}
+
+@media all and (max-width: 600px) {
+  #moduleContainer {
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+
+  @media all and (max-width: 800px) {
+    #moduleContainer {
+      flex-direction: raw;
+      justify-content: space-around;
+    }
+    .section {
+      flex: 1;
+    }
+}

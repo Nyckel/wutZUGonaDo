@@ -39,7 +39,8 @@ function createWindow(filename, isVisible, wid, hei) {
       icon:__dirname+'/assets/img/icon.png',
       frame: false,
       transparent: true,
-      resizable: true
+      resizable: true,
+      minWidth: 400
   });
   
   bw.loadURL('file://' + __dirname + '/' + filename + '.html');
@@ -59,7 +60,7 @@ try {
       if (win.isVisible() && !win.isMinimized()) {
         win.hide();
       } else {
-        let sz = win.getSize();
+        // let sz = win.getSize();
         // win.setSize(0, 0);
         win.show();
         // win.setSize(sz[0], sz[1]);
