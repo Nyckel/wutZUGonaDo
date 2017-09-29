@@ -1,5 +1,7 @@
 import { Component, Type, ViewChild, AfterContentInit, Input, ComponentFactoryResolver, ViewContainerRef, QueryList } from '@angular/core';
 import { ModuleLoaderDirective } from "./module-loader.directive";
+import { ListsComponent } from './../../wutzModules/lists/lists.component';
+import { MemosComponent } from './../../wutzModules/memos/memos.component';
 
 @Component({
   selector: 'app-module-loader',
@@ -8,8 +10,13 @@ import { ModuleLoaderDirective } from "./module-loader.directive";
 })
 export class ModuleLoaderComponent implements AfterContentInit {
   @Input() modules;
+  @Input() appStorage;
   // @ViewChild(ModuleLoaderDirective) moduleHost: ModuleLoaderDirective;
   @ViewChild("moduleContainer", { read: ViewContainerRef }) container;
+  componentMap = {
+    'ListsComponent': ListsComponent,
+    'MemosComponent': MemosComponent
+  };
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
@@ -24,8 +31,9 @@ export class ModuleLoaderComponent implements AfterContentInit {
       this.container.clear();        
       // let item = this.modules[0];
       for (let item of this.modules) {
-        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(item.component);
+        let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.componentMap[item.component]);
         let componentRef = this.container.createComponent(componentFactory);
+        componentRef.instance.setAppStorage(this.appStorage);
       }
     } else {
       console.error("Couldn't find slot to insert modules");

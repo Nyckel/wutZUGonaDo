@@ -55,25 +55,7 @@ try {
 
   app.on('ready', () => {
     createWindows();
-
-    const ret = globalShortcut.register('CommandOrControl+W', () => {
-      let now =  new Date();
-      let delay = now.getTime() - lastShortcutCall.getTime();
-      
-      if (delay > 400) {
-        lastShortcutCall = now;
-
-        if (win.isVisible() && !win.isMinimized()) {
-          win.hide();
-        } else {
-          win.show();
-        }
-      }
-    })
-  
-    if (!ret) {
-      console.log('shortcut registration failed')
-    }
+    createShortcut();
   });
 
   app.on('window-all-closed', () => {
@@ -115,4 +97,26 @@ function initIPCListeners() {
     // win.hide();
     app.quit();
   });
+
+}
+
+function createShortcut() {
+  const ret = globalShortcut.register('CommandOrControl+W', () => {
+    let now =  new Date();
+    let delay = now.getTime() - lastShortcutCall.getTime();
+    
+    if (delay > 400) {
+      lastShortcutCall = now;
+
+      if (win.isVisible() && !win.isMinimized() && win.isFocused()) {
+        win.hide();
+      } else {
+        win.show();
+      }
+    }
+  })
+
+  if (!ret) {
+    console.log('shortcut registration failed')
+  }
 }

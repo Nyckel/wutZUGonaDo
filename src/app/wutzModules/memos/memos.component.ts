@@ -2,27 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import * as fs from 'fs';
 import * as path from 'path';
 import { spawn, execFileSync } from 'child_process';
-import { shell, remote } from 'electron';
+import { shell, remote, app } from 'electron';
+import { AbstractModuleComponent } from '../../core/abstract-module/abstract-module.component';
 
 @Component({
   selector: 'app-memos',
   templateUrl: './memos.component.html',
   styleUrls: ['./memos.component.css']
 })
-export class MemosComponent implements OnInit {
+export class MemosComponent extends AbstractModuleComponent implements OnInit {
   memos;
-  memosDir = path.join(__dirname, "..", "files", "memos");
-
+  memosDir: string;
+  
   constructor() {
-    this.memos = [];
-    try {
-      !fs.statSync(this.memosDir);
-    } catch (e) {
-      fs.mkdirSync(path.join(__dirname, "..", "files"));
-      fs.mkdirSync(this.memosDir);
-      this.loadMemos();
-    }
-    this.loadMemos(); // replace duplication by a promise    
+    super();
+    this.storageSet.subscribe(
+      data => {
+        this.checkStorageAndLoadMemos();
+      }
+    )
   }
 
   ngOnInit() {
@@ -124,5 +122,19 @@ export class MemosComponent implements OnInit {
         return true;
     }
     return false;
+  }
+
+  checkStorageAndLoadMemos() {
+    
+    this.memosDir = path.join(this.appStorage[0], "memos")
+    this.memos = [];
+    try {
+      !fs.statSync(this.memosDir);
+    } catch (e) {
+      fs.mkdirSync(this.appStorage[0]);
+      fs.mkdirSync(this.memosDir);
+      this.loadMemos();
+    }
+    this.loadMemos(); // TODO: replace duplication by a promise  
   }
 }

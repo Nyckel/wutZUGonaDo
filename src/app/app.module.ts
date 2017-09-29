@@ -1,3 +1,4 @@
+import { ConfigLoaderService } from './core/config-loader/config-loader.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -14,12 +15,12 @@ import { ModuleLoaderDirective } from './core/module-loader/module-loader.direct
     ModuleLoaderComponent,
     ModuleLoaderDirective,
     ListsComponent,
-    MemosComponent
+    MemosComponent,
   ],
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ ConfigLoaderService ],
   entryComponents: [ ListsComponent, MemosComponent ],
   bootstrap: [AppComponent]
 })

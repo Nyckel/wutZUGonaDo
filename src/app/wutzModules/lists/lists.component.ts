@@ -1,60 +1,26 @@
 import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
+import { AbstractModuleComponent } from '../../core/abstract-module/abstract-module.component';
+
 
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.css']
 })
-export class ListsComponent implements OnInit {
+export class ListsComponent extends AbstractModuleComponent implements OnInit {
   data: any;
   activeTabIndex :number;
   newTabModal = false;
   restore = false;
 
   constructor() {
-    this.data = [
-      {
-        label: "todo",
-        elements: [
-          {
-            name: "Cisco",
-            finished: false
-          },
-          {
-            name: "VM creation script",
-            finished: false
-          },
-          {
-            name: "Script detect usb",
-            finished: false
-          },
-        ],
-        finishedElements: [
-          {
-            name: "Stop caring",
-            finished: true
-          }
-        ],
-        deleted: false
-      },
-      {
-        label: "toLook",
-        elements : [
-          {
-            name: "Sword art online",
-            finished: false
-          },
-          
-        ],
-        finishedElements: [
-        ],
-        deleted: false
+    super();
+    this.storageSet.subscribe(
+      data => {
+        this.loadLists();
       }
-    ]
-
-    this.activeTabIndex = this.data.length > 0 ? 0 : -1;
-    this.giveFocusToTab();
+    )
   }
 
   ngOnInit() {
@@ -173,4 +139,50 @@ export class ListsComponent implements OnInit {
       document.getElementById('newTab').focus();
     }, 1);
   }
+
+  loadLists() {
+    this.data = [
+      {
+        label: "todo",
+        elements: [
+          {
+            name: "Cisco",
+            finished: false
+          },
+          {
+            name: "VM creation script",
+            finished: false
+          },
+          {
+            name: "Script detect usb",
+            finished: false
+          },
+        ],
+        finishedElements: [
+          {
+            name: "Stop caring",
+            finished: true
+          }
+        ],
+        deleted: false
+      },
+      {
+        label: "toLook",
+        elements : [
+          {
+            name: "Sword art online",
+            finished: false
+          },
+          
+        ],
+        finishedElements: [
+        ],
+        deleted: false
+      }
+    ]
+
+    this.activeTabIndex = this.data.length > 0 ? 0 : -1;
+    this.giveFocusToTab();
+  }
+
 }

@@ -1,37 +1,33 @@
+import { ConfigLoaderService } from './core/config-loader/config-loader.service';
+import { Component, Type } from '@angular/core';
 import { ListsComponent } from './wutzModules/lists/lists.component';
 import { MemosComponent } from './wutzModules/memos/memos.component';
-import { Component, Type } from '@angular/core';
 import { ipcRenderer, remote } from 'electron';
+import * as path from 'path';
 
 // import { remote, ipcRenderer } from 'electron';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [ ConfigLoaderService ]
 })
 export class AppComponent {
   title = 'wutZUGonaDo';
   wutzModules;
   windowMaximized = false;
+  appStorage: string[]; // TODO: replace by an object that handles read, write... on these locations
   
-  constructor() {
-    this.wutzModules = [
-      {
-        name: "lists",
-        component: ListsComponent,
-        selector: "app-lists",
-        index: 1,
-        height: "200px"
-      },
-      {
-        name: "memos",
-        component: MemosComponent,
-        selector: "app-memos",
-        index: 2,
-        height: "200px"
-      }
-    ];
+  constructor(configService: ConfigLoaderService) {
+    /* TODO: Should get main config file, parse modules in it
+    and give it their config files and defaut storage */
+    this.wutzModules = configService.getModulesConfig();
+
+    // this.appStorage = [
+    //   path.join(__dirname, "..", "Data")
+    // ]
+    this.appStorage = configService.getAppStorage();
     
   }
 
