@@ -2,8 +2,14 @@
   
     <h4>Memos</h4>
     <div id="memoList" class="niceScroll">
+      <div id="createMemo">
+        <input #newMemoName type="text" class="memo new" (keyup.enter)="createMemo(newMemoName.value, newMemoType.value)" placeholder="New">
+        <select #newMemoType name="Type" id="memoType">
+          <option value="txt">Text</option>
+          <option value="gdoc">Google doc</option>
+        </select>
+      </div>
       <ul>
-        <li class="memo new" (click)="openMemo('', -1, true)">New memo</li>
         <li *ngFor="let memo of memos; let memoIndex = index"
           class="memo"
           [ngClass]="{'hide':memo.deleted}">

@@ -41,6 +41,47 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     });
   }
 
+  createMemo(fileName: string, fileType: string) {
+    switch(fileType) {
+      case "txt":
+        this.createAndOpenTextMemo(fileName)
+        break;
+      case "gdoc":
+        this.createAndOpenGdoc(fileName)
+        break;
+    }
+  }
+
+  createAndOpenTextMemo(fileName: string) {
+    fileName = fileName+'.txt'
+    let self = this;
+    this.memos.push(
+      {
+        name: this.sanitizeString(fileName),
+        fileName: fileName,
+        open: true,
+        deleted: false
+      }
+    )
+    fileName = path.join(this.memosDir, fileName);
+    fs.writeFileSync(fileName, "");
+    fs.readFile(fileName, 'utf-8', function(err, data) {      
+      if (err == null) {
+        let open = shell.openItem(path.join(__dirname, '..', fileName));
+      } else {
+        console.log("Couldn't read file", fileName);
+        if (self.fileExists(fileName))
+          console.error("ERROR: Couldn't read file", fileName);
+        // Else file has been deleted
+      }
+    });
+  }
+
+  createAndOpenGdoc(fileName: string) {
+    // TODO: https://developers.google.com/drive/v3/web/integrate-open
+    let open = shell.openExternal("https://docs.google.com/document/create?title="+fileName);
+  }
+
   openMemo(fileName: string, index: number, isNew: boolean) {
     // Problem : no detection of memo close -> files are never set to close
     // if ((!isNew && this.memos[index].open)){
@@ -49,7 +90,8 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     // }
     let self = this;
     if (isNew) {
-      fileName = this.getFirstFreeFileName();
+      // fileName = this.getFirstFreeFileName();
+      fileName = fileName+'.txt'
       this.memos.push(
         {
           name: this.sanitizeString(fileName),
@@ -66,7 +108,9 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
  
     fs.readFile(fileName, 'utf-8', function(err, data) {      
       if (err == null) {
-        let open = shell.openItem(fileName);
+        console.log("Opening " + path.join(__dirname, '..', fileName))
+        let open = shell.openItem(path.join(__dirname, '..', fileName));
+        // let open = shell.openExternal("https://docs.google.com/document/create?title='"+fileName+"'");
         if (!isNew) {
           self.memos[index].open = open;
         }
@@ -94,7 +138,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
 
   sanitizeString(str: string) {
     str = str.replace('_',' ').split('.')[0];
-    str = str.charAt(0).toUpperCase() + str.slice(1);
+    // str = str.charAt(0).toUpperCase() + str.slice(1);
     return str;
   }
 
@@ -125,7 +169,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
 
   checkStorageAndLoadMemos() {
-    
+
     this.memosDir = path.join(this.appStorage[0], "memos")
     this.memos = [];
     try {

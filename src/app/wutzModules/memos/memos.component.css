@@ -67,7 +67,7 @@
 .memo:hover {
   background: rgba(0,0,0,0.3);
   cursor: pointer;
-  border-left-color: rgba(0,0,0,0.3);
+  border-left-color: rgba(255,255,255,0.3);
   /* border-bottom-color: rgba(0,0,0,0.3); */
 }
 .memo span {
@@ -75,7 +75,20 @@
 }
 .new {
   background-color: rgba(0,244,142,0.1);
+  width: 100%;
 }
-.new:hover {
+/* .new:hover {
   background-color: rgba(0,244,142,0.3);
+} */
+
+input[type="text"] {
+  border: none;
+  background-color: rgba(0,0,0,0.1);
+  color: white;
+  padding-left: 8px;
+  /* outline-color: inherit; */
+}
+
+#createMemo {
+  display: flex;
 }

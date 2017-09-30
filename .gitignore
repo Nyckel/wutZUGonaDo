@@ -7,7 +7,7 @@
 /app-builds
 
 # program data
-/files
+/Data
 
 # dependencies
 /node_modules

@@ -17,7 +17,7 @@ function createWindows() {
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
   lastShortcutCall = new Date();
 
-  win = createWindow("index", true, 400, 600);
+  win = createWindow("index", false, 400, 600);
   // settings = createWindow("options", false, 800, 600);
   win.setPosition(size.width - 400, size.height - 600,true);
   win.once('ready-to-show', () => {
