@@ -1,7 +1,8 @@
 import { element } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { AbstractModuleComponent } from '../../core/abstract-module/abstract-module.component';
-
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Component({
   selector: 'app-lists',
@@ -13,6 +14,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   activeTabIndex :number;
   newTabModal = false;
   restore = false;
+  listsDir: string
 
   constructor() {
     super();
@@ -33,6 +35,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
   selectTab(tabIndex: number) {
     this.newTabModal = false;
+    this.restore = false;
     if (tabIndex == this.activeTabIndex) {
       this.giveFocusToTab();
       return;      
@@ -141,45 +144,50 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   }
 
   loadLists() {
-    this.data = [
-      {
-        label: "todo",
-        elements: [
-          {
-            name: "Cisco",
-            finished: false
-          },
-          {
-            name: "VM creation script",
-            finished: false
-          },
-          {
-            name: "Script detect usb",
-            finished: false
-          },
-        ],
-        finishedElements: [
-          {
-            name: "Stop caring",
-            finished: true
-          }
-        ],
-        deleted: false
-      },
-      {
-        label: "toLook",
-        elements : [
-          {
-            name: "Sword art online",
-            finished: false
-          },
+    let self = this
+    this.listsDir = path.join(this.appStorage[0], "lists")
+    let jsonFile = path.join(__dirname, "..", this.listsDir, "lists.json")
+    this.data = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
+    
+    // this.data = [
+    //   {
+    //     label: "todo",
+    //     elements: [
+    //       {
+    //         name: "Cisco",
+    //         finished: false
+    //       },
+    //       {
+    //         name: "VM creation script",
+    //         finished: false
+    //       },
+    //       {
+    //         name: "Script detect usb",
+    //         finished: false
+    //       },
+    //     ],
+    //     finishedElements: [
+    //       {
+    //         name: "Stop caring",
+    //         finished: true
+    //       }
+    //     ],
+    //     deleted: false
+    //   },
+    //   {
+    //     label: "toLook",
+    //     elements : [
+    //       {
+    //         name: "Sword art online",
+    //         finished: false
+    //       },
           
-        ],
-        finishedElements: [
-        ],
-        deleted: false
-      }
-    ]
+    //     ],
+    //     finishedElements: [
+    //     ],
+    //     deleted: false
+    //   }
+    // ]
 
     this.activeTabIndex = this.data.length > 0 ? 0 : -1;
     this.giveFocusToTab();
