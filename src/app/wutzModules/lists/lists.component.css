@@ -69,27 +69,34 @@
 }
 
 .tabContents {
+  overflow-y: hidden;
   background: rgba(0,0,0,0.3);
 	box-shadow: 12px 15px 20px rgba(0, 0, 0, 0.1);
     
 }
-.tabContents .tabContent ul {
+.tabContents .tabContent .list ul {
   padding-left: 15px;
   margin-top: 0px;
 }
-
 .tabContent {
+  height: inherit;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.tabContent .list {
+  flex: 1;
   display: none;
   /*padding: 10px;*/
   /*position: relative;*/
   display: flex;
   flex-direction: column;
-  padding: 10px;
   height: inherit;
   overflow-y: auto; 
   position: relative;
 }
-.tabContent h3 {
+.tabContent .list h3 {
   margin-top: 0px;
 }
 
@@ -140,11 +147,13 @@ input[type="text"] {
 }
 
 .tabBottom {
-  position: absolute;
-  bottom: 0px;
+  /* position: fixed; */
+  /* bottom: 0px; */
   text-align: center;
   display: flex;
   flex-direction: row;
+  padding: 0px 10px;
+  padding-top: 5px;
   /* background-color:orangered; */
 }
 .tabBottom span {
