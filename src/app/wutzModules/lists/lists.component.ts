@@ -14,7 +14,8 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   activeTabIndex :number;
   newTabModal = false;
   restore = false;
-  listsDir: string
+  listsDir: string;
+  jsonFile: string;
 
   constructor() {
     super();
@@ -56,6 +57,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
         finished: false
       });
     }
+    this.saveLists();
   }
 
   tabExists(tabIndex: number) {
@@ -72,6 +74,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       })
 
     this.selectTab(this.data.length - 1);
+    this.saveLists();
   }
 
   deleteTab(tabIndex: number) {
@@ -79,7 +82,8 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
     setTimeout(() => {
       this.data.splice(tabIndex, 1);
-  
+      this.saveLists();
+
       this.activeTabIndex--;
       if (this.activeTabIndex == -1) {
         if (this.data.length == 0) {
@@ -97,6 +101,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
     setTimeout((tabIndex, entryIndex) => {
       this.moveToFinishedList(tabIndex, entryIndex);
+      this.saveLists();
       this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);
   }
@@ -107,6 +112,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
     setTimeout((tabIndex, entryIndex) => {
       this.moveToNormalList(tabIndex, entryIndex);
+      this.saveLists();
       // this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);
   }
@@ -146,51 +152,39 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   loadLists() {
     let self = this
     this.listsDir = path.join(this.appStorage[0], "lists")
-    let jsonFile = path.join(__dirname, "..", this.listsDir, "lists.json")
-    this.data = JSON.parse(fs.readFileSync(jsonFile, 'utf8'));
-    
-    // this.data = [
-    //   {
-    //     label: "todo",
-    //     elements: [
-    //       {
-    //         name: "Cisco",
-    //         finished: false
-    //       },
-    //       {
-    //         name: "VM creation script",
-    //         finished: false
-    //       },
-    //       {
-    //         name: "Script detect usb",
-    //         finished: false
-    //       },
-    //     ],
-    //     finishedElements: [
-    //       {
-    //         name: "Stop caring",
-    //         finished: true
-    //       }
-    //     ],
-    //     deleted: false
-    //   },
-    //   {
-    //     label: "toLook",
-    //     elements : [
-    //       {
-    //         name: "Sword art online",
-    //         finished: false
-    //       },
-          
-    //     ],
-    //     finishedElements: [
-    //     ],
-    //     deleted: false
-    //   }
-    // ]
+    this.jsonFile = path.join(__dirname, "..", this.listsDir, "lists.json")
+    if (fs.statSync(this.jsonFile).isFile())
+      this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
+    else this.data = []
 
     this.activeTabIndex = this.data.length > 0 ? 0 : -1;
-    this.giveFocusToTab();
+    if (this.data.length > 0) {
+      this.activeTabIndex = 0;
+      this.giveFocusToTab();
+    } else {
+      this.newTabModal = true;
+      this.focusNewTabModal();
+    }
+  }
+
+  saveLists() {
+    if (this.jsonFile === undefined) {
+      console.error('Tried to save lists but file is not defined')
+      return;
+    }
+    let self = this;
+
+    fs.stat(this.jsonFile, (err, stats) => {
+      if (err) {
+        console.error('File ' + self.jsonFile + ' does not exist')
+        return
+      }
+      fs.writeFile(self.jsonFile, JSON.stringify(self.data), err => {
+        if (err)
+          console.error(err)
+      })
+
+    })
   }
 
 }
