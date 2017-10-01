@@ -92,3 +92,29 @@ input[type="text"] {
 #createMemo {
   display: flex;
 }
+
+#dragModal {
+  padding: 10px;
+}
+#dragModal h5 {
+  font-size: 1.2em;
+  margin-bottom: 0px;
+}
+#dragModal h6 {
+  margin-top: 0px;
+  font-size: 1em;
+  color: slategray;
+}
+#dragModal #options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+#dragModal #options div {
+  padding: 10px;
+  background: rgba(0,0,0,0.1);
+}
+#dragModal #options div:hover {
+  background: rgba(0,0,0,0.3);
+  cursor: pointer;
+}

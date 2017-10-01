@@ -4,18 +4,29 @@
     ],
     "wutzModules": [
         {
-            "name": "lists",
+            "name": "EveryDay",
             "component": "ListsComponent",
             "selector": "app-lists",
             "index": 1,
-            "height": "200px"
+            "height": "200px",
+            "dataFile": "everyDay.json"
         },
         {
-            "name": "memos",
+            "name": "Devs to do",
+            "component": "ListsComponent",
+            "selector": "app-lists",
+            "index": 1,
+            "height": "200px",
+            "dataFile": "devsToDo.json"
+            
+        },
+        {
+            "name": "Memos",
             "component": "MemosComponent",
             "selector": "app-memos",
             "index": 2,
-            "height": "200px"
+            "height": "200px",
+            "dataFile": "memosConf.json"
         }
     ]
 }

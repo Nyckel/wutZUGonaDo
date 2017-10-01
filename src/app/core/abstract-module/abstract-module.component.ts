@@ -2,15 +2,23 @@ import { Component, Injectable, Input, Output, EventEmitter } from '@angular/cor
 
 @Injectable()
 export abstract class AbstractModuleComponent {
-  @Input() modules;
+  @Output() dataFileSet = new EventEmitter();
   @Output() storageSet = new EventEmitter();
   appStorage: string[];
-
-  constructor() {
-  }
+  name: string
+  dataFile: string
 
   setAppStorage(appStorage: string[]) {
     this.appStorage = appStorage;
     this.storageSet.emit();
+  }
+
+  setName(name: string) {
+    this.name = name
+  }
+
+  setDataFile(dataFile: string) {
+    this.dataFile = dataFile
+    this.dataFileSet.emit();
   }
 }

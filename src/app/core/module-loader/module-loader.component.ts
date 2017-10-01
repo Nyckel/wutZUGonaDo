@@ -34,6 +34,10 @@ export class ModuleLoaderComponent implements AfterContentInit {
         let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.componentMap[item.component]);
         let componentRef = this.container.createComponent(componentFactory);
         componentRef.instance.setAppStorage(this.appStorage);
+        componentRef.instance.setName(item.name);
+        componentRef.instance.setDataFile(item.dataFile);
+        
+
       }
     } else {
       console.error("Couldn't find slot to insert modules");

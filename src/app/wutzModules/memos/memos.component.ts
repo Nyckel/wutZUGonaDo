@@ -13,6 +13,8 @@ import { AbstractModuleComponent } from '../../core/abstract-module/abstract-mod
 export class MemosComponent extends AbstractModuleComponent implements OnInit {
   memos;
   memosDir: string;
+  droppedFile: string;
+  openDragModal: boolean;
   
   constructor() {
     super();
@@ -27,7 +29,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
 
   loadMemos() {
-    fs.readdir(this.memosDir, (err, files) => {
+    fs.readdir(this.memosDir, (err, files) => { //TODO: Replace by loop in watched dirs & fs.watch...
       files.forEach(file => {
         this.memos.push(
           {
@@ -39,6 +41,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
         )
       })
     });
+    // TODO: Add linked files
   }
 
   createMemo(fileName: string, fileType: string) {
@@ -195,4 +198,46 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     }
     this.loadMemos(); // TODO: replace duplication by a promise  
   }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault()
+    event.stopPropagation()
+    console.log(event.dataTransfer.files[0].path);
+    this.droppedFile = event.dataTransfer.files[0].path;
+    this.openDragModal = true;
+  }
+
+  linkDraggedMemo() {
+    
+    this.openDragModal = false
+  }
+  moveDraggedMemo() {
+    let fileName = path.basename(this.droppedFile)
+    fileName = path.join(this.memosDir, fileName)
+    fs.rename(this.droppedFile, fileName, err => {
+      if(err) {
+        this.copyFile(this.droppedFile, fileName)
+        fs.unlink(this.droppedFile)
+      }
+      else console.log(this.droppedFile + " was moved into app memory")
+    })
+
+    this.openDragModal = false
+  }
+
+  copyFile(src, dest) { // FIXME: To be replaced by fs.copyFile when available..
+    
+      let readStream = fs.createReadStream(src);
+    
+      readStream.once('error', (err) => {
+        console.log(err);
+      });
+    
+      readStream.once('end', () => {
+        console.log('done copying');
+      });
+    
+      readStream.pipe(fs.createWriteStream(dest));
+    }
+
 }

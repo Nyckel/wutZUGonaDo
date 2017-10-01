@@ -21,7 +21,11 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
     super();
     this.storageSet.subscribe(
       data => {
-        this.loadLists();
+        this.dataFileSet.subscribe(
+          data2 => {
+            this.loadLists();
+          }
+        )
       }
     )
   }
@@ -152,10 +156,15 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   loadLists() {
     let self = this
     this.listsDir = path.join(this.appStorage[0], "lists")
-    this.jsonFile = path.join(__dirname, "..", this.listsDir, "lists.json")
-    if (fs.statSync(this.jsonFile).isFile())
-      this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
-    else this.data = []
+    this.jsonFile = path.join(__dirname, "..", this.listsDir, this.dataFile)
+    try {
+      let f = fs.statSync(this.jsonFile).isFile()
+      if (f)
+        this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
+      else this.data = []
+    } catch (e) {
+      this.data = []      
+    }
 
     this.activeTabIndex = this.data.length > 0 ? 0 : -1;
     if (this.data.length > 0) {

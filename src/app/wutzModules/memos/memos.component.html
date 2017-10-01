@@ -1,12 +1,12 @@
-<div class="section">
+<div class="section" (drop)="onDrop($event)">
   
-    <h4>Memos</h4>
+    <h4>{{ name }}</h4>
     <div id="memoList" class="niceScroll">
       <div id="createMemo">
         <input #newMemoName type="text"
           class="memo new"
           (keyup.enter)="createMemo(newMemoName.value, newMemoType.value); newMemoName.value=''"
-          placeholder="New"
+          placeholder="Search or create"
         >
         <select #newMemoType name="Type" id="memoType">
           <option value="txt">Text</option>
@@ -24,6 +24,17 @@
           (click)="deleteMemo(memoIndex)"/>
         </li>
       </ul>
+
+      <div id="dragModal" *ngIf="openDragModal">
+        <h5>What do you want to do ? </h5>
+        <h6>{{ droppedFile }}</h6>
+        <span id="options">
+          <div (click)='linkDraggedMemo()'>Link as memo</div>
+          <div (click)='moveDraggedMemo()'>Move memo into app</div>
+          <div (click)='openDragModal=false'>Cancel</div>
+        </span>
+      </div>
     </div>
+
 
 </div> 
