@@ -8,7 +8,6 @@
 @media all and (max-width: 800px) {
   :host {
     flex: 1;
-    /* margin: 0px 5px; */
   }
 }
 
@@ -25,12 +24,10 @@
 .section, .sectionTabs,.tabContents {
   display: block;
   width: 100%;
-  /* overflow: hidden; */
 }
 
 .section {
   flex-grow: 3;
-  /* max-width: 500px; */
 }
 .section h4 {
   margin: 0px;
@@ -55,16 +52,13 @@
   border-bottom: 2px solid white;
   border-bottom-color: rgba(0,0,0,0);
   text-decoration: none;
-  /*display: inline-block;*/
   padding: 5px 10px;
-  /*float: left;*/
   list-style-type:none;
   margin-bottom: 0px;
   transform:rotateX(180deg) !important;  
 }
 .tab:hover, .tab.active {
   background: rgba(0,0,0,0.3);
-  /*border-bottom-color: rgba(0,0,0,0.5);    */
   cursor: pointer;
 }
 
@@ -87,10 +81,6 @@
 }
 .tabContent .list {
   flex: 1;
-  display: none;
-  /*padding: 10px;*/
-  /*position: relative;*/
-  display: flex;
   flex-direction: column;
   height: inherit;
   overflow-y: auto; 
@@ -100,43 +90,43 @@
   margin-top: 0px;
 }
 
+.checkEntry {
+  display: flex;
+  flex-direction: row;
+  align-items: center;    
+}
+
 .entry:hover {
   background: rgba(0,0,0,0.3);
 }
 .entry:hover, .entry label:hover {
-  /*border-bottom-color: rgba(0,0,0,0.5);    */
   cursor: pointer;
 }
 
 .entry input {
-  position: relative;
   vertical-align: middle;
 }
 .entry label {
-  display: inline-block;
-  position: relative;
-  vertical-align: middle;
+  vertical-align: middle;  
+  flex: 1;
 }
 
 .checkEntry > input {
   margin-right: 10px;
   margin-left: 10px;
+  display: inline;
 }
 
-/* .addEntry {
-  text-align: center;
-  background-color: rgba(0,244,142,0.1);
+.addEntry {
+  margin: 1px;
 }
-.addEntry:hover {
-  background-color: rgba(0,244,142,0.3);
-} */
 
 input[type="text"] {
   border: none;
   background-color: rgba(0,0,0,0.1);
   color: white;
   padding-left: 33px; 
-  /* outline-color: inherit; */
+  width: calc(100% - 2px);
 }
 
 .addTab {
@@ -147,40 +137,29 @@ input[type="text"] {
 }
 
 .tabBottom {
-  /* position: fixed; */
-  /* bottom: 0px; */
   text-align: center;
   display: flex;
   flex-direction: row;
   padding: 0px 10px;
   padding-top: 5px;
-  /* background-color:orangered; */
 }
 .tabBottom span {
   transition: color 0.3s ease;
   margin-right: 5px;
-  /* background-color:orangered; */
 }
 .tabBottom span:hover {
   cursor: pointer;
-  /* background-color: #99330D; */
   color: rgb(229,151,0);
 }
 
 .checkEntry {
   transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  /* transition-property: all;
-  transition-duration: .5s;
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1); */
   opacity: 1;
   max-height: 100px;
 }
 .checkEntry.hide {
-  /* height: 0px; */
   max-height: 0px;
-  /* overflow-y: hidden; */
   opacity: 0;
-  /* transition: max-height 0.5s ease-in-out; */
 }
 
 .sectionTabs ul {
@@ -190,10 +169,20 @@ input[type="text"] {
   opacity: 1;
   transform: none;
   transition: all 0.3s cubic-bezier(.36,-0.64,.34,1.76), background 1ms;
-  /* transition: background-color 0s; */
 }
 .tab.deleted {
   opacity: 0;
   transform: rotateX(90deg) !important;
-  /* transition: transform 0.3s cubic-bezier(.36,-0.64,.34,1.76); */
+}
+
+
+#moduleNameInput input[type="text"] {
+  font-family: "Segoe UI";
+  padding: 0px;
+  font-size: 20px;
+  width: calc(100% - 2px);
+}
+#moduleNameInput:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
 }

@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
 
 @Injectable()
@@ -7,6 +8,7 @@ export abstract class AbstractModuleComponent {
   appStorage: string[];
   name: string
   dataFile: string
+  editName: boolean
 
   setAppStorage(appStorage: string[]) {
     this.appStorage = appStorage;
@@ -20,5 +22,10 @@ export abstract class AbstractModuleComponent {
   setDataFile(dataFile: string) {
     this.dataFile = dataFile
     this.dataFileSet.emit();
+  }
+
+  saveModuleName() {
+    //TODO: Implement true fonctionnality
+    this.editName = false;
   }
 }
