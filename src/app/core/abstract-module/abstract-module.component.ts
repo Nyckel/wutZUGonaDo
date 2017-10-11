@@ -18,6 +18,9 @@ export abstract class AbstractModuleComponent {
   setName(name: string) {
     this.name = name
   }
+  getName() {
+    return this.name
+  }
 
   setDataFile(dataFile: string) {
     this.dataFile = dataFile
@@ -25,7 +28,11 @@ export abstract class AbstractModuleComponent {
   }
 
   saveModuleName() {
-    //TODO: Implement true fonctionnality
+    //TODO: Implement true fonctionnality, export this in service
     this.editName = false;
+  }
+
+  public static needsConfigFile() {
+    return false
   }
 }

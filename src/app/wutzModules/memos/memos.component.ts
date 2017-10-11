@@ -226,18 +226,16 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
 
   copyFile(src, dest) { // FIXME: To be replaced by fs.copyFile when available..
-    
-      let readStream = fs.createReadStream(src);
-    
-      readStream.once('error', (err) => {
-        console.log(err);
-      });
-    
-      readStream.once('end', () => {
-        console.log('done copying');
-      });
-    
-      readStream.pipe(fs.createWriteStream(dest));
-    }
+    let readStream = fs.createReadStream(src);
+    readStream.once('error', (err) => {
+      console.log(err);
+    });
+  
+    readStream.once('end', () => {
+      console.log('done copying');
+    });
+  
+    readStream.pipe(fs.createWriteStream(dest));
+  }
 
 }

@@ -1,3 +1,25 @@
 <div id="moduleContainer">
 	<ng-template #moduleContainer></ng-template>
 </div>
+
+<div id="moduleAdding">
+	<h4 (click)='showAddModule = ! showAddModule'>Add a module</h4>
+	<div id="addModule" *ngIf='showAddModule'>
+		<input type="text" placeholder="Name" #name
+		(keyup.enter)='addComponentWithName(name.value, componentType.value)'>
+		<select #componentType>
+			<option *ngFor="let componentType of getAvailableComponentsList()"
+			[value]="componentType"
+			>
+				{{ componentType.substring( 0, componentType.indexOf("Component")) }}
+			</option>
+		</select>
+
+		<h6 (click)="dataFile.click()">From existing data</h6>
+		<input type="file" name="dataFile" #dataFile id='dataFile'>
+
+		<input type="button" (click)="addComponent(this.testModule)"
+		value="addMemos"
+		>
+	</div>
+</div>

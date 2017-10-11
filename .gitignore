@@ -6,8 +6,9 @@
 /out-tsc
 /app-builds
 
-# program data
+# program data and config
 /Data
+/Config
 
 # dependencies
 /node_modules

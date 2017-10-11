@@ -108,7 +108,7 @@ input[type="text"] {
 #dragModal #options {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 #dragModal #options div {
   padding: 10px;

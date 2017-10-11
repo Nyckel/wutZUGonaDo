@@ -157,14 +157,9 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
     let self = this
     this.listsDir = path.join(this.appStorage[0], "lists")
     this.jsonFile = path.join(__dirname, "..", this.listsDir, this.dataFile)
-    try {
-      let f = fs.statSync(this.jsonFile).isFile()
-      if (f)
-        this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
-      else this.data = []
-    } catch (e) {
-      this.data = []      
-    }
+    
+    this.initJsonIfNeeded()
+    this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
 
     this.activeTabIndex = this.data.length > 0 ? 0 : -1;
     if (this.data.length > 0) {
@@ -194,6 +189,19 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       })
 
     })
+  }
+
+  initJsonIfNeeded() {
+    try {
+      fs.statSync(this.jsonFile)
+    } catch (e) { // File doesn't exist
+      fs.writeFileSync(this.jsonFile, "[]");
+      console.log(this.jsonFile, "created")
+    }
+  }
+
+  public static needsConfigFile() {
+    return true
   }
 
 }

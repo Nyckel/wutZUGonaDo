@@ -8,6 +8,44 @@
   /* justify-content: space-around;   */
 }
 
+#moduleAdding {
+  margin: 0px 5px;
+}
+#moduleAdding h4 {
+  margin: 0px;
+}
+#moduleAdding h4:hover {
+  cursor: pointer;
+}
+#addModule {
+  background-color: rgba(0,0,0,0.3);
+  padding: 10px;
+}
+
+#addModule h6 {
+  margin-top: 0px;
+  font-size: 1em;
+  color: slategray;
+  width: auto;
+  display: inline-block;
+}
+#addModule h6:hover {
+  color: white;
+  cursor: pointer;
+}
+
+#dataFile {
+  display: none;
+}
+
+input[type="text"] {
+  border: none;
+  background-color: rgba(0,0,0,0.1);
+  color: white;
+  padding-left: 8px;
+  /* outline-color: inherit; */
+}
+
 @media all and (max-width: 600px) {
   #moduleContainer {
     flex-direction: column;
@@ -15,9 +53,9 @@
   }
 }
 
-  @media all and (max-width: 800px) {
-    #moduleContainer {
-      flex-direction: raw;
-      justify-content: space-around;
-    }
+@media all and (max-width: 800px) {
+  #moduleContainer {
+    flex-direction: raw;
+    justify-content: space-around;
+  }
 }

@@ -20,15 +20,9 @@ export class AppComponent {
   appStorage: string[]; // TODO: replace by an object that handles read, write... on these locations
   
   constructor(configService: ConfigLoaderService) {
-    /* TODO: Should get main config file, parse modules in it
-    and give it their config files and defaut storage */
     this.wutzModules = configService.getModulesConfig();
-
-    // this.appStorage = [
-    //   path.join(__dirname, "..", "Data")
-    // ]
     this.appStorage = configService.getAppStorage();
-    
+
   }
 
   closeWindow() {
@@ -72,16 +66,3 @@ document.body.ondrop = (ev) => {
   console.log(ev.dataTransfer.files[0].path)
   ev.preventDefault()
 }
-/*
-Dynamic modules inclusion
-https://angular.io/guide/dynamic-component-loader
-  Storage structure tree
-  Storage
-  App
-    Modules.json
-  Modules
-    lists.json
-    Memos
-      memo1.txt
-      memo2.txt
-*/
