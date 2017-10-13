@@ -1,9 +1,12 @@
 <div class="section" (drop)="onDrop($event)">
   
-  <div id="moduleNameInput">
-    <h4 *ngIf='!editName' (click)='editName= !editName'>{{ name }}</h4>
-    <input type="text" *ngIf='editName' [(ngModel)]='name'
-    (blur)='saveModuleName()'>
+  <div id="moduleHeader">
+    <h4 *ngIf='!editName' 
+    (click)='editModuleName()'>{{ name }}</h4>
+    <input #moduleNameInput
+    type="text" *ngIf='editName' [(ngModel)]='name' 
+    (blur)='saveModuleName()'
+    (keyup.enter)='saveModuleName()'>
   </div>
 
   <div id="memoList" class="niceScroll">

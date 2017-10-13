@@ -1,10 +1,15 @@
 import { FormsModule } from '@angular/forms';
-import { Component, Injectable, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Injectable, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 
 @Injectable()
 export abstract class AbstractModuleComponent {
   @Output() dataFileSet = new EventEmitter();
   @Output() storageSet = new EventEmitter();
+  @Output() nameChange = new EventEmitter();
+  @ViewChild('moduleNameInput')
+  private moduleNameInput;
+  id: number
+
   appStorage: string[];
   name: string
   dataFile: string
@@ -17,6 +22,7 @@ export abstract class AbstractModuleComponent {
 
   setName(name: string) {
     this.name = name
+    this.nameChange.emit(name)
   }
   getName() {
     return this.name
@@ -28,8 +34,13 @@ export abstract class AbstractModuleComponent {
   }
 
   saveModuleName() {
-    //TODO: Implement true fonctionnality, export this in service
     this.editName = false;
+    this.nameChange.emit(name)
+  }
+
+  editModuleName() {
+    this.editName= !this.editName
+    setTimeout(() => {this.moduleNameInput.nativeElement.focus()},0)
   }
 
   public static needsConfigFile() {

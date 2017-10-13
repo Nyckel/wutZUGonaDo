@@ -13,12 +13,13 @@ import { AbstractModuleComponent } from './../abstract-module/abstract-module.co
 export class ModuleLoaderComponent implements AfterContentInit {
   @Input() modules;
   @Input() appStorage;
-  // @ViewChild(ModuleLoaderDirective) moduleHost: ModuleLoaderDirective;
   @ViewChild("moduleContainer", { read: ViewContainerRef }) container;
+  
   componentMap = {
     'ListsComponent': ListsComponent,
     'MemosComponent': MemosComponent
   };
+  idCounter = 0
   showAddModule = false
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private configService: ConfigLoaderService) { }
@@ -44,9 +45,19 @@ export class ModuleLoaderComponent implements AfterContentInit {
   createWutzComponent(item: any) {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.componentMap[item.component]);
     let componentRef = this.container.createComponent(componentFactory);
-    componentRef.instance.setAppStorage(this.appStorage);
-    componentRef.instance.setName(item.name);
-    componentRef.instance.setDataFile(item.dataFile);
+    let newModule = componentRef.instance
+
+    newModule.setAppStorage(this.appStorage);
+    newModule.setName(item.name);
+    newModule.setDataFile(item.dataFile);
+    newModule.id = this.idCounter
+    newModule.nameChange.subscribe(
+      data => {
+        this.configService.updateModuleName(newModule.id, newModule.getName())
+      }
+    )
+
+    this.idCounter += 1
   }
 
   addComponent(newComponent: any) {
