@@ -44,6 +44,7 @@ export class ConfigLoaderService {
   }
 
   updateModuleName(moduleId: number, newName: string) {
-    console.log("updating name of module", moduleId,"to ", newName)
+    this.config["wutzModules"][moduleId].name = newName
+    this.upateConfigFile()
   }
 }

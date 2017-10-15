@@ -93,25 +93,27 @@
 .checkEntry {
   display: flex;
   flex-direction: row;
-  align-items: center;    
+  align-items: center;
 }
 
 .entry:hover {
   background: rgba(0,0,0,0.3);
 }
-.entry:hover, .entry label:hover {
+.entry:hover, .entry span label:hover {
   cursor: pointer;
 }
-
-.entry input {
+.entry span input {
   vertical-align: middle;
 }
-.entry label {
+.entry span label {
   vertical-align: middle;  
+}
+.entry .checkable {
   flex: 1;
+
 }
 
-.checkEntry > input {
+.checkEntry span input {
   margin-right: 10px;
   margin-left: 10px;
   display: inline;

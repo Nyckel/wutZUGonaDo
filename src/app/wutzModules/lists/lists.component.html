@@ -21,7 +21,7 @@
     </ul>
   </div>
 
-  <div class="tabContents">
+  <div class="tabContents" #tabContents>
     <ng-container *ngFor="let tab of data; let tabIndex = index">
       <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
         <div class="tabContent">
@@ -29,10 +29,17 @@
             <ng-template [ngIf]="!restore">
               <span class="entry checkEntry"
                 [ngClass]="{'hide':entry.finished}"
-                (click)="checkEntry(tabIndex, entryIndex)"
                 *ngFor="let entry of tab.elements; let entryIndex = index">
 
-                <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+                <span *ngIf='!entry.edited'
+                (click)="checkEntry(tabIndex, entryIndex)"
+                class="checkable">
+                  <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+                </span>
+
+                <input type="text" *ngIf='entry.edited' [(ngModel)]='entry.name'>
+                <span (click)="entry.edited = !entry.edited; $event.stopPropagation()">Edit, {{ entry.edited }}</span>
+
               </span>
             </ng-template>
             <ng-template [ngIf]="restore">

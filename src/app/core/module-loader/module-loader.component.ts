@@ -66,7 +66,6 @@ export class ModuleLoaderComponent implements AfterContentInit {
     
     this.createWutzComponent(newComponent)
     this.configService.addModule(newComponent);
-    // TODO: Output an event so that config is forwarded to config file
   }
 
   isValidComponent(newComponent: any) {

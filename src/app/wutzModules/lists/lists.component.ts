@@ -1,5 +1,5 @@
 import { element } from 'protractor';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractModuleComponent } from '../../core/abstract-module/abstract-module.component';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -10,6 +10,7 @@ import * as fs from 'fs';
   styleUrls: ['./lists.component.css']
 })
 export class ListsComponent extends AbstractModuleComponent implements OnInit {
+  @ViewChild('tabContents') tabContents
   data: any;
   activeTabIndex :number;
   newTabModal = false;
@@ -121,6 +122,11 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
     }, 350, tabIndex, entryIndex);
   }
 
+  editEntry(tabIndex: number, entryIndex: number) {
+    
+    this.data[tabIndex].elements[entryIndex];    
+    this.saveLists();
+  }
 
   moveToFinishedList(tabIndex: number, entryIndex: number) {
     let elem = this.data[tabIndex].elements[entryIndex];
@@ -140,8 +146,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       if (newTabModal) {
         this.focusNewTabModal();
       } else {
-        document.getElementById('addEntry'+activeTabIndex).focus();
-        //TODO: replace document search by module search because pb if multiple instances of module on same tab
+        this.tabContents.nativeElement.querySelector('#addEntry'+activeTabIndex).focus();
       }
     }, 1, this.activeTabIndex, this.newTabModal);
 
