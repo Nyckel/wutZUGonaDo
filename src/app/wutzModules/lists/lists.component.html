@@ -37,8 +37,13 @@
                   <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
                 </span>
 
-                <input type="text" *ngIf='entry.edited' [(ngModel)]='entry.name'>
-                <span (click)="entry.edited = !entry.edited; $event.stopPropagation()">Edit, {{ entry.edited }}</span>
+                <input type="text" class='editEntry' *ngIf='entry.edited'
+                [(ngModel)]='entry.name' (keyup.enter)='saveLists();entry.edited = false'>
+                <!-- <span (click)="entry.edited = !entry.edited; $event.stopPropagation()">
+                  {{ entry.edited ? "Ok" : "Edit" }}
+                </span> -->
+                <img (click)="saveLists(); entry.edited = !entry.edited; $event.stopPropagation()"
+                src="../../../assets/img/edit.png">
 
               </span>
             </ng-template>
@@ -47,7 +52,10 @@
               [ngClass]="{'hide':!entry.finished}"
               (click)="uncheckEntry(tabIndex, entryIndex)"
               *ngFor="let entry of tab.finishedElements; let entryIndex = index">
-                <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+
+                <span class="checkable">
+                  <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+                </span>
               </span>
             </ng-template>
             

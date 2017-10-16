@@ -96,6 +96,15 @@
   align-items: center;
 }
 
+.checkEntry span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.checkEntry img {
+  padding: 2px 0px;
+}
+
 .entry:hover {
   background: rgba(0,0,0,0.3);
 }
@@ -103,6 +112,7 @@
   cursor: pointer;
 }
 .entry span input {
+  flex-shrink: 0;
   vertical-align: middle;
 }
 .entry span label {
@@ -110,7 +120,11 @@
 }
 .entry .checkable {
   flex: 1;
+}
 
+.editEntry {
+  padding-bottom: 0px;
+  padding-top: 0px;
 }
 
 .checkEntry span input {

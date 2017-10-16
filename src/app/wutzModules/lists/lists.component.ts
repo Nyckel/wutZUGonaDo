@@ -59,7 +59,8 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       this.data[tabIndex].elements.splice(
         this.data[tabIndex].elements.length, 0, {
         name: newEntry,
-        finished: false
+        finished: false,
+        edited: false
       });
     }
     this.saveLists();
