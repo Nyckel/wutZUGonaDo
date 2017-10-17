@@ -1,22 +1,26 @@
 import { FormsModule } from '@angular/forms';
 import { Component, Injectable, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export abstract class AbstractModuleComponent {
   @Output() dataFileSet = new EventEmitter();
   @Output() storageSet = new EventEmitter();
   @Output() nameChange = new EventEmitter();
+  @Output() delete = new EventEmitter();
   @ViewChild('moduleNameInput')
   private moduleNameInput;
   id: number
 
-  appStorage: string[];
+  moduleStorage: string;
   name: string
   dataFile: string
   editName: boolean
 
-  setAppStorage(appStorage: string[]) {
-    this.appStorage = appStorage;
+  setModuleStorage(appStorage: string) {
+    console.log("Setting moduleStorage to ", appStorage);
+    this.moduleStorage = appStorage;
     this.storageSet.emit();
   }
 
@@ -29,8 +33,19 @@ export abstract class AbstractModuleComponent {
   }
 
   setDataFile(dataFile: string) {
-    this.dataFile = dataFile
+    this.dataFile = dataFile;
     this.dataFileSet.emit();
+  }
+
+  deleteDataFile() {
+    if (!this.dataFile) return;
+
+    let f = path.join(__dirname, "..", this.moduleStorage, this.dataFile);
+    console.log(this.moduleStorage, this.dataFile);
+    fs.unlink(f, err => {
+      console.error(err);
+    })
+
   }
 
   saveModuleName() {
@@ -41,6 +56,10 @@ export abstract class AbstractModuleComponent {
   editModuleName() {
     this.editName= !this.editName
     setTimeout(() => {this.moduleNameInput.nativeElement.focus()},0)
+  }
+
+  deleteModule() {
+    this.delete.emit();
   }
 
   public static needsConfigFile() {

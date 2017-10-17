@@ -36,6 +36,12 @@ export class ConfigLoaderService {
     this.config['wutzModules'].push(newModule)
     this.upateConfigFile()
   }
+  
+  deleteModule(newModule: any) {
+    let moduleIndex = this.config['wutzModules'].indexOf(newModule);
+    this.config['wutzModules'].splice(moduleIndex, 1);
+    this.upateConfigFile();
+  }
 
   upateConfigFile() {
     let self = this;

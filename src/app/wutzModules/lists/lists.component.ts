@@ -15,7 +15,6 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   activeTabIndex :number;
   newTabModal = false;
   restore = false;
-  listsDir: string;
   jsonFile: string;
 
   constructor() {
@@ -160,9 +159,8 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   }
 
   loadLists() {
-    let self = this
-    this.listsDir = path.join(this.appStorage[0], "lists")
-    this.jsonFile = path.join(__dirname, "..", this.listsDir, this.dataFile)
+    let self = this;
+    this.jsonFile = path.join(__dirname, "..", this.moduleStorage, this.dataFile)
     
     this.initJsonIfNeeded()
     this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
@@ -209,5 +207,4 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   public static needsConfigFile() {
     return true
   }
-
 }

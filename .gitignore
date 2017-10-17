@@ -9,6 +9,7 @@
 # program data and config
 /Data
 /Config/appConf.json
+/Config/workspaces
 
 # dependencies
 /node_modules

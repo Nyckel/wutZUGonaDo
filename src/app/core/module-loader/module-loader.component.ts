@@ -5,6 +5,7 @@ import { ListsComponent } from './../../wutzModules/lists/lists.component';
 import { MemosComponent } from './../../wutzModules/memos/memos.component';
 import { shell } from 'electron';
 import { AbstractModuleComponent } from './../abstract-module/abstract-module.component'
+import * as path from 'path';
 
 @Component({
   selector: 'app-module-loader',
@@ -56,13 +57,22 @@ export class ModuleLoaderComponent implements AfterContentInit {
     let componentRef = this.container.createComponent(componentFactory);
     let newModule = componentRef.instance
 
-    newModule.setAppStorage(this.appStorage);
+    newModule.setModuleStorage(path.join(this.appStorage, item.component.split('Component')[0]));
     newModule.setName(item.name);
     newModule.setDataFile(item.dataFile);
     newModule.id = this.idCounter
     newModule.nameChange.subscribe(
       data => {
         this.configService.updateModuleName(newModule.id, newModule.getName())
+      }
+    )
+    newModule.delete.subscribe(
+      data => {
+        newModule.deleteDataFile();
+        // Remove from workspace conf
+        this.configService.deleteModule(newModule);
+        this.container.remove(this.container.indexOf(componentRef));
+        this.showAddModule = this.modules.length === 0;
       }
     )
 

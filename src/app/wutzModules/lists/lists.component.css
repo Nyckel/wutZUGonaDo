@@ -192,6 +192,22 @@ input[type="text"] {
   transform: rotateX(90deg) !important;
 }
 
+#moduleHeader {
+  display: flex;
+  justify-content: space-between;
+}
+#deleteModule {
+  background: rgba(139, 0, 0, 0.3);
+  color: white;
+  line-height: 30px;
+  padding: 0px 5px;
+}
+#deleteModule:hover {
+  background: rgba(139, 0, 0, 0.5);
+  color: white;
+  line-height: 30px;
+  padding: 0px 5px;
+}
 
 #moduleHeader input[type="text"] {
   font-family: "Segoe UI";

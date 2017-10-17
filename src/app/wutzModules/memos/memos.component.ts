@@ -12,7 +12,6 @@ import { AbstractModuleComponent } from '../../core/abstract-module/abstract-mod
 })
 export class MemosComponent extends AbstractModuleComponent implements OnInit {
   memos;
-  memosDir: string;
   droppedFile: string;
   openDragModal: boolean;
   
@@ -29,7 +28,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
 
   loadMemos() {
-    fs.readdir(this.memosDir, (err, files) => { //TODO: Replace by loop in watched dirs & fs.watch...
+    fs.readdir(this.moduleStorage, (err, files) => { //TODO: Replace by loop in watched dirs & fs.watch...
       files.forEach(file => {
         this.memos.push(
           {
@@ -72,14 +71,14 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
         deleted: false
       }
     )
-    let fullFileName = path.join(this.memosDir, fileName);
+    let fullFileName = path.join(this.moduleStorage, fileName);
     fs.writeFileSync(fullFileName, "");
     this.openTextMemo(fileName)
   }
 
   openTextMemo(fileName: string) {
     let self = this
-    fileName = path.join(this.memosDir, fileName);
+    fileName = path.join(this.moduleStorage, fileName);
     fs.readFile(fileName, 'utf-8', function(err, data) {      
       if (err == null) {
         let open = shell.openItem(path.join(__dirname, '..', fileName));
@@ -116,7 +115,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
         }
       )
     }
-    fileName = path.join(this.memosDir, fileName);
+    fileName = path.join(this.moduleStorage, fileName);
     if (isNew) {
       fs.writeFileSync(fileName, "");
     }
@@ -140,7 +139,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
 
   deleteMemo(memoIndex: number) {
     this.memos[memoIndex].deleted = true;
-    let filePath = path.join(this.memosDir, this.memos[memoIndex].fileName);
+    let filePath = path.join(this.moduleStorage, this.memos[memoIndex].fileName);
     fs.unlinkSync(filePath);
     setTimeout((tabIndex) => {
       this.removeMemoFromList(memoIndex);
@@ -187,13 +186,11 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
 
   checkStorageAndLoadMemos() {
 
-    this.memosDir = path.join(this.appStorage[0], "memos")
     this.memos = [];
     try {
-      !fs.statSync(this.memosDir);
+      !fs.statSync(this.moduleStorage);
     } catch (e) {
-      fs.mkdirSync(this.appStorage[0]);
-      fs.mkdirSync(this.memosDir);
+      fs.mkdirSync(this.moduleStorage);
       this.loadMemos();
     }
     this.loadMemos(); // TODO: replace duplication by a promise  
@@ -213,7 +210,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
   moveDraggedMemo() {
     let fileName = path.basename(this.droppedFile)
-    fileName = path.join(this.memosDir, fileName)
+    fileName = path.join(this.moduleStorage, fileName)
     fs.rename(this.droppedFile, fileName, err => {
       if(err) {
         this.copyFile(this.droppedFile, fileName)

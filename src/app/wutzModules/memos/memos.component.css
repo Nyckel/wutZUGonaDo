@@ -119,6 +119,24 @@ input[type="text"] {
   cursor: pointer;
 }
 
+#moduleHeader {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+}
+#deleteModule {
+  background: rgba(139, 0, 0, 0.3);
+  color: white;
+  line-height: 30px;
+  padding: 0px 5px;
+}
+#deleteModule:hover {
+  background: rgba(139, 0, 0, 0.5);
+  color: white;
+  line-height: 30px;
+  padding: 0px 5px;
+}
+
 #moduleHeader input[type="text"] {
   font-family: "Segoe UI";
   padding: 0px;
@@ -129,3 +147,4 @@ input[type="text"] {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.1);
 }
+
