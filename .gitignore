@@ -8,7 +8,7 @@
 
 # program data and config
 /Data
-/Config
+/Config/appConf.json
 
 # dependencies
 /node_modules
@@ -45,3 +45,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# logs
+.log

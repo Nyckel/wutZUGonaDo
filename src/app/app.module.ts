@@ -8,6 +8,7 @@ import { ListsComponent } from './wutzModules/lists/lists.component';
 import { MemosComponent } from './wutzModules/memos/memos.component';
 import { ModuleLoaderComponent } from './core/module-loader/module-loader.component';
 import { ModuleLoaderDirective } from './core/module-loader/module-loader.directive';
+import { WorkspaceLoaderComponent } from './core/workspace-loader/workspace-loader.component';
 
 // import { AdDirective }          from './ad.directive';
 @NgModule({
@@ -17,6 +18,7 @@ import { ModuleLoaderDirective } from './core/module-loader/module-loader.direct
     ModuleLoaderDirective,
     ListsComponent,
     MemosComponent,
+    WorkspaceLoaderComponent,
   ],
   imports: [
     BrowserModule,

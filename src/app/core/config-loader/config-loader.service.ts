@@ -12,7 +12,12 @@ export class ConfigLoaderService {
   }
 
   initConfig() {
-    this.config = require("../../../../Config/appConf.json");
+    try {
+      this.config = require("../../../../Config/appConf.json");
+    } catch {
+      // this.config = require("../../../../Config/appConfTemplate.json"); // FIXME: Find a way to avoid override
+      this.appConfFile = path.join(__dirname,"../Config/appConfTemplate.json")
+    }
   }
 
   getAppStorage() { 

@@ -179,7 +179,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     console.log(fileName)
     
     for (let i = 0; i < this.memos.length; i++) {
-      if (this.memos[i].fileName == fileName)
+      if (this.memos[i].fileName === fileName)
         return true;
     }
     return false;

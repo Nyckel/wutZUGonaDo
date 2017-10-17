@@ -15,7 +15,9 @@
         *ngFor="let tab of data; let tabIndex = index"
         [class.active]="isSelected(tabIndex) && !newTabModal"
         [class.deleted]="tab.deleted"
-        (click)="selectTab(tabIndex)">{{ tab.label }}
+        (click)="selectTab(tabIndex)">{{ tab.label }} 
+        <span *ngIf='!restore'>({{ tab.elements.length }})</span>
+        <span *ngIf='restore'>({{ tab.finishedElements.length }})</span>
       </li>
       <li class="tab addTab" [class.active]="newTabModal" (click)="newTabModal=true;focusNewTabModal()">New</li>      
     </ul>

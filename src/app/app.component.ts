@@ -16,6 +16,17 @@ import * as path from 'path';
 export class AppComponent {
   title = 'wutZUGonaDo';
   wutzModules;
+  workspaces = [
+    {
+      name: "Home",
+      configFile: "home.json"
+    },
+    {
+      name: "Work",
+      configFile: "work.json"
+    }
+  ];
+  selectedWorkspaceIndex = 0;
   windowMaximized = false;
   appStorage: string[]; // TODO: replace by an object that handles read, write... on these locations
   

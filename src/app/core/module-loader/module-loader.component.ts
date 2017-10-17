@@ -3,6 +3,7 @@ import { Component, Type, ViewChild, AfterContentInit, Input, ComponentFactoryRe
 import { ModuleLoaderDirective } from "./module-loader.directive";
 import { ListsComponent } from './../../wutzModules/lists/lists.component';
 import { MemosComponent } from './../../wutzModules/memos/memos.component';
+import { shell } from 'electron';
 import { AbstractModuleComponent } from './../abstract-module/abstract-module.component'
 
 @Component({
@@ -26,6 +27,7 @@ export class ModuleLoaderComponent implements AfterContentInit {
 
   ngAfterContentInit() {
     this.loadComponents();
+    this.showAddModule = this.modules.length === 0;
   }
 
   loadComponents() {
@@ -113,6 +115,10 @@ export class ModuleLoaderComponent implements AfterContentInit {
 
   createModuleConfig(dataFile: string) {
     //TODO: decide if each module implements its own stuff or not
+  }
+
+  openExternal(url: string) {
+    let open = shell.openExternal(url);
   }
 
 }

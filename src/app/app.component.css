@@ -11,22 +11,28 @@ header {
     /* background: #1d5a82; */
     background: #29353C;
     height: 32px;
-    
+    display: flex;
+    justify-content: space-between;
+
 }
-header > h5 {
-    display: inline-block;
+header span {
+    display: flex;
+}
+header span h5 {
+    /* display: inline-block; */
     margin: 0px;
+    margin-left: 5px;
     line-height: 22px;
     overflow: hidden;
 }
-header button {
+header span button, header span select {
     /*padding: 2px;*/
-    -webkit-app-region: no-drag;   
+    -webkit-app-region: no-drag; 
     background: rgba(0,0,0,0.3);
     color: white;
     border: none;
     text-decoration: none;
-    display: inline-block;
+    /* display: inline-block; */
     /* padding-bottom: 5px; */
     padding: 2px;
     /* width: 22px; */
@@ -36,36 +42,39 @@ header button {
 img {
     margin-bottom: 0px;
 }
-header button:hover {
+header span button:hover {
     background: rgba(0,0,0,0.5);
 }
 #settingsButton {
-    position: absolute;
-    top: 5px;
+    /* position: absolute; */
+    /* top: 5px; */
     margin-left: 5px;
 }
 #exitButton {
-    position: absolute;
-    top: 5px;
-    margin-left: 32px;
+    /* position: absolute; */
+    /* top: 5px; */
+    margin-left: 5px;
 }
 #closeWindow, #closeSettings {
-    position: absolute;
-    right: 5px;
-    top: 5px;
+    /* position: absolute; */
+    /* right: 5px; */
+    /* top: 5px; */
     background: darkred;
     
 }
 
+#workspaceSelect {
+    margin-right: 5px;
+}
 #minimizeWindow {
-    position: absolute;
-    right: 55px;
-    top: 5px;
+    /* position: absolute; */
+    /* right: 55px; */
+    /* top: 5px; */
 }
 #maximizeWindow {
-    position: absolute;
-    right: 30px;
-    top: 5px;
+    /* position: absolute; */
+    /* right: 30px; */
+    /* top: 5px; */
 }
 
 #global {

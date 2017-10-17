@@ -56,6 +56,23 @@ input[type="text"] {
   /* outline-color: inherit; */
 }
 
+.externalLink {
+  font-weight: bold;
+}
+.externalLink:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.externalLink::after {
+  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+  content: url(../../../assets/img/GitHub-Mark-Light-16px.png);
+  margin-left: 5px;
+}
+.externalLink:hover::after {
+  opacity: 1;
+}
+
 @media all and (max-width: 600px) {
   #moduleContainer {
     flex-direction: column;

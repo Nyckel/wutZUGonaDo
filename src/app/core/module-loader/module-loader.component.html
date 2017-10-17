@@ -5,6 +5,16 @@
 <div id="moduleAdding">
 	<h4 (click)='showAddModule = ! showAddModule'>Add a module</h4>
 	<div id="addModule" *ngIf='showAddModule'>
+		<div *ngIf='modules.length === 0'>
+			<h4>Hey ! Welcome to <b>Wutz</b> organizer !</h4>
+			<p>
+				You are free to add <b>modules</b> to your app, see the fields below to fit your needs ;)
+				<br>You can find more informations on the
+				<span class="externalLink"
+				(click)="openExternal('https://github.com/Nyckel/wutZUGonaDo/tree/master')">
+				Github repository</span> 
+			</p>
+		</div>
 		<input type="text" placeholder="Name" #name
 		(keyup.enter)='addComponentWithName(name.value, componentType.value)'>
 		<select #componentType>
@@ -17,5 +27,7 @@
 
 		<h6 (click)="dataFile.click()">From existing data</h6>
 		<input type="file" name="dataFile" #dataFile id='dataFile'>
+
+		<input type="button" (click)='addComponentWithName(name.value, componentType.value)' value='Add' />
 	</div>
 </div>
