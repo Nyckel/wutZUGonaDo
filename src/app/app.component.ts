@@ -1,39 +1,52 @@
-import { ConfigLoaderService } from './core/config-loader/config-loader.service';
 import { Component, Type } from '@angular/core';
 import { ListsComponent } from './wutzModules/lists/lists.component';
 import { MemosComponent } from './wutzModules/memos/memos.component';
 import { ipcRenderer, remote } from 'electron';
 import * as path from 'path';
+import * as fs from 'fs';
 
 // import { remote, ipcRenderer } from 'electron';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [ ConfigLoaderService ]
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'wutZUGonaDo';
   wutzModules;
+  // workspaces = [];
   workspaces = [
+    {
+      name: "Default",
+      configFile: "default.json"
+    },
     {
       name: "Home",
       configFile: "home.json"
-    },
-    {
-      name: "Work",
-      configFile: "work.json"
     }
-  ];
-  selectedWorkspaceIndex = 0;
+  ]; // TODO: Load workspaces dynamically listing jsons in 'workspaces' folder
+  selectedWorkspace = this.workspaces[0];
+  
   windowMaximized = false;
   appStorage: string[]; // TODO: replace by an object that handles read, write... on these locations
   
-  constructor(configService: ConfigLoaderService) {
-    this.wutzModules = configService.getModulesConfig();
-    this.appStorage = configService.getAppStorage();
-
+  constructor() {
+    // let workspacePath = "Config/workspaces";
+    // fs.readdir(workspacePath, (err, files) => {
+    //   if (!err) {
+    //     files.forEach(file => {
+    //       this.workspaces.push({
+    //         name: file.split('.json')[0],
+    //         configFile: file
+    //       })
+    //     });
+    //   } else {
+    //     console.log("Error loading workspaces:", err);
+    //   }
+    // })
+    // this.selectedWorkspace = this.workspaces[0];
+  
   }
 
   closeWindow() {

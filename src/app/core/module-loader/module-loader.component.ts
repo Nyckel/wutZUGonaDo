@@ -1,5 +1,5 @@
 import { ConfigLoaderService } from './../config-loader/config-loader.service';
-import { Component, Type, ViewChild, AfterContentInit, Input, ComponentFactoryResolver, ViewContainerRef, QueryList } from '@angular/core';
+import { Component, SimpleChange, Type, ViewChild, AfterContentInit, Input, ComponentFactoryResolver, ViewContainerRef, QueryList } from '@angular/core';
 import { ModuleLoaderDirective } from "./module-loader.directive";
 import { ListsComponent } from './../../wutzModules/lists/lists.component';
 import { MemosComponent } from './../../wutzModules/memos/memos.component';
@@ -14,6 +14,11 @@ import { AbstractModuleComponent } from './../abstract-module/abstract-module.co
 export class ModuleLoaderComponent implements AfterContentInit {
   @Input() modules;
   @Input() appStorage;
+  ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
+    if ((changes['modules'] && this.modules) || (changes['appStorage'] && this.appStorage)) {
+      this.loadComponents();
+    }
+  }
   @ViewChild("moduleContainer", { read: ViewContainerRef }) container;
   
   componentMap = {
@@ -27,11 +32,11 @@ export class ModuleLoaderComponent implements AfterContentInit {
 
   ngAfterContentInit() {
     this.loadComponents();
-    this.showAddModule = this.modules.length === 0;
   }
 
   loadComponents() {
     // console.log(this.modules);
+    if (!this.modules) return;
     
     if (this.container) {
       this.container.clear();        
@@ -42,6 +47,8 @@ export class ModuleLoaderComponent implements AfterContentInit {
     } else {
       console.error("Couldn't find slot to insert modules");
     }
+
+    this.showAddModule = this.modules.length === 0;
   }
 
   createWutzComponent(item: any) {

@@ -8,16 +8,21 @@ export class ConfigLoaderService {
   appConfFile = path.join(__dirname,"../Config/appConf.json")
 
   constructor() {
-    this.initConfig();
+    // this.initConfig();
   }
 
   initConfig() {
     try {
-      this.config = require("../../../../Config/appConf.json");
+      this.config = JSON.parse(fs.readFileSync(this.appConfFile, 'utf8'));
+      // this.config = require("../../../../Config/appConf.json");
     } catch {
-      // this.config = require("../../../../Config/appConfTemplate.json"); // FIXME: Find a way to avoid override
-      this.appConfFile = path.join(__dirname,"../Config/appConfTemplate.json")
+      this.appConfFile = path.join(__dirname,"../Config/appConfTemplate.json");
+      this.config = JSON.parse(fs.readFileSync(this.appConfFile, 'utf8'));
     }
+  }
+
+  setModuleConfigFile(conf: string) {
+    this.appConfFile = path.join(__dirname,"../Config/workspaces", conf);
   }
 
   getAppStorage() { 

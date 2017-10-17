@@ -65,6 +65,7 @@ header span button:hover {
 
 #workspaceSelect {
     margin-right: 5px;
+    flex-shrink: 1;
 }
 #minimizeWindow {
     /* position: absolute; */

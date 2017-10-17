@@ -9,10 +9,9 @@
   </span>
 
   <span id="rightHalf">
-    <select name="workspace" id="workspaceSelect">
-      <option *ngFor='let workspace of workspaces; let workspaceIndex = index'
-      [selected]='workspaceIndex === selectedWorkspaceIndex'
-      value="workspace.configFile">{{ workspace.name }}</option>
+    <select name="workspace" id="workspaceSelect" [(ngModel)]='selectedWorkspace'>
+      <option *ngFor='let workspace of workspaces'
+      [ngValue]="workspace">{{ workspace.name }}</option>
       <option value="new">New workspace...</option>
     </select>
 
@@ -21,6 +20,7 @@
     <button id='closeWindow' (click)="closeWindow()"><img src="../assets/img/close.png"></button>
   </span>
 </header>
+
 <div id="global">
-  <app-workspace-loader [wutzModules]="wutzModules" [appStorage]="appStorage"></app-workspace-loader>
+  <app-workspace-loader [workspaceToDisplay]='selectedWorkspace'></app-workspace-loader>
 </div>
