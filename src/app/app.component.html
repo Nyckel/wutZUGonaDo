@@ -9,11 +9,13 @@
   </span>
 
   <span id="rightHalf">
-    <select name="workspace" id="workspaceSelect" [(ngModel)]='selectedWorkspace'>
-      <option *ngFor='let workspace of workspaces'
-      [ngValue]="workspace">{{ workspace.name }}</option>
-      <option value="new">New workspace...</option>
-    </select>
+    <span class="wrapper">
+      <select name="workspace" id="workspaceSelect" [(ngModel)]='selectedWorkspace'>
+        <option *ngFor='let workspace of workspaces'
+        [ngValue]="workspace">{{ workspace.name }}</option>
+        <option value="new">New workspace...</option>
+      </select>
+    </span>
 
     <button id='minimizeWindow' (click)="minimizeWindow()"><img src="../assets/img/minimize.png"></button>
     <button id='maximizeWindow' (click)="maximizeWindow()"><img src="../assets/img/maximize.png"></button>

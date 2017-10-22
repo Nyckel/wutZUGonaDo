@@ -196,13 +196,19 @@ input[type="text"] {
   display: flex;
   justify-content: space-between;
 }
+
+#moduleHeader:hover #deleteModule {
+  opacity: 1;
+}
 #deleteModule {
+  opacity: 0;
   background: rgba(139, 0, 0, 0.3);
   color: white;
   line-height: 30px;
   padding: 0px 5px;
 }
 #deleteModule:hover {
+  cursor: pointer;
   background: rgba(139, 0, 0, 0.5);
   color: white;
   line-height: 30px;
@@ -216,6 +222,8 @@ input[type="text"] {
   width: calc(100% - 2px);
 }
 #moduleHeader:hover {
-  cursor: pointer;
   background-color: rgba(0, 0, 0, 0.1);
+}
+#moduleHeader h4:hover {
+  cursor: pointer;
 }

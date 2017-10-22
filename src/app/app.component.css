@@ -37,7 +37,7 @@ header span button, header span select {
     padding: 2px;
     /* width: 22px; */
     height: 22px;
-    flex-shrink: 0;
+    flex-shrink: 1;
 }
 
 img {
@@ -64,9 +64,15 @@ header span button:hover {
     
 }
 
+.wrapper {
+    display: inline-block;
+    max-width: 90%;
+    margin-right: 3px;
+}
 #workspaceSelect {
     margin-right: 5px;
-    flex-shrink: 1;
+    flex-shrink: 0;
+    width: 100%;
 }
 #minimizeWindow {
     /* position: absolute; */
