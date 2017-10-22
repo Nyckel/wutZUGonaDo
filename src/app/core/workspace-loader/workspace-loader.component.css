@@ -1,0 +1,33 @@
+#addWorkspace{
+	background: rgba(0, 0, 0, 0.3);
+	padding: 10px;
+}
+#addWorkspaceForm {
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+}
+
+#addWorkspaceForm h5 {
+	margin: 0px;
+}
+#plusOneModule {
+	/* padding: 10px; */
+	background: rgba(0, 0, 0, 0.1);
+	text-align: center;
+}
+#plusOneModule:hover {
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+input[type="text"] {
+	background: rgba(0, 0, 0, 0.1);
+	border: none;
+	font-family: Roboto, "Segoe UI";
+	padding: 0px;
+	font-size: 15px;
+	line-height: 22.5px;
+	color: white;
+	/* width: calc(100% - 2px); */
+  }

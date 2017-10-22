@@ -37,6 +37,7 @@ header span button, header span select {
     padding: 2px;
     /* width: 22px; */
     height: 22px;
+    flex-shrink: 0;
 }
 
 img {

@@ -19,7 +19,6 @@ export abstract class AbstractModuleComponent {
   editName: boolean
 
   setModuleStorage(appStorage: string) {
-    console.log("Setting moduleStorage to ", appStorage);
     this.moduleStorage = appStorage;
     this.storageSet.emit();
   }
