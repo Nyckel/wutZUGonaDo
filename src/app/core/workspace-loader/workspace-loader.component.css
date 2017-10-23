@@ -1,16 +1,26 @@
 #addWorkspace{
 	background: rgba(0, 0, 0, 0.3);
 	padding: 10px;
+	/* text-align: center; */
+	display: flex;
+	align-items: stretch;
 }
+#addWorkspace div {
+	background: rgba(0, 0, 0, 0.3);
+	padding: 10px;
+	flex: 1;
+}
+#addWorkspace div h5,h6 {
+	margin: 0px;
+	
+}
+
 #addWorkspaceForm {
-	max-width: 300px;
+	/* max-width: 300px; */
 	display: flex;
 	flex-direction: column;
 }
 
-#addWorkspaceForm h5 {
-	margin: 0px;
-}
 #plusOneModule {
 	/* padding: 10px; */
 	background: rgba(0, 0, 0, 0.1);

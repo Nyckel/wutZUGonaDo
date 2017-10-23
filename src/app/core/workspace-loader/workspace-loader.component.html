@@ -2,14 +2,15 @@
 [modules]="wutzModules" [appStorage]="appStorage"></app-module-loader>
 
 <div *ngIf='this.workspaceToDisplay === "new"'>
-	<h4>New workspace</h4>
+	<h4>Add workspace</h4>
 
 	<div id="addWorkspace">
 		<div id="addWorkspaceForm">
-			<h5>Name</h5>
+			<h5>Create</h5>
+			<h6>Name</h6>
 			<input type="text" #newWorkspaceName (keyup.enter)='addWorkspace()'>
 
-			<h5>Modules to add</h5>
+			<h6>Modules to add</h6>
 			<div *ngFor='let moduleToAdd of newWorkspace.wutzModules'>
 				<input type="text" [(ngModel)]='moduleToAdd.name'>
 				<select #componentType>
@@ -22,7 +23,18 @@
 			</div>
 			<h5 id='plusOneModule' (click)='addModuleToFutureWorkspace()'>+</h5>
 			<input type="button" value="Create">
-		</div>	
+		</div>
+
+		<div id="importeWorkspaceForm" *ngIf='socket.connected'>
+			<h5>Import remote</h5>
+			<h6>Host: <i  style="color:slategrey">{{ remoteHost }}</i></h6>
+			<select #remoteWorkspace>
+				<option *ngFor='let workspace of remoteWorkspaces'>
+					{{ workspace }}
+				</option>
+			</select>
+			<span (click)='importRemoteWorkspace(remoteWorkspace.value)'>Import</span>
+		</div>
 	</div>
 
 </div>
