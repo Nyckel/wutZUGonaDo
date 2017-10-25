@@ -7,87 +7,94 @@
     type="text" *ngIf='editName' [(ngModel)]='name' 
     (blur)='saveModuleName()'
     (keyup.enter)='saveModuleName()'>
-    <span id='deleteModule' (click)='deleteModule()'>Delete</span>
+    <span id='deleteModule' (click)='deleteModal = true'>Delete</span>
+  </div>
+  <div id="deleteModal" *ngIf='deleteModal'>
+    <h5>Delete {{ name }} ?</h5>
+    <span (click)='deleteModule()'>Yes</span>
+    <span (click)='deleteModal = false'>No</span>
   </div>
 
-  <div class="sectionTabs niceScroll">
-    <ul>
-      <li class="tab"
-        *ngFor="let tab of data; let tabIndex = index"
-        [class.active]="isSelected(tabIndex) && !newTabModal"
-        [class.deleted]="tab.deleted"
-        (click)="selectTab(tabIndex)">{{ tab.label }} 
-        <span *ngIf='!restore'>({{ tab.elements.length }})</span>
-        <span *ngIf='restore'>({{ tab.finishedElements.length }})</span>
-      </li>
-      <li class="tab addTab" [class.active]="newTabModal" (click)="newTabModal=true;focusNewTabModal()">New</li>      
-    </ul>
-  </div>
+  <div *ngIf='!deleteModal'>
+    <div class="sectionTabs niceScroll">
+      <ul>
+        <li class="tab"
+          *ngFor="let tab of data; let tabIndex = index"
+          [class.active]="isSelected(tabIndex) && !newTabModal"
+          [class.deleted]="tab.deleted"
+          (click)="selectTab(tabIndex)">{{ tab.label }}
+          <span *ngIf='!restore'>({{ tab.elements.length }})</span>
+          <span *ngIf='restore'>({{ tab.finishedElements.length }})</span>
+        </li>
+        <li class="tab addTab" [class.active]="newTabModal" (click)="newTabModal=true;focusNewTabModal()">New</li>      
+      </ul>
+    </div>
 
-  <div class="tabContents" #tabContents>
-    <ng-container *ngFor="let tab of data; let tabIndex = index">
-      <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
-        <div class="tabContent">
-          <div class="list niceScroll">
-            <ng-template [ngIf]="!restore">
-              <span class="entry checkEntry"
-                [ngClass]="{'hide':entry.finished}"
-                *ngFor="let entry of tab.elements; let entryIndex = index">
+    <div class="tabContents" #tabContents>
+      <ng-container *ngFor="let tab of data; let tabIndex = index">
+        <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
+          <div class="tabContent">
+            <div class="list niceScroll">
+              <ng-template [ngIf]="!restore">
+                <span class="entry checkEntry"
+                  [ngClass]="{'hide':entry.finished}"
+                  *ngFor="let entry of tab.elements; let entryIndex = index">
 
-                <span *ngIf='!entry.edited'
-                (click)="checkEntry(tabIndex, entryIndex)"
-                class="checkable">
-                  <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+                  <span *ngIf='!entry.edited'
+                  (click)="checkEntry(tabIndex, entryIndex)"
+                  class="checkable">
+                    <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+                  </span>
+
+                  <input type="text" class='editEntry' *ngIf='entry.edited'
+                  [(ngModel)]='entry.name' (keyup.enter)='saveLists();entry.edited = false'>
+                  <!-- <span (click)="entry.edited = !entry.edited; $event.stopPropagation()">
+                    {{ entry.edited ? "Ok" : "Edit" }}
+                  </span> -->
+                  <img (click)="saveLists(); entry.edited = !entry.edited; $event.stopPropagation()"
+                  src="../../../assets/img/edit.png">
+
                 </span>
+              </ng-template>
+              <ng-template [ngIf]="restore">
+                <span class="entry checkEntry"
+                [ngClass]="{'hide':!entry.finished}"
+                (click)="uncheckEntry(tabIndex, entryIndex)"
+                *ngFor="let entry of tab.finishedElements; let entryIndex = index">
 
-                <input type="text" class='editEntry' *ngIf='entry.edited'
-                [(ngModel)]='entry.name' (keyup.enter)='saveLists();entry.edited = false'>
-                <!-- <span (click)="entry.edited = !entry.edited; $event.stopPropagation()">
-                  {{ entry.edited ? "Ok" : "Edit" }}
-                </span> -->
-                <img (click)="saveLists(); entry.edited = !entry.edited; $event.stopPropagation()"
-                src="../../../assets/img/edit.png">
-
-              </span>
-            </ng-template>
-            <ng-template [ngIf]="restore">
-              <span class="entry checkEntry"
-              [ngClass]="{'hide':!entry.finished}"
-              (click)="uncheckEntry(tabIndex, entryIndex)"
-              *ngFor="let entry of tab.finishedElements; let entryIndex = index">
-
-                <span class="checkable">
-                  <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+                  <span class="checkable">
+                    <input type="checkbox" [checked]="entry.finished"><label>{{ entry.name }}</label>
+                  </span>
                 </span>
-              </span>
-            </ng-template>
-            
+              </ng-template>
+              
 
-            <input type="text" #newEntry
-              *ngIf="!restore"
-              (keyup.enter)="addEntry(tabIndex, newEntry.value); newEntry.value=''"
-              class="entry addEntry"
-              placeholder="New"
-              id=addEntry{{tabIndex}}
-            >
+              <input type="text" #newEntry
+                *ngIf="!restore"
+                (keyup.enter)="addEntry(tabIndex, newEntry.value); newEntry.value=''"
+                class="entry addEntry"
+                placeholder="New"
+                id=addEntry{{tabIndex}}
+              >
+            </div>
+            <div class="tabBottom">
+              <span (click)="deleteTab(tabIndex)" *ngIf="!restore">Delete list</span>
+              <span (click)="restore= !restore">{{ restore ? "Return" : "Restore"}}</span>
+            </div>
           </div>
-          <div class="tabBottom">
-            <span (click)="deleteTab(tabIndex)" *ngIf="!restore">Delete list</span>
-            <span (click)="restore= !restore">{{ restore ? "Return" : "Restore"}}</span>
-          </div>
+          
+        </ng-template>
+      </ng-container>
+      <div class="tabContent" *ngIf="newTabModal">
+        <div class="list niceScroll">
+          <input type="text" #newTab
+            minlength="5"
+            (keyup.enter)="addTab(newTab.value); newTabModal=false"
+            class="entry addEntry"
+            placeholder="New list"
+            id="newTab"
+          >
         </div>
-        
-      </ng-template>
-    </ng-container>
-    <div class="tabContent" *ngIf="newTabModal">
-      <div class="list niceScroll">
-        <input type="text" #newTab
-          minlength="5"
-          (keyup.enter)="addTab(newTab.value); newTabModal=false"
-          class="entry addEntry"
-          placeholder="New list"
-          id="newTab"
-        >
       </div>
     </div>
   </div>
