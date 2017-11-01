@@ -19,7 +19,8 @@ export class AppComponent {
   selectedWorkspace: any;  
   windowMaximized = false;
   appStorage: string[]; // TODO: replace by an object that handles read, write... on these locations
-  
+  remoteConnected = false;
+
   constructor() {
     let workspacePath = "Config/workspaces";
     this.workspaces = [];
@@ -68,8 +69,14 @@ export class AppComponent {
 
   addWorkspaceToList(newWorkspace: any) {
     this.workspaces.push(newWorkspace);
+    let myNotification = new Notification('WutzUGonaDo', {
+      body: 'Workspace "'+ newWorkspace.name +'" has been imported'
+    });
   }
 
+  onRemoteStatusChange(connected: boolean) {
+    this.remoteConnected = connected;
+  }
 }
 
 document.ondragover = document.ondrop = (ev) => {

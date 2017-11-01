@@ -15,6 +15,7 @@ import * as fs from 'fs';
 export class WorkspaceLoaderComponent implements OnInit {
   @Input() workspaceToDisplay;
   @Output() workspaceAdded = new EventEmitter();
+  @Output() remoteStatusChange = new EventEmitter();
   @ViewChild('newWorkspaceName') newWorkspaceName;
   wutzModules: any[];
   appStorage: any;
@@ -84,6 +85,10 @@ export class WorkspaceLoaderComponent implements OnInit {
   initSocketListeners() {
     this.socket.on('connect', data => {
       this.getRemoteWorkspaceList();
+      this.remoteStatusChange.emit(true);
+    });
+    this.socket.on('disconnect', data => {
+      this.remoteStatusChange.emit(false);
     });
     this.socket.on('event', data => {
       console.log(data);

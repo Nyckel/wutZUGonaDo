@@ -41,6 +41,8 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
         )
       })
     });
+
+    this.sortMemos();
     // TODO: Add linked files
   }
 
@@ -76,6 +78,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     let fullFileName = path.join(this.moduleStorage, fileName);
     fs.writeFileSync(fullFileName, "");
     this.openTextMemo(fileName);
+    this.sortMemos();
   }
 
   openTextMemo(fileName: string) {
@@ -233,6 +236,12 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     });
   
     readStream.pipe(fs.createWriteStream(dest));
+  }
+
+  sortMemos() {
+    this.memos.sort((a, b) => {
+      return a.name - b.name;
+    })
   }
 
 }

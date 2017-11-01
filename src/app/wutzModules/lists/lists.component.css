@@ -17,10 +17,6 @@
   }
 }
 
-.tabContents, .gridContents {
-  height: 200px;
-  overflow-y: auto;
-}
 .section, .sectionTabs,.tabContents {
   display: block;
   width: 100%;
@@ -66,10 +62,15 @@
 .tabContents {
   overflow-y: hidden;
   background: rgba(0,0,0,0.3);
-	box-shadow: 12px 15px 20px rgba(0, 0, 0, 0.1);
-    
+  box-shadow: 12px 15px 20px rgba(0, 0, 0, 0.1);
+  height: 200px;
+  resize: vertical;
 }
-.tabContents .tabContent .list ul {
+
+.tabContents:active {
+  height: 10px;
+}
+  .tabContents .tabContent .list ul {
   padding-left: 15px;
   margin-top: 0px;
 }
