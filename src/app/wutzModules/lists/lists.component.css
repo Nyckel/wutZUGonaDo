@@ -66,10 +66,10 @@
   height: 200px;
   resize: vertical;
 }
-
-.tabContents:active {
-  height: 10px;
+.showAll {
+  height: auto;
 }
+
   .tabContents .tabContent .list ul {
   padding-left: 15px;
   margin-top: 0px;

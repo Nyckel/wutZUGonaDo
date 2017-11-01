@@ -15,6 +15,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   activeTabIndex :number;
   newTabModal = false;
   restore = false;
+  showAll = false;
   jsonFile: string;
 
   constructor() {
@@ -107,7 +108,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
     setTimeout((tabIndex, entryIndex) => {
       this.moveToFinishedList(tabIndex, entryIndex);
       this.saveLists();
-      this.giveFocusToTab();
+      // this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);
   }
 

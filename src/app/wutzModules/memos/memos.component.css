@@ -39,11 +39,9 @@
   padding: 5px;
   /* max-height: 150px; */
   /* height: 100%; */
+  /* max-height: 100%; */
   overflow-y: auto;
   resize: vertical;  
-}
-#memoList:active {
-  height: 0px;
 }
 #memoList ul {
   margin: 0;

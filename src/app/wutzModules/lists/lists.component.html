@@ -30,7 +30,7 @@
       </ul>
     </div>
 
-    <div class="tabContents" #tabContents>
+    <div class="tabContents" #tabContents [class.showAll]="showAll">
       <ng-container *ngFor="let tab of data; let tabIndex = index">
         <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
           <div class="tabContent">
@@ -78,6 +78,7 @@
               >
             </div>
             <div class="tabBottom">
+              <span (click)="showAll = !showAll">{{ showAll ? "Hide" : "Show all" }}</span>
               <span (click)="deleteTab(tabIndex)" *ngIf="!restore">Delete list</span>
               <span (click)="restore= !restore">{{ restore ? "Return" : "Restore"}}</span>
             </div>
