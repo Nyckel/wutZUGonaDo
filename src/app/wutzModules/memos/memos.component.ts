@@ -19,6 +19,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     super();
     this.storageSet.subscribe(
       data => {
+        this.moduleStorage = path.join(this.moduleStorage, 'memos');
         this.checkStorageAndLoadMemos();
       }
     )
@@ -46,22 +47,23 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   createMemo(fileName: string, fileType: string) {
     switch(fileType) {
       case "txt":
-        if (!this.fileExists(fileName+'.txt')) {
+      case "md":
+        if (!this.fileExists(fileName+'.' + fileType)) {
           this.createAndOpenTextMemo(fileName)
         } else {
-          fileName = fileName+'.txt'        
-          console.log("File " + fileName + " already exists")
-          this.openTextMemo(fileName)
+          fileName = fileName+'.'+ fileType;
+          console.log("File " + fileName + " already exists");
+          this.openTextMemo(fileName);
         }
         break;
         case "gdoc":
-          this.createAndOpenGdoc(fileName)
+          this.createAndOpenGdoc(fileName);
           break;
     }
   }
 
   createAndOpenTextMemo(fileName: string) {
-    fileName = fileName+'.txt'
+    fileName = fileName+'.txt';
     let self = this;
     this.memos.push(
       {
@@ -70,14 +72,14 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
         open: true,
         deleted: false
       }
-    )
+    );
     let fullFileName = path.join(this.moduleStorage, fileName);
     fs.writeFileSync(fullFileName, "");
-    this.openTextMemo(fileName)
+    this.openTextMemo(fileName);
   }
 
   openTextMemo(fileName: string) {
-    let self = this
+    let self = this;
     fileName = path.join(this.moduleStorage, fileName);
     fs.readFile(fileName, 'utf-8', function(err, data) {      
       if (err == null) {
@@ -172,10 +174,8 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
 
   fileExists(fileName: string) {
-    console.log(fileName)
     let splitName = fileName.split('\\');
     fileName = splitName[splitName.length - 1];
-    console.log(fileName)
     
     for (let i = 0; i < this.memos.length; i++) {
       if (this.memos[i].fileName === fileName)

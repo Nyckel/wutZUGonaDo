@@ -41,7 +41,6 @@ export class ModuleLoaderComponent implements AfterContentInit {
     
     if (this.container) {
       this.container.clear();        
-      // let item = this.modules[0];
       for (let item of this.modules)
         this.createWutzComponent(item)
 
@@ -57,7 +56,8 @@ export class ModuleLoaderComponent implements AfterContentInit {
     let componentRef = this.container.createComponent(componentFactory);
     let newModule = componentRef.instance
 
-    newModule.setModuleStorage(path.join(this.appStorage, item.component.split('Component')[0]));
+    // newModule.setModuleStorage(path.join(this.appStorage, item.component.split('Component')[0]));
+    newModule.setModuleStorage(path.join(this.appStorage, this.configService.getWorkspaceName()));
     newModule.setName(item.name);
     newModule.setDataFile(item.dataFile);
     newModule.id = this.idCounter

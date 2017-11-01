@@ -15,39 +15,25 @@ import * as fs from 'fs';
 export class AppComponent {
   title = 'wutZUGonaDo';
   wutzModules;
-  // workspaces = [];
-  workspaces = [
-    {
-      name: "Default",
-      configFile: "default.json"
-    },
-    {
-      name: "Home",
-      configFile: "home.json"
-    }
-  ]; // TODO: Load workspaces dynamically listing jsons in 'workspaces' folder
-  selectedWorkspace = this.workspaces[0];
-  
+  workspaces = [];
+  selectedWorkspace: any;  
   windowMaximized = false;
   appStorage: string[]; // TODO: replace by an object that handles read, write... on these locations
   
   constructor() {
-    // let workspacePath = "Config/workspaces";
-    // fs.readdir(workspacePath, (err, files) => {
-    //   if (!err) {
-    //     files.forEach(file => {
-    //       this.workspaces.push({
-    //         name: file.split('.json')[0],
-    //         configFile: file
-    //       })
-    //     });
-    //   } else {
-    //     console.log("Error loading workspaces:", err);
-    //   }
-    // })
-    // this.selectedWorkspace = this.workspaces[0];
-  
+    let workspacePath = "Config/workspaces";
+    this.workspaces = [];
+    let files = fs.readdirSync(workspacePath);
+    files.forEach(file => {
+      this.workspaces.push({
+        name: file.split('.json')[0],
+        configFile: file
+      })
+    });
+    
+    this.selectedWorkspace = this.workspaces[0];  
   }
+
 
   closeWindow() {
     console.log("Close!");
@@ -78,6 +64,10 @@ export class AppComponent {
   exit() {
     let window = remote.getCurrentWindow();
     window.close();    
+  }
+
+  addWorkspaceToList(newWorkspace: any) {
+    this.workspaces.push(newWorkspace);
   }
 
 }

@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, SimpleChange, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, SimpleChange, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ConfigLoaderService } from './../config-loader/config-loader.service';
 import { ListsComponent } from './../../wutzModules/lists/lists.component';
 import { MemosComponent } from './../../wutzModules/memos/memos.component';
 import * as io from 'socket.io-client';
+import * as path from 'path';
+import * as fs from 'fs';
 
 @Component({
   selector: 'app-workspace-loader',
@@ -12,6 +14,7 @@ import * as io from 'socket.io-client';
 })
 export class WorkspaceLoaderComponent implements OnInit {
   @Input() workspaceToDisplay;
+  @Output() workspaceAdded = new EventEmitter();
   @ViewChild('newWorkspaceName') newWorkspaceName;
   wutzModules: any[];
   appStorage: any;
@@ -54,6 +57,7 @@ export class WorkspaceLoaderComponent implements OnInit {
 
   loadWorkspace() {
     // console.log("Creating workspace", this.workspaceToDisplay.name, "with config file", this.workspaceToDisplay.configFile);
+    this.configService.setWorkspaceName(this.workspaceToDisplay.name);
     this.configService.setModuleConfigFile(this.workspaceToDisplay.configFile);
     this.configService.initConfig();
     this.wutzModules = this.configService.getModulesConfig();
@@ -90,7 +94,33 @@ export class WorkspaceLoaderComponent implements OnInit {
     });
 
     this.socket.on('importWorkspace', data => {
-      console.log('imported workspace: ', data);
+      console.log("Importing workspace", data.name);
+      this.importData(path.join(data.name, '..', 'Config', 'workspaces'), data.file, data.content);
+      this.workspaceAdded.emit(
+        {
+          name: data.name,
+          configFile: data.file
+        }
+      );
     });
+
+    this.socket.on('importWorkspaceData', data => {
+      this.importData(path.join(this.appStorage, data.workspace), data.fileName, data.content);
+    });
+  }
+
+  importData(folder: string, file: string, content: any) {
+    fs.mkdir(folder, err => {
+      if (!err || err.code === 'EEXIST') {
+        fs.writeFile(
+          path.join(folder, file), content, { encoding: 'utf8' }, err => {
+            if (err) {
+              console.error("Error importing workspace data: ", err);
+            }
+          });
+      } else {
+        console.error(err);
+      }
+    }) 
   }
 }

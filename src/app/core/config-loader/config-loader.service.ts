@@ -5,7 +5,8 @@ import * as path from 'path';
 @Injectable()
 export class ConfigLoaderService {
   config: any[];
-  appConfFile = path.join(__dirname,"../Config/appConf.json")
+  appConfFile = path.join(__dirname,"../Config/appConf.json");
+  name: string;
 
   constructor() {
     // this.initConfig();
@@ -19,6 +20,14 @@ export class ConfigLoaderService {
       this.appConfFile = path.join(__dirname,"../Config/appConfTemplate.json");
       this.config = JSON.parse(fs.readFileSync(this.appConfFile, 'utf8'));
     }
+  }
+
+  setWorkspaceName(wName: string) {
+    this.name = wName;
+  }
+
+  getWorkspaceName() {
+    return(this.name);
   }
 
   setModuleConfigFile(conf: string) {
