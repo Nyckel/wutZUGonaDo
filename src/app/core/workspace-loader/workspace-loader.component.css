@@ -41,3 +41,33 @@ input[type="text"] {
 	color: white;
 	/* width: calc(100% - 2px); */
   }
+
+#deleteWorkspace, #deleteWorkspaceModal {
+	margin-left: 5px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+#deleteWorkspace:hover {
+    cursor: pointer;
+}
+#deleteWorkspaceModal {
+	padding: 10px;
+	background: rgba(0, 0, 0, 0.3);
+}
+#deleteWorkspaceModal h4 {
+	margin: 0px;
+}
+#deleteWorkspaceModal h5 {
+	margin-top: 0px;
+	color: slategray;
+	font-style: italic;
+}
+#deleteWorkspaceModal span {
+	padding: 10px;
+	display: inline-block;
+	background: rgba(0, 0, 0, 0.1);
+}
+#deleteWorkspaceModal span:hover {
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.3);
+}

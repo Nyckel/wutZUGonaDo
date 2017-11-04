@@ -30,7 +30,9 @@
 <div id="global">
   <app-workspace-loader
     [workspaceToDisplay]='selectedWorkspace'
-    (workspaceAdded)='addWorkspaceToList($event)'
-    (remoteStatusChange)='onRemoteStatusChange($event)'>
+    [remoteWorkspaces]='remoteWorkspaces'
+    (deleteWorkspace)='deleteSelectedWorkspace()'
+    (listWorkspaces)='getRemoteWorkspaceList()'
+    (importRemoteWorkspace)='importRemoteWorkspace($event)'>
   </app-workspace-loader>
 </div>

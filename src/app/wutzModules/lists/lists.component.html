@@ -79,7 +79,7 @@
             </div>
             <div id='deleteTabModal' *ngIf='deleteTabModal'>
               <h4>Are you sure ?</h4>
-              <h5>Delete tab.label</h5>
+              <h5>Delete {{ tab.label }}</h5>
               <span (click)="deleteTab(tabIndex); deleteTabModal = false">YES</span>
               <span (click)='deleteTabModal = false'>NO</span>
             </div>
