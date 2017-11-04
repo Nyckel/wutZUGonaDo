@@ -34,7 +34,7 @@
       <ng-container *ngFor="let tab of data; let tabIndex = index">
         <ng-template [ngIf]="isSelected(tabIndex) && !newTabModal">
           <div class="tabContent">
-            <div class="list niceScroll">
+            <div class="list niceScroll" *ngIf='!deleteTabModal'>
               <ng-template [ngIf]="!restore">
                 <span class="entry checkEntry"
                   [ngClass]="{'hide':entry.finished}"
@@ -77,9 +77,16 @@
                 id=addEntry{{tabIndex}}
               >
             </div>
-            <div class="tabBottom">
+            <div id='deleteTabModal' *ngIf='deleteTabModal'>
+              <h4>Are you sure ?</h4>
+              <h5>Delete tab.label</h5>
+              <span (click)="deleteTab(tabIndex); deleteTabModal = false">YES</span>
+              <span (click)='deleteTabModal = false'>NO</span>
+            </div>
+            <div class="tabBottom" *ngIf='!deleteTabModal'>
               <span (click)="showAll = !showAll">{{ showAll ? "Hide" : "Show all" }}</span>
-              <span (click)="deleteTab(tabIndex)" *ngIf="!restore">Delete list</span>
+              <span (click)="deleteTabModal = true" *ngIf="!restore">Delete list</span>
+              <!-- <span (click)="deleteTab(tabIndex)" *ngIf="!restore">Delete list</span> -->
               <span (click)="restore= !restore">{{ restore ? "Return" : "Restore"}}</span>
             </div>
           </div>

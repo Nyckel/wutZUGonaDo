@@ -16,6 +16,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   newTabModal = false;
   restore = false;
   showAll = false;
+  deleteTabModal = false;
   jsonFile: string;
 
   constructor() {
