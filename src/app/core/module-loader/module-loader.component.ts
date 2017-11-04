@@ -1,5 +1,5 @@
 import { ConfigLoaderService } from './../config-loader/config-loader.service';
-import { Component, SimpleChange, Type, ViewChild, AfterContentInit, Input, ComponentFactoryResolver, ViewContainerRef, QueryList } from '@angular/core';
+import { Component, Output, EventEmitter, SimpleChange, Type, ViewChild, AfterContentInit, Input, ComponentFactoryResolver, ViewContainerRef, QueryList } from '@angular/core';
 import { ModuleLoaderDirective } from "./module-loader.directive";
 import { ListsComponent } from './../../wutzModules/lists/lists.component';
 import { MemosComponent } from './../../wutzModules/memos/memos.component';
@@ -14,7 +14,9 @@ import * as path from 'path';
 })
 export class ModuleLoaderComponent implements AfterContentInit {
   @Input() modules;
-  @Input() appStorage;
+  @Input() appStorage; 
+  @Output() moduleChanged = new EventEmitter();
+
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
     if ((changes['modules'] && this.modules) || (changes['appStorage'] && this.appStorage)) {
       this.loadComponents();
@@ -26,8 +28,9 @@ export class ModuleLoaderComponent implements AfterContentInit {
     'ListsComponent': ListsComponent,
     'MemosComponent': MemosComponent
   };
-  idCounter = 0
-  showAddModule = false
+  idCounter = 0;
+  showAddModule = false;
+  moduleList: AbstractModuleComponent[] = [];
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver, private configService: ConfigLoaderService) { }
 
@@ -74,7 +77,15 @@ export class ModuleLoaderComponent implements AfterContentInit {
         this.container.remove(this.container.indexOf(componentRef));
         this.showAddModule = this.modules.length === 0;
       }
+    );
+
+    newModule.moduleChanged.subscribe(
+      data => {
+        this.moduleChanged.emit(data);
+      }
     )
+
+    this.moduleList.push(newModule);
 
     this.idCounter += 1
   }

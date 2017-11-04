@@ -8,6 +8,7 @@ export abstract class AbstractModuleComponent {
   @Output() dataFileSet = new EventEmitter();
   @Output() storageSet = new EventEmitter();
   @Output() nameChange = new EventEmitter();
+  @Output() moduleChanged = new EventEmitter();
   @Output() delete = new EventEmitter();
   @ViewChild('moduleNameInput')
   private moduleNameInput;
@@ -60,6 +61,10 @@ export abstract class AbstractModuleComponent {
 
   deleteModule() {
     this.delete.emit();
+  }
+
+  updateFromServer(data) {
+
   }
 
   public static needsConfigFile() {

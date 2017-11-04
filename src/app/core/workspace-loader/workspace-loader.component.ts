@@ -1,3 +1,4 @@
+import { ModuleLoaderComponent } from './../module-loader/module-loader.component';
 import { Component, OnInit, Input, SimpleChange, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ConfigLoaderService } from './../config-loader/config-loader.service';
 import { ListsComponent } from './../../wutzModules/lists/lists.component';
@@ -18,7 +19,9 @@ export class WorkspaceLoaderComponent implements OnInit {
   @Output() deleteWorkspace = new EventEmitter();
   @Output() listWorkspaces = new EventEmitter();
   @Output() importRemoteWorkspace = new EventEmitter();
+  @Output() moduleChanged = new EventEmitter();
   @ViewChild('newWorkspaceName') newWorkspaceName;
+  @ViewChild(ModuleLoaderComponent) moduleLoader: ModuleLoaderComponent;
   deleteWorkspaceModal = false;
   wutzModules: any[];
   appStorage: any;
@@ -28,9 +31,6 @@ export class WorkspaceLoaderComponent implements OnInit {
     wutzModules: []
   };
   remoteConnected = false;
-  // socket: any;
-  // remoteWorkspaces: string[];
-  // remoteHost = 'http://localhost:4444';
 
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
     if (changes['workspaceToDisplay'] && this.workspaceToDisplay) {
@@ -43,8 +43,7 @@ export class WorkspaceLoaderComponent implements OnInit {
   }
 
   constructor(private configService: ConfigLoaderService) {
-    // this.socket = io(this.remoteHost); // TODO: make remote host dynamic
-    // this.initSocketListeners();
+
   }
 
   ngOnInit() {
@@ -74,7 +73,6 @@ export class WorkspaceLoaderComponent implements OnInit {
   }
 
   importRemoteWorkspaceEmit(workspaceName) {
-    // console.log(workspaceName);
     this.importRemoteWorkspace.emit(workspaceName);
   }
 
@@ -86,55 +84,19 @@ export class WorkspaceLoaderComponent implements OnInit {
     'MemosComponent': MemosComponent
   };
 
-  // initSocketListeners() {
-  //   this.socket.on('connect', data => {
-  //     this.getRemoteWorkspaceList();
-  //     this.remoteStatusChange.emit(true);
-  //   });
-  //   this.socket.on('disconnect', data => {
-  //     this.remoteStatusChange.emit(false);
-  //   });
-  //   this.socket.on('event', data => {
-  //     console.log(data);
-  //   });
-
-  //   this.socket.on('listWorkspaces', list => {
-  //     this.remoteWorkspaces = list;
-  //   });
-
-  //   this.socket.on('importWorkspace', data => {
-  //     console.log("Importing workspace", data.name);
-  //     this.importData(path.join(data.name, '..', 'Config', 'workspaces'), data.file, data.content);
-  //     this.workspaceAdded.emit(
-  //       {
-  //         name: data.name,
-  //         configFile: data.file
-  //       }
-  //     );
-  //   });
-
-  //   this.socket.on('importWorkspaceData', data => {
-  //     this.importData(path.join(this.appStorage, data.workspace), data.fileName, data.content);
-  //   });
-  // }
-
-  // importData(folder: string, file: string, content: any) {
-  //   fs.mkdir(folder, err => {
-  //     if (!err || err.code === 'EEXIST') {
-  //       fs.writeFile(
-  //         path.join(folder, file), content, { encoding: 'utf8' }, err => {
-  //           if (err) {
-  //             console.error("Error importing workspace data: ", err);
-  //           }
-  //         });
-  //     } else {
-  //       console.error(err);
-  //     }
-  //   }) 
-  // }
-
   deleteWorkspaceEmit() {
     this.deleteWorkspace.emit();
   }
   
+  onModuleChange(data) {
+    data.workspaceName = this.workspaceToDisplay.name;
+    this.moduleChanged.emit(data);
+  }
+
+  updateModule(moduleDataFile, moduleContent) {
+    for (let mod of this.moduleLoader.moduleList) {
+      if (mod.dataFile === moduleDataFile)
+        mod.updateFromServer(JSON.parse(moduleContent));
+    }
+  }
 }

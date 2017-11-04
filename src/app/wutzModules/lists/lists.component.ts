@@ -64,7 +64,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
         edited: false
       });
     }
-    this.saveLists();
+    this.saveListsAndSync();
   }
 
   tabExists(tabIndex: number) {
@@ -81,7 +81,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       })
 
     this.selectTab(this.data.length - 1);
-    this.saveLists();
+    this.saveListsAndSync();
   }
 
   deleteTab(tabIndex: number) {
@@ -89,7 +89,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
     setTimeout(() => {
       this.data.splice(tabIndex, 1);
-      this.saveLists();
+      this.saveListsAndSync();
 
       this.activeTabIndex--;
       if (this.activeTabIndex == -1) {
@@ -108,7 +108,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
     setTimeout((tabIndex, entryIndex) => {
       this.moveToFinishedList(tabIndex, entryIndex);
-      this.saveLists();
+      this.saveListsAndSync();
       // this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);
   }
@@ -119,7 +119,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
     setTimeout((tabIndex, entryIndex) => {
       this.moveToNormalList(tabIndex, entryIndex);
-      this.saveLists();
+      this.saveListsAndSync();
       // this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);
   }
@@ -127,7 +127,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   editEntry(tabIndex: number, entryIndex: number) {
     
     this.data[tabIndex].elements[entryIndex];    
-    this.saveLists();
+    this.saveListsAndSync();
   }
 
   moveToFinishedList(tabIndex: number, entryIndex: number) {
@@ -192,9 +192,19 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       fs.writeFile(self.jsonFile, JSON.stringify(self.data), err => {
         if (err)
           console.error(err)
-      })
+      });
 
-    })
+    });
+  }
+
+  saveListsAndSync() {
+    this.saveLists();
+    this.moduleChanged.emit(
+      {
+        dataFile: this.dataFile,
+        content: JSON.stringify(this.data)
+      }
+    );
   }
 
   initJsonIfNeeded() {
@@ -204,6 +214,11 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       fs.writeFileSync(this.jsonFile, "[]");
       console.log(this.jsonFile, "created")
     }
+  }
+
+  updateFromServer(content) {
+    this.data = content;
+    this.saveLists();
   }
 
   public static needsConfigFile() {

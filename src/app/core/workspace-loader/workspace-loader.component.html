@@ -1,5 +1,8 @@
 <app-module-loader *ngIf='this.workspaceToDisplay !== "new"'
-[modules]="wutzModules" [appStorage]="appStorage"></app-module-loader>
+	[modules]="wutzModules"
+	[appStorage]="appStorage"
+	(moduleChanged)='onModuleChange($event)'>
+</app-module-loader>
 
 <h4 id="deleteWorkspace" (click)='deleteWorkspaceModal = !deleteWorkspaceModal'
 	*ngIf='this.workspaceToDisplay !== "new"'>Delete workspace</h4>

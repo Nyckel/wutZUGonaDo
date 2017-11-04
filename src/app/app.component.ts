@@ -1,4 +1,5 @@
-import { Component, Type } from '@angular/core';
+import { WorkspaceLoaderComponent } from './core/workspace-loader/workspace-loader.component';
+import { Component, Type, ViewChild } from '@angular/core';
 import { ListsComponent } from './wutzModules/lists/lists.component';
 import { MemosComponent } from './wutzModules/memos/memos.component';
 import { ipcRenderer, remote } from 'electron';
@@ -14,6 +15,7 @@ import * as io from 'socket.io-client';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild(WorkspaceLoaderComponent) workspaceLoader: WorkspaceLoaderComponent;
   title = 'wutZUGonaDo';
   wutzModules;
   workspaces = [];
@@ -137,6 +139,18 @@ export class AppComponent {
     this.socket.on('importWorkspaceData', data => {
       this.importData(path.join(this.appStorage, data.workspace), data.fileName, data.content);
     });
+
+    this.socket.on('moduleServerUpdate', data => {
+      if (data.workspaceName === this.selectedWorkspace.name) {
+        this.workspaceLoader.updateModule(data.dataFile, data.content);
+      } else {
+        for (let work of this.workspaces) {
+          console.log(work);
+          if (work.name === data.workspaceName)
+            this.importData(path.join(this.appStorage, data.workspaceName), data.dataFile, data.content);
+        }
+      }
+    });
   }
 
   importData(folder: string, file: string, content: any) {
@@ -152,6 +166,10 @@ export class AppComponent {
         console.error(err);
       }
     })
+  }
+
+  onModuleChanged(data) {
+    this.socket.emit('updateModule', data);
   }
 }
 
