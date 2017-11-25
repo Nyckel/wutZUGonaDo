@@ -114,7 +114,10 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
     this.data[tabIndex].elements[entryIndex].finished = true;
 
     setTimeout((tabIndex, entryIndex) => {
-      this.moveToFinishedList(tabIndex, entryIndex);
+      if (this.data[tabIndex].next.length === 0)
+        this.moveToFinishedList(tabIndex, entryIndex);
+      else this.moveToNextLists(tabIndex, entryIndex);
+
       this.saveListsAndSync();
       // this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);
@@ -138,8 +141,19 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   }
 
   moveToFinishedList(tabIndex: number, entryIndex: number) {
+    
     let elem = this.data[tabIndex].elements[entryIndex];
     this.data[tabIndex].finishedElements.push(elem);
+    this.data[tabIndex].elements.splice(entryIndex, 1);
+  }
+
+  moveToNextLists(tabIndex: number, entryIndex: number) {
+    this.data[tabIndex].elements[entryIndex].finished = false;
+    
+    let elem = this.data[tabIndex].elements[entryIndex];
+    for (let nextList of this.data[tabIndex].next) {
+      this.data[nextList].elements.push(elem);
+    }
     this.data[tabIndex].elements.splice(entryIndex, 1);
   }
 
