@@ -19,6 +19,7 @@ export abstract class AbstractModuleComponent {
   dataFile: string;
   editName: boolean;
   deleteModal: boolean;
+  optionsModal: boolean; 
 
   setModuleStorage(appStorage: string) {
     this.moduleStorage = appStorage;

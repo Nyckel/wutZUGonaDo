@@ -18,6 +18,12 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   showAll = false;
   deleteTabModal = false;
   jsonFile: string;
+  tabChains = [
+    "Started",
+    "To be tested",
+    "Tested",
+    "Merged"
+  ];
 
   constructor() {
     super();
@@ -77,6 +83,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
         label: tabName,
         index: this.data.length,
         elements : [],
+        next: [],
         finishedElements: []
       })
 
@@ -147,7 +154,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
     setTimeout((activeTabIndex, newTabModal) => {
       if (newTabModal) {
         this.focusNewTabModal();
-      } else {
+      } else if (this.tabContents) {
         this.tabContents.nativeElement.querySelector('#addEntry'+activeTabIndex).focus();
       }
     }, 1, this.activeTabIndex, this.newTabModal);
@@ -219,6 +226,34 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   updateFromServer(content) {
     this.data = content;
     this.saveLists();
+  }
+
+  linkExistsBetween(tabIndex, linkableTabIndex) {
+    if (linkableTabIndex >= tabIndex)
+      linkableTabIndex++;
+
+    // if (this.data[tabIndex].next.indexOf(linkableTabIndex) != -1)
+    //   console.log(this.data[tabIndex].label, "links to", this.data[linkableTabIndex]);
+    // else console.log(this.data[tabIndex].label, "doesn't link to", this.data[linkableTabIndex].label);
+    return this.data[tabIndex].next.indexOf(linkableTabIndex) != -1;
+  }
+
+  linkOrUnlink(tabIndex, linkableTabIndex) {
+    if (linkableTabIndex >= tabIndex)
+    linkableTabIndex++;
+
+    let index = this.data[tabIndex].next.indexOf(linkableTabIndex);
+    if (index !== -1)
+      this.data[tabIndex].next.splice(index, 1);
+    else
+      this.data[tabIndex].next.push(linkableTabIndex);
+    this.saveListsAndSync();
+  }
+
+  getOtherTabs(tabIndex) {
+    let copy = this.data.slice();
+    copy.splice(tabIndex, 1);
+    return copy;
   }
 
   public static needsConfigFile() {

@@ -39,7 +39,9 @@ export class AppComponent {
       })
     });
     
-    this.selectedWorkspace = this.workspaces[0];  
+    if (this.workspaces.length > 1) {
+      this.selectedWorkspace = this.workspaces[0].name == 'default' ? this.workspaces[1] : this.workspaces[0];
+    } else this.selectedWorkspace = this.workspaces.length[0];  
 
     this.socket = io(this.remoteHost); // TODO: make remote host dynamic
     this.initSocketListeners();
@@ -178,6 +180,6 @@ document.ondragover = document.ondrop = (ev) => {
 }
 
 document.body.ondrop = (ev) => {
-  console.log(ev.dataTransfer.files[0].path)
+  // console.log(ev.dataTransfer.files[0].path)
   ev.preventDefault()
 }

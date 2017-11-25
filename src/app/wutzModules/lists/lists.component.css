@@ -198,22 +198,35 @@ input[type="text"] {
   justify-content: space-between;
 }
 
-#moduleHeader:hover #deleteModule {
+#moduleHeader:hover #deleteModule, #moduleHeader:hover #showModuleOptions {
   opacity: 1;
 }
-#deleteModule {
+#headerRightPart {
+  display: flex;
+}
+#deleteModule, #showModuleOptions {
   opacity: 0;
+  color: white;
+  line-height: 30px;
+  padding: 0px 5px;
+}
+#deleteModule {
   background: rgba(139, 0, 0, 0.3);
+}
+#showModuleOptions {
+  background: rgba(0,0,0,0.1);
+}
+#deleteModule:hover, #showModuleOptions:hover {
+  cursor: pointer;
   color: white;
   line-height: 30px;
   padding: 0px 5px;
 }
 #deleteModule:hover {
-  cursor: pointer;
   background: rgba(139, 0, 0, 0.5);
-  color: white;
-  line-height: 30px;
-  padding: 0px 5px;
+}
+#showModuleOptions:hover {
+  background: rgba(0,0,0,0.3);
 }
 
 #moduleHeader input[type="text"] {
@@ -241,4 +254,57 @@ input[type="text"] {
 #deleteModal span:hover, #deleteTabModal span:hover {
   cursor: pointer;
   background: rgba(0,0,0,0.3);
+}
+
+#optionTitle {
+  margin-top: 0;
+  padding: 5px;
+  margin-bottom: 0px;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#optionTitle h5 {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22.5px;
+}
+#optionTitle span {
+  background: rgba(139, 0, 0, 0.3);
+  padding: 5px;
+}
+#optionTitle span:hover {
+  cursor: pointer;
+  background: rgba(139, 0, 0, 0.5);
+}
+#optionsModal {
+  background: rgba(0,0,0,0.3);
+  padding-bottom: 10px;
+}
+#optionsModal h6 {
+  margin: 0;
+  margin-left: 10px;
+}
+#optionsModal ul {
+  margin-top: 0px;
+  padding: 0px 20px;
+}
+#optionsModal ul li {
+  list-style-type: none; 
+}
+.workflowChain:hover {
+  cursor: pointer;
+}
+.workflowElement span {
+  padding: 2px;
+  display: block;
+  width: auto;
+  background: rgba(0, 0, 0, 0.1);
+}
+.workflowElement ul li img {
+  display: none;
+}
+.workflowElement ul li:hover img {
+  display: inline-block !important;
 }

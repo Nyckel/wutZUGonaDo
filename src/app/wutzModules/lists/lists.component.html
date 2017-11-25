@@ -7,15 +7,40 @@
     type="text" *ngIf='editName' [(ngModel)]='name' 
     (blur)='saveModuleName()'
     (keyup.enter)='saveModuleName()'>
-    <span id='deleteModule' (click)='deleteModal = true'>Delete</span>
+    <span id="headerRightPart">
+      <span id='showModuleOptions' (click)='optionsModal = !optionsModal'>Options</span>
+      <span id='deleteModule' (click)='deleteModal = true'>Delete</span>
+    </span>
   </div>
-  <div id="deleteModal" *ngIf='deleteModal'>
+  <div id="deleteModal" *ngIf='deleteModal && !optionsModal'>
     <h5>Delete {{ name }} ?</h5>
     <span (click)='deleteModule()'>Yes</span>
     <span (click)='deleteModal = false'>No</span>
   </div>
+  <div id="optionsModal" *ngIf='optionsModal && !deleteModal'>
+    <div id='optionTitle'><h5>Options</h5><span (click)='optionsModal=!optionsModal'>Return</span></div>
 
-  <div *ngIf='!deleteModal'>
+    <h6>Workflow</h6>
+    <ul ondrop='console.log(event);'>
+      <li class='workflowElement' *ngFor='let tab of data; let tabIndex = index' draggable="true">
+        <span>{{ tab.label }}</span>
+        <ul>
+          <!-- Always removes the first element... -->
+          <li *ngFor='let linkableTab of getOtherTabs(tabIndex);let linkableTabIndex = index'>
+            <img class='workflowChain' [style.display]='linkExistsBetween(tabIndex, linkableTabIndex)? "inline-block" : "none"' 
+            (click)='linkOrUnlink(tabIndex, linkableTabIndex)'
+              src="../../../assets/img/unlink.png">
+            <!-- <img class='workflowChain' *ngIf='linkExistsBetween(tabIndex, linkableTabIndex)' (click)='linkOrUnlink(tabIndex, linkableTabIndex)'
+              src="../../../assets/img/unlink.png"> -->
+            {{ linkableTab.label }}
+          </li>
+          <!-- <li *ngFor='let linkableTab of data.slice().splice(tabIndex)'>{{ linkableTab.label }}</li>           -->
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf='!deleteModal && !optionsModal'>
     <div class="sectionTabs niceScroll">
       <ul>
         <li class="tab"
@@ -81,7 +106,7 @@
               <h4>Are you sure ?</h4>
               <h5>Delete {{ tab.label }}</h5>
               <span (click)="deleteTab(tabIndex); deleteTabModal = false">YES</span>
-              <span (click)='deleteTabModal = false'>NO</span>
+              <span (click)='deleteTabModal = false'>NO</span>  
             </div>
             <div class="tabBottom" *ngIf='!deleteTabModal'>
               <span (click)="showAll = !showAll">{{ showAll ? "Hide" : "Show all" }}</span>
