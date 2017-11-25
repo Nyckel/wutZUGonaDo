@@ -185,7 +185,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
     let self = this;
     this.jsonFile = path.join(__dirname, "..", this.moduleStorage, this.dataFile)
     
-    this.initJsonIfNeeded()
+    this.initJsonIfNeeded();
     this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
 
     this.activeTabIndex = this.data.length > 0 ? 0 : -1;
@@ -271,6 +271,6 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   }
 
   public static needsConfigFile() {
-    return true
+    return true;
   }
 }

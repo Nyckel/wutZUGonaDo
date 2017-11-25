@@ -1,3 +1,4 @@
+import { NotepadComponent } from './../../wutzModules/notepad/notepad.component';
 import { ConfigLoaderService } from './../config-loader/config-loader.service';
 import { Component, Output, EventEmitter, SimpleChange, Type, ViewChild, AfterContentInit, Input, ComponentFactoryResolver, ViewContainerRef, QueryList } from '@angular/core';
 import { ModuleLoaderDirective } from "./module-loader.directive";
@@ -26,7 +27,8 @@ export class ModuleLoaderComponent implements AfterContentInit {
   
   componentMap = {
     'ListsComponent': ListsComponent,
-    'MemosComponent': MemosComponent
+    'MemosComponent': MemosComponent,
+    'NotePadComponent': NotepadComponent
   };
   idCounter = 0;
   showAddModule = false;
@@ -102,25 +104,25 @@ export class ModuleLoaderComponent implements AfterContentInit {
     if (!newComponent.hasOwnProperty('name') ||
         !newComponent.hasOwnProperty('component') ||
         !newComponent.hasOwnProperty('dataFile'))
-        return false
-    return true
+        return false;
+    return true;
   }
 
   getAvailableComponentsList() {
-     return Object.keys(this.componentMap)
+     return Object.keys(this.componentMap);
   }
 
   addComponentWithName(name: string, componentType: string) {
     if (!this.isFreeModuleName(name)) {
-      console.log("Module", name, "already exists")
-      return
+      console.log("Module", name, "already exists");
+      return;
     }
 
-    let dataFile = name+".json"
+    let dataFile = name+".json";
     if (this.componentMap[componentType].needsConfigFile())
-      this.createModuleConfig(dataFile)
+      this.createModuleConfig(dataFile);
     else
-      console.log("module doesn't need config file")
+      console.log("module doesn't need config file");
 
 
     this.addComponent(
@@ -130,15 +132,15 @@ export class ModuleLoaderComponent implements AfterContentInit {
         "dataFile": dataFile
       }
     )
-    this.showAddModule = false
+    this.showAddModule = false;
   }
 
   isFreeModuleName(testedName: string) {
     for (let module of this.modules)
       if (module.name == testedName)
-        return false
+        return false;
 
-    return true
+    return true;
   }
 
   createModuleConfig(dataFile: string) {

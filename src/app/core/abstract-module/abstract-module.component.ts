@@ -69,6 +69,6 @@ export abstract class AbstractModuleComponent {
   }
 
   public static needsConfigFile() {
-    return false
+    return false;
   }
 }

@@ -1,0 +1,27 @@
+<div class="section">
+  <div id="moduleHeader">
+    <h4 *ngIf='!editName' (click)='editModuleName()'>{{ name }}</h4>
+    <input #moduleNameInput type="text" *ngIf='editName' [(ngModel)]='name' (blur)='saveModuleName()' (keyup.enter)='saveModuleName()'>
+    <span id="headerRightPart">
+      <span id='showModuleOptions' (click)='optionsModal = !optionsModal'>Options</span>
+      <span id='deleteModule' (click)='deleteModal = true'>Delete</span>
+    </span>
+  </div>
+  <div id="deleteModal" *ngIf='deleteModal && !optionsModal'>
+    <h5>Delete {{ name }} ?</h5>
+    <span (click)='deleteModule()'>Yes</span>
+    <span (click)='deleteModal = false'>No</span>
+  </div>
+  <div id="optionsModal" *ngIf='optionsModal && !deleteModal'>
+    <div id='optionTitle'>
+      <h5>Options</h5>
+      <span (click)='optionsModal=!optionsModal'>Return</span>
+    </div>
+  </div>
+
+  <div *ngIf='!deleteModal && !optionsModal' id= "content">
+    <span>Save...</span>
+    <textarea [(ngModel)]='data' (ngModelChange)="saveDataAndSync($event)" class="niceScroll"></textarea>
+  </div>
+
+</div>

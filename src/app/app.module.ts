@@ -9,6 +9,7 @@ import { MemosComponent } from './wutzModules/memos/memos.component';
 import { ModuleLoaderComponent } from './core/module-loader/module-loader.component';
 import { ModuleLoaderDirective } from './core/module-loader/module-loader.directive';
 import { WorkspaceLoaderComponent } from './core/workspace-loader/workspace-loader.component';
+import { NotepadComponent } from './wutzModules/notepad/notepad.component';
 
 // import { AdDirective }          from './ad.directive';
 @NgModule({
@@ -19,13 +20,14 @@ import { WorkspaceLoaderComponent } from './core/workspace-loader/workspace-load
     ListsComponent,
     MemosComponent,
     WorkspaceLoaderComponent,
+    NotepadComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule
   ],
   providers: [ ConfigLoaderService ],
-  entryComponents: [ ListsComponent, MemosComponent ],
+  entryComponents: [ListsComponent, MemosComponent, NotepadComponent ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
