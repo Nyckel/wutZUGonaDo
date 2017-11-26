@@ -36,7 +36,7 @@
 			<input type="button" value="Create">
 		</div>
 
-		<div id="importeWorkspaceForm">
+		<div id="importWorkspaceForm" *ngIf='remoteHost !== undefined'>
 			<h5>Import remote</h5>
 			<h6>Host: <i  style="color:slategrey">{{ remoteHost }}</i></h6>
 			<select #remoteWorkspace>
