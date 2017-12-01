@@ -12,7 +12,10 @@ export class NotepadComponent extends AbstractModuleComponent implements OnInit 
 
   data:any;
   jsonFile: string;
-
+  saveToModal = false;
+  fileToSave: string;
+  filenameToSave: string;
+  
   constructor() {
     super();
     this.storageSet.subscribe(
@@ -32,18 +35,19 @@ export class NotepadComponent extends AbstractModuleComponent implements OnInit 
 
   loadContent() {
     let self = this;
-    this.jsonFile = path.join(__dirname, "..", this.moduleStorage, this.dataFile)
+    console.log(this.dataFile);
+    this.jsonFile = path.join(__dirname, "..", this.moduleStorage, this.dataFile);
 
-    this.initJsonIfNeeded();
+    this.initFileIfNeeded(this.jsonFile);
     this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
   }
 
-  initJsonIfNeeded() {
+  initFileIfNeeded(fileName: string) {
     try {
-      fs.statSync(this.jsonFile)
+      fs.statSync(fileName);
     } catch (e) { // File doesn't exist
-      fs.writeFileSync(this.jsonFile, "[]");
-      console.log(this.jsonFile, "created")
+      fs.writeFileSync(fileName, "");
+      console.log(fileName, "created");
     }
   }
 
@@ -62,23 +66,37 @@ export class NotepadComponent extends AbstractModuleComponent implements OnInit 
   }
 
   saveData() {
-    if (this.jsonFile === undefined) {
+    if (!this.fileToSave && !this.jsonFile) {
       console.error('Tried to save lists but file is not defined')
       return;
     }
     let self = this;
-
-    fs.stat(this.jsonFile, (err, stats) => {
+    let f = this.fileToSave ? this.fileToSave : this.jsonFile;
+    fs.stat(f, (err, stats) => {
       if (err) {
-        console.error('File ' + self.jsonFile + ' does not exist')
-        return
+        console.error('File ' + f + ' does not exist');
+        return;
       }
-      fs.writeFile(self.jsonFile, JSON.stringify(self.data), err => {
+      fs.writeFile(f, JSON.stringify(self.data), err => {
         if (err)
-          console.error(err)
+          console.error(err);
       });
 
     });
+  }
+
+  saveToFile() {
+    this.saveToModal = false;
+    let input = <HTMLInputElement>document.getElementById('notepadDestFile');
+    if (input) {
+      let fileName = input.value;
+      if (fileName) {
+        this.filenameToSave = fileName;
+        this.fileToSave = path.join(__dirname, "..", this.moduleStorage, fileName);
+        this.initFileIfNeeded(this.fileToSave);
+        this.saveData();
+      }
+    }
   }
 
   public static needsConfigFile() {

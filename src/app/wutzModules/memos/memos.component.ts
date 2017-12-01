@@ -51,7 +51,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
       case "txt":
       case "md":
         if (!this.fileExists(fileName+'.' + fileType)) {
-          this.createAndOpenTextMemo(fileName)
+          this.createAndOpenTextMemo(fileName+'.'+fileType);
         } else {
           fileName = fileName+'.'+ fileType;
           console.log("File " + fileName + " already exists");
@@ -65,7 +65,6 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
 
   createAndOpenTextMemo(fileName: string) {
-    fileName = fileName+'.txt';
     let self = this;
     this.memos.push(
       {

@@ -7,21 +7,31 @@
       <span id='deleteModule' (click)='deleteModal = true'>Delete</span>
     </span>
   </div>
-  <div id="deleteModal" *ngIf='deleteModal && !optionsModal'>
-    <h5>Delete {{ name }} ?</h5>
-    <span (click)='deleteModule()'>Yes</span>
-    <span (click)='deleteModal = false'>No</span>
-  </div>
-  <div id="optionsModal" *ngIf='optionsModal && !deleteModal'>
-    <div id='optionTitle'>
-      <h5>Options</h5>
-      <span (click)='optionsModal=!optionsModal'>Return</span>
+  <div id="content">
+    <div id="deleteModal" *ngIf='deleteModal && !optionsModal && !saveToModal'>
+      <h5>Delete {{ name }} ?</h5>
+      <span (click)='deleteModule()'>Yes</span>
+      <span (click)='deleteModal = false'>No</span>
     </div>
-  </div>
+    <div id="optionsModal" *ngIf='optionsModal && !deleteModal && !saveToModal'>
+      <div id='optionTitle'>
+        <h5>Options</h5>
+        <span (click)='optionsModal=!optionsModal'>Return</span>
+      </div>
+    </div>
 
-  <div *ngIf='!deleteModal && !optionsModal' id= "content">
-    <span>Save...</span>
-    <textarea [(ngModel)]='data' (ngModelChange)="saveDataAndSync($event)" class="niceScroll"></textarea>
+    <div *ngIf='!deleteModal && !optionsModal && !saveToModal'>
+      <span id="saveToFile" (click)='saveToModal = true' *ngIf='!this.fileToSave'>Save...</span>
+      <span *ngIf='fileToSave'>{{ filenameToSave }}</span>
+      <textarea [(ngModel)]='data' (ngModelChange)="saveDataAndSync($event)" class="niceScroll"></textarea>
+    </div>
+
+    <div id="saveTo" *ngIf='!deleteModal && !optionsModal && saveToModal'>
+      <h4>Save to</h4>
+      <input type="text" placeholder="file name" 
+      (keyUp.enter)='saveToFile($event)' id="notepadDestFile">
+      <button (click)='saveToFile()'>Save</button>
+    </div>
   </div>
 
 </div>
