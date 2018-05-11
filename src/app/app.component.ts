@@ -29,22 +29,26 @@ export class AppComponent {
   remoteHost = 'http://localhost:4444';
 
   constructor() {
-    let workspacePath = "Config/workspaces";
-    this.workspaces = [];
-    let files = fs.readdirSync(workspacePath);
-    files.forEach(file => {
-      this.workspaces.push({
-        name: file.split('.json')[0],
-        configFile: file
-      })
-    });
+    this.listWorkspaces();
     
     if (this.workspaces.length > 1) {
       this.selectedWorkspace = this.workspaces[0].name == 'default' ? this.workspaces[1] : this.workspaces[0];
-    } else this.selectedWorkspace = this.workspaces.length[0];  
+    } else this.selectedWorkspace = this.workspaces[0];  
 
     this.socket = io(this.remoteHost); // TODO: make remote host dynamic
     this.initSocketListeners();
+  }
+
+  listWorkspaces() {
+    let workspacePath = "Config/workspaces";
+    this.workspaces = [];
+      let files = fs.readdirSync(workspacePath);
+      files.forEach(file => {
+        this.workspaces.push({
+          name: file.split('.json')[0],
+          configFile: file
+        })
+      });
   }
 
 
@@ -91,7 +95,7 @@ export class AppComponent {
   }
 
   deleteSelectedWorkspace() {
-    let workspacePath = "Config/workspaces";    
+    let workspacePath = "Config/workspaces";
     fs.unlink(path.join(workspacePath, this.selectedWorkspace.configFile), err => {
       if (!err) {
         this.workspaces.splice(this.workspaces.indexOf(this.selectedWorkspace), 1);
@@ -172,6 +176,17 @@ export class AppComponent {
 
   onModuleChanged(data) {
     this.socket.emit('updateModule', data);
+  }
+
+  onWorkspaceCreation(name: string) {
+    console.log("Received: " + name);
+    this.listWorkspaces();
+    for (let w of this.workspaces) {
+      if (w.name == name) {
+        this.selectedWorkspace = w;
+        break;
+      }
+    }
   }
 }
 

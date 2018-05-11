@@ -32,8 +32,9 @@
     [workspaceToDisplay]='selectedWorkspace'
     [remoteWorkspaces]='remoteWorkspaces'
     (deleteWorkspace)='deleteSelectedWorkspace()'
-    (listWorkspaces)='getRemoteWorkspaceList()'
+    (listRemoteWorkspaces)='getRemoteWorkspaceList()'
     (importRemoteWorkspace)='importRemoteWorkspace($event)'
-    (moduleChanged)='onModuleChanged($event)'>
+    (moduleChanged)='onModuleChanged($event)'
+    (workspaceCreated)='onWorkspaceCreation($event)'>
   </app-workspace-loader>
 </div>

@@ -17,10 +17,12 @@ export class WorkspaceLoaderComponent implements OnInit {
   @Input() remoteWorkspaces;
   @Output() workspaceAdded = new EventEmitter();
   @Output() deleteWorkspace = new EventEmitter();
-  @Output() listWorkspaces = new EventEmitter();
+  @Output() listRemoteWorkspaces = new EventEmitter();
   @Output() importRemoteWorkspace = new EventEmitter();
+  @Output() workspaceCreated = new EventEmitter();
   @Output() moduleChanged = new EventEmitter();
   @ViewChild('newWorkspaceName') newWorkspaceName;
+  @ViewChild('newWorkspaceStorage') newWorkspaceStorage;
   @ViewChild(ModuleLoaderComponent) moduleLoader: ModuleLoaderComponent;
   deleteWorkspaceModal = false;
   wutzModules: any[];
@@ -49,27 +51,39 @@ export class WorkspaceLoaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  addWorkspace() {
-    console.log("Adding workspace with name", this.newWorkspaceName.nativeElement.value);
+  createWorkspace() {
+    let workspaceName = this.newWorkspaceName.nativeElement.value;
+    console.log("Creating workspace with name", workspaceName);
+
+    this.configService.setWorkspaceName(workspaceName);
+    this.configService.setWorkspaceConfigFile(workspaceName + '.json');
+    this.configService.setAppStorage(this.newWorkspaceStorage.nativeElement.value);
+    let self = this;
+    this.configService.createConfig()
+      .then(function() {
+        self.workspaceCreated.emit(workspaceName)
+      })
+      .catch(reason => 
+        console.log(reason))
     
     this.newWorkspaceName.nativeElement.value = '';
   }
 
   addModuleToFutureWorkspace() {
-    this.newWorkspace.wutzModules.push( {})
+    this.newWorkspace.wutzModules.push({});
   }
 
   loadWorkspace() {
     // console.log("Creating workspace", this.workspaceToDisplay.name, "with config file", this.workspaceToDisplay.configFile);
     this.configService.setWorkspaceName(this.workspaceToDisplay.name);
-    this.configService.setModuleConfigFile(this.workspaceToDisplay.configFile);
+    this.configService.setWorkspaceConfigFile(this.workspaceToDisplay.configFile);
     this.configService.initConfig();
     this.wutzModules = this.configService.getModulesConfig();
     this.appStorage = this.configService.getAppStorage();
   }
 
   getRemoteWorkspaceList() {
-    this.listWorkspaces.emit();
+    this.listRemoteWorkspaces.emit();
   }
 
   importRemoteWorkspaceEmit(workspaceName) {
@@ -89,8 +103,10 @@ export class WorkspaceLoaderComponent implements OnInit {
   }
   
   onModuleChange(data) {
-    data.workspaceName = this.workspaceToDisplay.name;
-    this.moduleChanged.emit(data);
+    if (this.hasToBeSynced(this.workspaceToDisplay)) {
+      data.workspaceName = this.workspaceToDisplay.name;
+      this.moduleChanged.emit(data);
+    }
   }
 
   updateModule(moduleDataFile, moduleContent) {
@@ -98,5 +114,9 @@ export class WorkspaceLoaderComponent implements OnInit {
       if (mod.dataFile === moduleDataFile)
         mod.updateFromServer(JSON.parse(moduleContent));
     }
+  }
+
+  hasToBeSynced(workspaceName) {
+    return this.remoteWorkspaces != null && this.remoteWorkspaces.includes(workspaceName);
   }
 }

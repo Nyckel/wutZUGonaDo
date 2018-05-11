@@ -18,9 +18,13 @@
 	<div id="addWorkspace">
 		<div id="addWorkspaceForm">
 			<h5>Create</h5>
-			<h6>Name</h6>
-			<input type="text" #newWorkspaceName (keyup.enter)='addWorkspace()'>
 
+			<h6>Name</h6>
+			<input type="text" #newWorkspaceName (keyup.enter)='createWorkspace()'>
+			
+			<h6>Data location</h6>
+			<input type="text" #newWorkspaceStorage [value]="configService.getDefaultStorage()">
+			
 			<h6>Modules to add</h6>
 			<div *ngFor='let moduleToAdd of newWorkspace.wutzModules'>
 				<input type="text" [(ngModel)]='moduleToAdd.name'>
@@ -33,7 +37,7 @@
 				</select>
 			</div>
 			<h5 id='plusOneModule' (click)='addModuleToFutureWorkspace()'>+</h5>
-			<input type="button" value="Create">
+			<input type="button" value="Create" (click)='createWorkspace()'>
 		</div>
 
 		<div id="importWorkspaceForm" *ngIf='remoteHost !== undefined'>

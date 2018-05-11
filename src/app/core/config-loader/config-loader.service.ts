@@ -8,6 +8,12 @@ export class ConfigLoaderService {
   appConfFile = path.join(__dirname,"../Config/appConf.json");
   name: string;
 
+  defaultConfigContent = {
+    appStorage: "Data",
+    wutzModules: [],
+    remoteConfigFile: []
+  };
+
   constructor() {
     // this.initConfig();
   }
@@ -22,6 +28,19 @@ export class ConfigLoaderService {
     }
   }
 
+  createConfig() {
+    return new Promise((resolve, reject) => {
+      fs.writeFile(this.appConfFile, JSON.stringify(this.defaultConfigContent), err => { // TODO: use custom storage here
+        if (err) reject("Couldn't create config file: " + this.appConfFile);
+        fs.mkdir(this.config["appStorage"]+'/' + this.name, err => {
+          if (err) reject("Couldn't create data folder: " + this.config["appStorage"]);
+          resolve();
+        })
+      })
+    })
+      
+  }
+
   setWorkspaceName(wName: string) {
     this.name = wName;
   }
@@ -30,8 +49,16 @@ export class ConfigLoaderService {
     return(this.name);
   }
 
-  setModuleConfigFile(conf: string) {
+  setWorkspaceConfigFile(conf: string) {
     this.appConfFile = path.join(__dirname,"../Config/workspaces", conf);
+  }
+
+  getDefaultStorage() {
+    return this.defaultConfigContent["appStorage"];
+  }
+
+  setAppStorage(stor: string) { 
+    this.config['appStorage'] = stor; 
   }
 
   getAppStorage() { 
@@ -43,7 +70,7 @@ export class ConfigLoaderService {
 
   addModule(newModule: any) {
     this.config['wutzModules'].push(newModule)
-    this.upateConfigFile()
+    this.upateConfigFile();
   }
   
   deleteModule(newModule: any) {

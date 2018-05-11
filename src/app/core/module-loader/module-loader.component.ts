@@ -59,16 +59,16 @@ export class ModuleLoaderComponent implements AfterContentInit {
   createWutzComponent(item: any) {
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.componentMap[item.component]);
     let componentRef = this.container.createComponent(componentFactory);
-    let newModule = componentRef.instance
+    let newModule = componentRef.instance;
 
     // newModule.setModuleStorage(path.join(this.appStorage, item.component.split('Component')[0]));
     newModule.setModuleStorage(path.join(this.appStorage, this.configService.getWorkspaceName()));
     newModule.setName(item.name);
     newModule.setDataFile(item.dataFile);
-    newModule.id = this.idCounter
+    newModule.id = this.idCounter;
     newModule.nameChange.subscribe(
       data => {
-        this.configService.updateModuleName(newModule.id, newModule.getName())
+        this.configService.updateModuleName(newModule.id, newModule.getName());
       }
     )
     newModule.delete.subscribe(
@@ -122,7 +122,7 @@ export class ModuleLoaderComponent implements AfterContentInit {
     if (this.componentMap[componentType].needsConfigFile())
       this.createModuleConfig(dataFile);
     else
-      console.log("module doesn't need config file");
+      console.log("this kind of module doesn't need a config file");
 
 
     this.addComponent(
