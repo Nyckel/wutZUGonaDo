@@ -14,6 +14,7 @@ import * as fs from 'fs';
 })
 export class WorkspaceLoaderComponent implements OnInit {
   @Input() workspaceToDisplay;
+  @Input() remoteConnect;
   @Input() remoteWorkspaces;
   @Output() workspaceAdded = new EventEmitter();
   @Output() deleteWorkspace = new EventEmitter();
@@ -32,7 +33,6 @@ export class WorkspaceLoaderComponent implements OnInit {
     configFile: "",
     wutzModules: []
   };
-  remoteConnected = false;
 
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
     if (changes['workspaceToDisplay'] && this.workspaceToDisplay) {

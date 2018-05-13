@@ -10,6 +10,7 @@ import { ModuleLoaderComponent } from './core/module-loader/module-loader.compon
 import { ModuleLoaderDirective } from './core/module-loader/module-loader.directive';
 import { WorkspaceLoaderComponent } from './core/workspace-loader/workspace-loader.component';
 import { NotepadComponent } from './wutzModules/notepad/notepad.component';
+import { RemoteManagerComponent } from './remote-manager/remote-manager.component';
 
 // import { AdDirective }          from './ad.directive';
 @NgModule({
@@ -21,6 +22,7 @@ import { NotepadComponent } from './wutzModules/notepad/notepad.component';
     MemosComponent,
     WorkspaceLoaderComponent,
     NotepadComponent,
+    RemoteManagerComponent,
   ],
   imports: [
     BrowserModule,

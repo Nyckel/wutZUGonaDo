@@ -40,7 +40,7 @@
 			<input type="button" value="Create" (click)='createWorkspace()'>
 		</div>
 
-		<div id="importWorkspaceForm" *ngIf='remoteHost !== undefined'>
+		<div id="importWorkspaceForm" *ngIf='remoteConnect !== undefined'>
 			<h5>Import remote</h5>
 			<h6>Host: <i  style="color:slategrey">{{ remoteHost }}</i></h6>
 			<select #remoteWorkspace>

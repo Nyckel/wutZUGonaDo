@@ -31,6 +31,7 @@
   <app-workspace-loader
     [workspaceToDisplay]='selectedWorkspace'
     [remoteWorkspaces]='remoteWorkspaces'
+    [remoteConnect]='remoteConnected'
     (deleteWorkspace)='deleteSelectedWorkspace()'
     (listRemoteWorkspaces)='getRemoteWorkspaceList()'
     (importRemoteWorkspace)='importRemoteWorkspace($event)'
