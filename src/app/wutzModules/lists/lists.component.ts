@@ -233,7 +233,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
       fs.statSync(this.jsonFile);
     } catch (e) { // File doesn't exist
       fs.writeFileSync(this.jsonFile, "[]");
-      console.log(this.jsonFile, "created")
+      console.log(this.jsonFile, "created");
     }
   }
 

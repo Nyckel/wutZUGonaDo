@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ListsComponent } from './wutzModules/lists/lists.component';
 import { MemosComponent } from './wutzModules/memos/memos.component';
+import { NotepadComponent } from './wutzModules/notepad/notepad.component';
 import { ModuleLoaderComponent } from './core/module-loader/module-loader.component';
 import { ModuleLoaderDirective } from './core/module-loader/module-loader.directive';
 import { WorkspaceLoaderComponent } from './core/workspace-loader/workspace-loader.component';
-import { NotepadComponent } from './wutzModules/notepad/notepad.component';
-import { RemoteManagerComponent } from './remote-manager/remote-manager.component';
+import { RemoteManagerComponent } from './core/remote-manager/remote-manager.component';
 
 // import { AdDirective }          from './ad.directive';
 @NgModule({
