@@ -4,7 +4,7 @@ import { Component, Output, EventEmitter, SimpleChange, Type, ViewChild, AfterCo
 import { ModuleLoaderDirective } from "./module-loader.directive";
 import { ListsComponent } from './../../wutzModules/lists/lists.component';
 import { MemosComponent } from './../../wutzModules/memos/memos.component';
-import { shell } from 'electron';
+import { shell, remote } from 'electron';
 import { AbstractModuleComponent } from './../abstract-module/abstract-module.component'
 import * as path from 'path';
 
@@ -41,7 +41,6 @@ export class ModuleLoaderComponent implements AfterContentInit {
   }
 
   loadComponents() {
-    // console.log(this.modules);
     if (!this.modules) return;
     
     if (this.container) {
@@ -62,7 +61,7 @@ export class ModuleLoaderComponent implements AfterContentInit {
     let newModule = componentRef.instance;
 
     // newModule.setModuleStorage(path.join(this.appStorage, item.component.split('Component')[0]));
-    newModule.setModuleStorage(path.join(this.appStorage, this.configService.getWorkspaceName()));
+    newModule.setModuleStorage(path.join(remote.app.getPath("userData"), this.appStorage, this.configService.getWorkspaceName()));
     newModule.setName(item.name);
     newModule.setDataFile(item.dataFile);
     newModule.id = this.idCounter;

@@ -21,7 +21,7 @@ export class AppComponent {
   workspaces = [];
   selectedWorkspace: any;  
   windowMaximized = false;
-  appStorage = "Data"; // TODO: replace by an object that handles read, write... on these locations
+  appStorage = remote.app.getPath("userData");
   remoteConnected = false;
 
   socket: any;
@@ -30,25 +30,109 @@ export class AppComponent {
 
   constructor() {
     this.listWorkspaces();
-    
-    if (this.workspaces.length > 1) {
-      this.selectedWorkspace = this.workspaces[0].name == 'default' ? this.workspaces[1] : this.workspaces[0];
-    } else this.selectedWorkspace = this.workspaces[0];  
+   
 
     this.socket = io(this.remoteHost); // TODO: make remote host dynamic
     this.initSocketListeners();
   }
 
   listWorkspaces() {
-    let workspacePath = "Config/workspaces";
-    this.workspaces = [];
-      let files = fs.readdirSync(workspacePath);
-      files.forEach(file => {
-        this.workspaces.push({
-          name: file.split('.json')[0],
-          configFile: file
+    // We create appStorage/Config/workspaces if it doesn't already exist
+    let configPath = path.join(this.appStorage, "Config");
+    let workspacePath = path.join(configPath, "workspaces");
+    
+    this.checkWorkspacePathExists(configPath)
+    .catch(err => {
+      console.error("1", err);
+      this.createWorkspaceFolder(configPath);
+    })
+    .then(() => {
+      this.checkWorkspacePathExists(workspacePath)
+      .catch(err => {
+        console.error(err);
+        this.createWorkspaceFolder(workspacePath)
+        .catch(err => {
+          console.error(r);
         })
+        .then(() => {
+          this.createDefaultWorkspace(workspacePath);
+        })
+        .then(() => {
+          this.listWorkspacesInFolder(workspacePath);
+        });
+      })
+      .then(() => {
+        this.listWorkspacesInFolder(workspacePath);
       });
+    })
+    
+    
+    
+  }
+
+  createDefaultWorkspace(workspacePath: string) {
+    return new Promise((resolve, reject) => {
+      console.log("Creating default workspace");
+      let defaultContent = {
+        appStorage: "Data",
+        wutzModules: [],
+        remoteConfigFile: []
+      }
+
+    fs.writeFile(
+      path.join(workspacePath, "default.json"), JSON.stringify(defaultContent), { encoding: 'utf8' }, err => {
+        if (err) {
+          reject("Error creating default workspace" + err);
+        }
+        resolve();
+      });
+    });
+    
+
+  }
+
+  listWorkspacesInFolder(workspacePath: string) {
+    this.workspaces = [];
+    let files = fs.readdirSync(workspacePath);
+
+    files.forEach(file => {
+      this.workspaces.push({
+        name: file.split('.json')[0],
+        configFile: file
+      })
+    });
+
+
+    if (this.workspaces.length > 1) {
+      this.selectedWorkspace = this.workspaces[0].name == 'default' ? this.workspaces[1] : this.workspaces[0];
+    } else this.selectedWorkspace = this.workspaces[0];  
+  }
+
+
+  checkWorkspacePathExists(workspacePath: string) {
+    return new Promise((resolve, reject) => {
+      fs.stat(workspacePath, (err, stats) => {
+        if (err) {
+          reject("Could not find workspace folder:" + err);
+          return;
+        }
+        if (stats.isDirectory()) {
+          resolve();
+        } else console.log("Strange," workspacePath, "is not a directory");
+
+        reject("Workspace path does not fit requirement");
+      })
+    })
+  }
+
+  createWorkspaceFolder(workspacePath: string) {
+    console.log("Trying to create", workspacePath, "...");
+    return new Promise((reject, resolve) => {
+      fs.mkdir(workspacePath, err => {
+        if (err) reject("Could not create workspace directory" + err);
+        resolve();
+      });
+    });
   }
 
 

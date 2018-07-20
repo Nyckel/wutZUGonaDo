@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { remote } from 'electron';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -22,7 +23,8 @@ export class ConfigLoaderService {
     try {
       this.config = JSON.parse(fs.readFileSync(this.appConfFile, 'utf8'));
       // this.config = require("../../../../Config/appConf.json");
-    } catch {
+    } catch (e) {
+      console.error(e);
       this.appConfFile = path.join(__dirname,"../Config/appConfTemplate.json");
       this.config = JSON.parse(fs.readFileSync(this.appConfFile, 'utf8'));
     }
@@ -50,7 +52,7 @@ export class ConfigLoaderService {
   }
 
   setWorkspaceConfigFile(conf: string) {
-    this.appConfFile = path.join(__dirname,"../Config/workspaces", conf);
+    this.appConfFile = path.join(remote.app.getPath("userData"),"Config","workspaces", conf);
   }
 
   getDefaultStorage() {

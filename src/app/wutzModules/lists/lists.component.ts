@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractModuleComponent } from '../../core/abstract-module/abstract-module.component';
 import * as path from 'path';
@@ -183,7 +182,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
   loadLists() {
     let self = this;
-    this.jsonFile = path.join(__dirname, "..", this.moduleStorage, this.dataFile)
+    this.jsonFile = path.join(this.moduleStorage, this.dataFile);
     
     this.initJsonIfNeeded();
     this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));

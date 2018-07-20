@@ -199,8 +199,8 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   }
 
   onDrop(event: DragEvent) {
-    event.preventDefault()
-    event.stopPropagation()
+    event.preventDefault();
+    event.stopPropagation();
     console.log(event.dataTransfer.files[0].path);
     this.droppedFile = event.dataTransfer.files[0].path;
     this.openDragModal = true;
@@ -208,20 +208,22 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
 
   linkDraggedMemo() {
     
-    this.openDragModal = false
+    this.openDragModal = false;
   }
   moveDraggedMemo() {
-    let fileName = path.basename(this.droppedFile)
-    fileName = path.join(this.moduleStorage, fileName)
+    let fileName = path.basename(this.droppedFile);
+    fileName = path.join(this.moduleStorage, fileName);
     fs.rename(this.droppedFile, fileName, err => {
       if(err) {
-        this.copyFile(this.droppedFile, fileName)
-        fs.unlink(this.droppedFile)
+        this.copyFile(this.droppedFile, fileName);
+        fs.unlink(this.droppedFile, err => {
+          if (err) console.error("File ", this.droppedFile, " could not be deleted");
+        });
       }
-      else console.log(this.droppedFile + " was moved into app memory")
+      else console.log(this.droppedFile + " was moved into app memory");
     })
 
-    this.openDragModal = false
+    this.openDragModal = false;
   }
 
   copyFile(src, dest) { // FIXME: To be replaced by fs.copyFile when available..

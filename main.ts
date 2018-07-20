@@ -1,60 +1,17 @@
 import { app, BrowserWindow, screen, ipcMain, globalShortcut } from 'electron';
 import * as path from 'path';
+import * as url from 'url';
 
 let win, settings, serve, height, width, lastShortcutCall;
 
 const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
-if (serve) {
-  require('electron-reload')(__dirname, {
-  });
-}
-
-function createWindows() {
-
-  const electronScreen = screen;
-  const size = electronScreen.getPrimaryDisplay().workAreaSize;
-  lastShortcutCall = new Date();
-
-  win = createWindow("index", false, 400, 600);
-  // settings = createWindow("options", false, 800, 600);
-  win.setPosition(size.width - 400, size.height - 600,true);
-  win.once('ready-to-show', () => {
-    win.show()
-  })
-  // win.loadURL('file://' + __dirname + '/index.html');
-
-  // Open the DevTools.
-  if (serve) {
-    // win.webContents.openDevTools();
-  }
-  initIPCListeners();
-}
-
-function createWindow(filename, isVisible, wid, hei) {
-  let bw = new BrowserWindow({
-      width: wid,
-      height: hei,
-      show: isVisible,
-      icon:__dirname+'/assets/img/icon.png',
-      frame: false,
-      transparent: true,
-      resizable: true,
-      minWidth: 400,
-      minHeight: 305
-  });
-  
-  bw.loadURL('file://' + __dirname + '/' + filename + '.html');
-  bw.setMenuBarVisibility(false);
-  return bw;
-
-}
-
 try {
 
   app.on('ready', () => {
-    createWindows();
+    // createWindows();
+    createWindow();
     createShortcut();
   });
 
@@ -68,7 +25,7 @@ try {
     // On OS X it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (win === null) {
-      createWindows();
+      createWindow();
     }
   });
 
@@ -76,6 +33,58 @@ try {
   // Catch Error
   // throw e;
 }
+
+
+function createWindow() {
+  const electronScreen = screen;
+  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+  lastShortcutCall = new Date();
+
+  // Create the browser window.
+  win = new BrowserWindow({
+      width: 400,
+      height: 600,
+      show: false,
+      icon:__dirname+'/assets/img/icon.png',
+      frame: false,
+      transparent: true,
+      resizable: true,
+      minWidth: 400,
+      minHeight: 305
+  });
+  win.setMenuBarVisibility(false);
+
+  if (serve) {
+    require('electron-reload')(__dirname, {
+     electron: require(`${__dirname}/node_modules/electron`)});
+    win.loadURL('http://localhost:4200');
+  } else {
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'dist/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
+
+  win.webContents.openDevTools();
+
+  win.setPosition(size.width - 400, size.height - 600,true);
+  win.once('ready-to-show', () => {
+    win.show();
+  
+  })
+
+  // Emitted when the window is closed.
+  win.on('closed', () => {
+    // Dereference the window object, usually you would store window
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    win = null;
+  });
+
+  initIPCListeners();
+}
+
 
 function initIPCListeners() {
   ipcMain.on('openSettings', (event, arg) => {
