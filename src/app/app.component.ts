@@ -52,7 +52,7 @@ export class AppComponent {
         console.error(err);
         this.createWorkspaceFolder(workspacePath)
         .catch(err => {
-          console.error(r);
+          console.error(err);
         })
         .then(() => {
           this.createDefaultWorkspace(workspacePath);
@@ -118,7 +118,7 @@ export class AppComponent {
         }
         if (stats.isDirectory()) {
           resolve();
-        } else console.log("Strange," workspacePath, "is not a directory");
+        } else console.log("Strange,", workspacePath, "is not a directory");
 
         reject("Workspace path does not fit requirement");
       })

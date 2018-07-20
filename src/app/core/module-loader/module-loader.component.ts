@@ -1,7 +1,7 @@
-import { NotepadComponent } from './../../wutzModules/notepad/notepad.component';
 import { ConfigLoaderService } from './../config-loader/config-loader.service';
 import { Component, Output, EventEmitter, SimpleChange, Type, ViewChild, AfterContentInit, Input, ComponentFactoryResolver, ViewContainerRef, QueryList } from '@angular/core';
 import { ModuleLoaderDirective } from "./module-loader.directive";
+import { NotepadComponent } from './../../wutzModules/notepad/notepad.component';
 import { ListsComponent } from './../../wutzModules/lists/lists.component';
 import { MemosComponent } from './../../wutzModules/memos/memos.component';
 import { shell, remote } from 'electron';
@@ -25,16 +25,14 @@ export class ModuleLoaderComponent implements AfterContentInit {
   }
   @ViewChild("moduleContainer", { read: ViewContainerRef }) container;
   
-  componentMap = {
-    'ListsComponent': ListsComponent,
-    'MemosComponent': MemosComponent,
-    'NotePadComponent': NotepadComponent
-  };
+  componentMap: any;
   idCounter = 0;
   showAddModule = false;
   moduleList: AbstractModuleComponent[] = [];
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private configService: ConfigLoaderService) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private configService: ConfigLoaderService) {
+    this.componentMap = configService.getComponentMap();
+  }
 
   ngAfterContentInit() {
     this.loadComponents();

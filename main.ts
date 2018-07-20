@@ -66,7 +66,7 @@ function createWindow() {
     }));
   }
 
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   win.setPosition(size.width - 400, size.height - 600,true);
   win.once('ready-to-show', () => {

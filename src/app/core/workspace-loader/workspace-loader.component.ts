@@ -27,6 +27,7 @@ export class WorkspaceLoaderComponent implements OnInit {
   @ViewChild(ModuleLoaderComponent) moduleLoader: ModuleLoaderComponent;
   deleteWorkspaceModal = false;
   wutzModules: any[];
+  componentMap: any;
   appStorage: any;
   newWorkspace = {
     name: "",
@@ -45,7 +46,7 @@ export class WorkspaceLoaderComponent implements OnInit {
   }
 
   constructor(private configService: ConfigLoaderService) {
-
+    this.componentMap = configService.getComponentMap();
   }
 
   ngOnInit() {
@@ -93,10 +94,6 @@ export class WorkspaceLoaderComponent implements OnInit {
   getAvailableComponentsList() {
     return Object.keys(this.componentMap)
   }
-  componentMap = {
-    'ListsComponent': ListsComponent,
-    'MemosComponent': MemosComponent
-  };
 
   deleteWorkspaceEmit() {
     this.deleteWorkspace.emit();

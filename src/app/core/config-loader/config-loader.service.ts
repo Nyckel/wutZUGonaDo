@@ -1,3 +1,7 @@
+import { NotepadComponent } from './../../wutzModules/notepad/notepad.component';
+import { ListsComponent } from './../../wutzModules/lists/lists.component';
+import { MemosComponent } from './../../wutzModules/memos/memos.component';
+
 import { Injectable } from '@angular/core';
 import { remote } from 'electron';
 import * as fs from 'fs';
@@ -13,6 +17,12 @@ export class ConfigLoaderService {
     appStorage: "Data",
     wutzModules: [],
     remoteConfigFile: []
+  };
+
+  componentMap = {
+    'ListsComponent': ListsComponent,
+    'MemosComponent': MemosComponent,
+    'NotePadComponent': NotepadComponent
   };
 
   constructor() {
@@ -100,5 +110,9 @@ export class ConfigLoaderService {
   updateModuleName(moduleId: number, newName: string) {
     this.config["wutzModules"][moduleId].name = newName
     this.upateConfigFile()
+  }
+
+  getComponentMap() {
+    return this.componentMap;
   }
 }
