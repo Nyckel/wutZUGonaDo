@@ -17,12 +17,6 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   showAll = false;
   deleteTabModal = false;
   jsonFile: string;
-  tabChains = [
-    "Started",
-    "To be tested",
-    "Tested",
-    "Merged"
-  ];
 
   constructor() {
     super();
@@ -128,6 +122,8 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
 
     setTimeout((tabIndex, entryIndex) => {
       this.moveToNormalList(tabIndex, entryIndex);
+      // When we don't have anything to restore, we come back to the list
+      if (this.data[tabIndex].finishedElements.length === 0) this.restore = false;
       this.saveListsAndSync();
       // this.giveFocusToTab();
     }, 350, tabIndex, entryIndex);

@@ -36,7 +36,7 @@ export class NotepadComponent extends AbstractModuleComponent implements OnInit 
   loadContent() {
     let self = this;
     console.log(this.dataFile);
-    this.jsonFile = path.join(__dirname, "..", this.moduleStorage, this.dataFile);
+    this.jsonFile = path.join(this.moduleStorage, this.dataFile);
 
     this.initFileIfNeeded(this.jsonFile);
     this.data = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
@@ -46,7 +46,7 @@ export class NotepadComponent extends AbstractModuleComponent implements OnInit 
     try {
       fs.statSync(fileName);
     } catch (e) { // File doesn't exist
-      fs.writeFileSync(fileName, "");
+      fs.writeFileSync(fileName, "[]");
       console.log(fileName, "created");
     }
   }
@@ -92,7 +92,7 @@ export class NotepadComponent extends AbstractModuleComponent implements OnInit 
       let fileName = input.value;
       if (fileName) {
         this.filenameToSave = fileName;
-        this.fileToSave = path.join(__dirname, "..", this.moduleStorage, fileName);
+        this.fileToSave = path.join(this.moduleStorage, fileName);
         this.initFileIfNeeded(this.fileToSave);
         this.saveData();
       }

@@ -30,6 +30,12 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
 
   loadMemos() {
     fs.readdir(this.moduleStorage, (err, files) => { //TODO: Replace by loop in watched dirs & fs.watch...
+      if (err) {
+        console.error(err);
+        return;
+      }
+      this.memos = [];
+
       files.forEach(file => {
         this.memos.push(
           {
@@ -85,7 +91,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     fileName = path.join(this.moduleStorage, fileName);
     fs.readFile(fileName, 'utf-8', function(err, data) {      
       if (err == null) {
-        let open = shell.openItem(path.join(__dirname, '..', fileName));
+        let open = shell.openItem(fileName);
       } else {
         console.log("Couldn't read file", fileName);
         if (self.fileExists(fileName))
@@ -126,8 +132,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
  
     fs.readFile(fileName, 'utf-8', function(err, data) {      
       if (err == null) {
-        console.log("Opening " + path.join(__dirname, '..', fileName))
-        let open = shell.openItem(path.join(__dirname, '..', fileName));
+        let open = shell.openItem(fileName);
         // let open = shell.openExternal("https://docs.google.com/document/create?title='"+fileName+"'");
         if (!isNew) {
           self.memos[index].open = open;
@@ -201,7 +206,7 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
   onDrop(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
-    console.log(event.dataTransfer.files[0].path);
+    // console.log(event.dataTransfer.files[0].path);
     this.droppedFile = event.dataTransfer.files[0].path;
     this.openDragModal = true;
   }
@@ -215,28 +220,15 @@ export class MemosComponent extends AbstractModuleComponent implements OnInit {
     fileName = path.join(this.moduleStorage, fileName);
     fs.rename(this.droppedFile, fileName, err => {
       if(err) {
-        this.copyFile(this.droppedFile, fileName);
-        fs.unlink(this.droppedFile, err => {
-          if (err) console.error("File ", this.droppedFile, " could not be deleted");
-        });
+        console.error("Could not move file into memory");
+        return;
       }
-      else console.log(this.droppedFile + " was moved into app memory");
+      // console.log(this.droppedFile + " was moved into app memory");
+      this.loadMemos();
+      
     })
 
     this.openDragModal = false;
-  }
-
-  copyFile(src, dest) { // FIXME: To be replaced by fs.copyFile when available..
-    let readStream = fs.createReadStream(src);
-    readStream.once('error', (err) => {
-      console.log(err);
-    });
-  
-    readStream.once('end', () => {
-      console.log('done copying');
-    });
-  
-    readStream.pipe(fs.createWriteStream(dest));
   }
 
   sortMemos() {

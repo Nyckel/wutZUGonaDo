@@ -42,10 +42,10 @@ export abstract class AbstractModuleComponent {
   deleteDataFile() {
     if (!this.dataFile) return;
 
-    let f = path.join(__dirname, "..", this.moduleStorage, this.dataFile);
-    console.log(this.moduleStorage, this.dataFile);
+    let f = path.join(this.moduleStorage, this.dataFile);
+    // console.log(this.moduleStorage, this.dataFile);
     fs.unlink(f, err => {
-      console.error(err);
+      if (err) console.error("Error deleting module:", err);
     })
 
   }
