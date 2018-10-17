@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
@@ -111,3 +111,4 @@ function createShortcut() {
         console.log('shortcut registration failed');
     }
 }
+//# sourceMappingURL=main.js.map

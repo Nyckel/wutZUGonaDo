@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { WorkspaceLoaderComponent } from './core/workspace-loader/workspace-loader.component';
 import { Component, Type, ViewChild } from '@angular/core';
 import { ListsComponent } from './wutzModules/lists/lists.component';
@@ -22,6 +23,9 @@ export class AppComponent {
   selectedWorkspace: any;  
   windowMaximized = false;
   appStorage = remote.app.getPath("userData");
+  dataPath = path.join(this.appStorage, "Data");
+  configPath = path.join(this.appStorage, "Config");
+  workspacePath = path.join(this.configPath, "workspaces");
   remoteConnected = false;
 
   socket: any;
@@ -29,45 +33,56 @@ export class AppComponent {
   remoteHost = 'http://localhost:4444';
 
   constructor() {
-    this.listWorkspaces();
+    this.checkPrerequisites()
+      .then((firstLaunch: boolean) => this.listWorkspaces(firstLaunch));
    
-
     this.socket = io(this.remoteHost); // TODO: make remote host dynamic
     this.initSocketListeners();
   }
 
-  listWorkspaces() {
-    // We create appStorage/Config/workspaces if it doesn't already exist
-    let configPath = path.join(this.appStorage, "Config");
-    let workspacePath = path.join(configPath, "workspaces");
-    
-    this.checkWorkspacePathExists(configPath)
-    .catch(err => {
-      console.error("1", err);
-      this.createWorkspaceFolder(configPath);
-    })
-    .then(() => {
-      this.checkWorkspacePathExists(workspacePath)
+  checkPrerequisites() {
+    let firstLaunch = false;
+    return new Promise((resolve, reject) => {
+      // Check Config, Config/workspaces, Data
+
+      // Create Data
+      this.checkWorkspacePathExists(this.dataPath)
       .catch(err => {
-        console.error(err);
-        this.createWorkspaceFolder(workspacePath)
-        .catch(err => {
-          console.error(err);
-        })
-        .then(() => {
-          this.createDefaultWorkspace(workspacePath);
-        })
-        .then(() => {
-          this.listWorkspacesInFolder(workspacePath);
-        });
+        return this.createWorkspaceFolder(this.dataPath);
+      })
+      // Create Config
+      .then(() => { return this.checkWorkspacePathExists(this.configPath)})
+      .catch(err => {
+        console.log("Must be first launch as no workspace file was found")
+        return this.createWorkspaceFolder(this.configPath);
+      })
+      .then(() => { return this.checkWorkspacePathExists(this.workspacePath)})
+      .catch(err => {
+        firstLaunch = true;
+        return this.createWorkspaceFolder(this.workspacePath);
+      })
+      .catch(err => {
+        console.error("Could not create workspace folder", err);
       })
       .then(() => {
-        this.listWorkspacesInFolder(workspacePath);
+          resolve(firstLaunch);
+      })
+
+
+    }) // End of promise
+  }
+
+
+  listWorkspaces(firstLaunch = false) {
+    console.log("Firstlaunch: ", firstLaunch);
+    
+    if (firstLaunch) {
+      this.createDefaultWorkspace(this.workspacePath).then(() => {
+        this.listWorkspacesInFolder(this.workspacePath);
       });
-    })
-    
-    
-    
+    } else {
+          this.listWorkspacesInFolder(this.workspacePath);
+    } 
   }
 
   createDefaultWorkspace(workspacePath: string) {
@@ -78,17 +93,21 @@ export class AppComponent {
         wutzModules: [],
         remoteConfigFile: []
       }
+    
+      let workspaceDataFolder = path.join(this.dataPath, "default");
+      this.checkWorkspacePathExists(workspaceDataFolder)
+      .catch(err => {
+        return this.createWorkspaceFolder(workspaceDataFolder);
+      })
 
-    fs.writeFile(
-      path.join(workspacePath, "default.json"), JSON.stringify(defaultContent), { encoding: 'utf8' }, err => {
+      fs.writeFile(path.join(workspacePath, "default.json"), JSON.stringify(defaultContent), { encoding: 'utf8' },
+       err => {
         if (err) {
           reject("Error creating default workspace" + err);
         }
         resolve();
       });
     });
-    
-
   }
 
   listWorkspacesInFolder(workspacePath: string) {
@@ -102,10 +121,11 @@ export class AppComponent {
       })
     });
 
-
     if (this.workspaces.length > 1) {
       this.selectedWorkspace = this.workspaces[0].name == 'default' ? this.workspaces[1] : this.workspaces[0];
-    } else this.selectedWorkspace = this.workspaces[0];  
+    } else {
+      this.selectedWorkspace = this.workspaces[0];
+    }
   }
 
 
@@ -129,8 +149,11 @@ export class AppComponent {
     console.log("Trying to create", workspacePath, "...");
     return new Promise((reject, resolve) => {
       fs.mkdir(workspacePath, err => {
-        if (err) reject("Could not create workspace directory" + err);
-        resolve();
+        if (err) {
+          reject("Could not create workspace directory" + err);
+          return;
+        }
+        else resolve();
       });
     });
   }

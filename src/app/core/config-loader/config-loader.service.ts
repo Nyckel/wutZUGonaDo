@@ -10,11 +10,13 @@ import * as path from 'path';
 @Injectable()
 export class ConfigLoaderService {
   config: any[];
-  appConfFile = path.join(__dirname,"../Config/appConf.json");
+  appConfFile = path.join(remote.app.getPath("userData"), "Config", "workspaces", "default.json");
   name: string;
 
+  store = remote.app.getPath("userData");
+
   defaultConfigContent = {
-    appStorage: "Data",
+    appStorage: this.store,
     wutzModules: [],
     remoteConfigFile: []
   };
@@ -32,11 +34,8 @@ export class ConfigLoaderService {
   initConfig() {
     try {
       this.config = JSON.parse(fs.readFileSync(this.appConfFile, 'utf8'));
-      // this.config = require("../../../../Config/appConf.json");
     } catch (e) {
       console.error(e);
-      this.appConfFile = path.join(__dirname,"../Config/appConfTemplate.json");
-      this.config = JSON.parse(fs.readFileSync(this.appConfFile, 'utf8'));
     }
   }
 
