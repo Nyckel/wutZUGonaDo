@@ -74,7 +74,6 @@ export class AppComponent {
 
 
   listWorkspaces(firstLaunch = false) {
-    console.log("Firstlaunch: ", firstLaunch);
     
     if (firstLaunch) {
       this.createDefaultWorkspace(this.workspacePath).then(() => {
@@ -202,8 +201,7 @@ export class AppComponent {
   }
 
   deleteSelectedWorkspace() {
-    let workspacePath = "Config/workspaces";
-    fs.unlink(path.join(workspacePath, this.selectedWorkspace.configFile), err => {
+    fs.unlink(path.join(this.workspacePath, this.selectedWorkspace.configFile), err => {
       if (!err) {
         this.workspaces.splice(this.workspaces.indexOf(this.selectedWorkspace), 1);
         this.selectedWorkspace = this.workspaces[0];
