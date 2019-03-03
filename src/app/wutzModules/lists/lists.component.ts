@@ -224,9 +224,7 @@ export class ListsComponent extends AbstractModuleComponent implements OnInit {
   }
 
   initJsonIfNeeded() {
-    try {
-      fs.statSync(this.jsonFile);
-    } catch (e) { // File doesn't exist
+    if(!fs.existsSync(this.jsonFile)) {
       fs.writeFileSync(this.jsonFile, "[]");
       console.log(this.jsonFile, "created");
     }

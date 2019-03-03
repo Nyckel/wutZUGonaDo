@@ -42,6 +42,7 @@ header span button, header span select {
 
 img {
     margin-bottom: 0px;
+    vertical-align: baseline;
 }
 header span button:hover {
     background: rgba(0,0,0,0.5);

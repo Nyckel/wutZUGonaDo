@@ -58,8 +58,7 @@ export class ModuleLoaderComponent implements AfterContentInit {
     let componentRef = this.container.createComponent(componentFactory);
     let newModule = componentRef.instance;
 
-    // newModule.setModuleStorage(path.join(this.appStorage, item.component.split('Component')[0]));
-    newModule.setModuleStorage(path.join(remote.app.getPath("userData"), this.appStorage, this.configService.getWorkspaceName()));
+    newModule.setModuleStorage(path.join(this.appStorage, this.configService.getWorkspaceName()));
     newModule.setName(item.name);
     newModule.setDataFile(item.dataFile);
     newModule.id = this.idCounter;
